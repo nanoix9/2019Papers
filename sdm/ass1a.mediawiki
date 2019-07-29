@@ -1,0 +1,36 @@
+= How Blockchain Will Change Software Engineering =
+
+== Introduction ==
+In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.
+
+== Blockchain Overview ==
+
+=== How Blockchain works ===
+//Explain how the technology works
+
+=== Why Blockchain ===
+//Purpose and Value
+
+=== Applications ===
+//use of blockchain
+
+== Blockchain Empowered Software Engineering ==
+//Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.
+
+=== Basic Idea ===
+// some general statement about blockchain-based software engineering
+
+=== Case Study: Blockchain-based Continuous Integration System Or Package Manager ===
+//or others
+
+== Software Tools: Libraries, Toolkits, and Environments ==
+//Describe how to develop software using this technology. What libraries and tools are useful and how is the technology integrated into an application. Links to example code are useful.
+
+== Challenges and Shortcomings ==
+//Describe any current challenges and shortcomings of the use of the technology in software development
+
+== A Research Paper ==
+//Describe ONE research paper related to this application of or development using this technology from an academic journal
+
+== Impacts and Future Directions ==
+//Evaluate the impact of the technology on software development in the future
