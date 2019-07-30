@@ -26,6 +26,11 @@ In recent years, the emerging concepts of Blockchain and Smart Contract have bee
 == Software Tools: Libraries, Toolkits, and Environments ==
 //Describe how to develop software using this technology. What libraries and tools are useful and how is the technology integrated into an application. Links to example code are useful.
 
+The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 2005), 
+23-5.</ref> The Moon, however, is not so big.<ref>R. Smith, "Size of the Moon", 
+''Scientific American'', 46 (April 1978): 44-6.</ref>
+
+
 == Challenges and Shortcomings ==
 //Describe any current challenges and shortcomings of the use of the technology in software development
 
@@ -34,3 +39,19 @@ In recent years, the emerging concepts of Blockchain and Smart Contract have bee
 
 == Impacts and Future Directions ==
 //Evaluate the impact of the technology on software development in the future
+
+== References ==
+
+<references />
+
+{{reflist}}
+
+
+
+= test=
+
+Hello<ref name="LoC">[https://www.loc.gov/about/ Library of Congress]</ref> World!<ref>https://www.w3.org/</ref>
+
+Hello again!<ref name="LoC" /><ref>Perry's Handbook, Sixth Edition, McGraw-Hill Co., 1984.</ref>
+
+References: {{reflist}}
