@@ -54,4 +54,6 @@ Hello<ref name="LoC">[https://www.loc.gov/about/ Library of Congress]</ref> Worl
 
 Hello again!<ref name="LoC" /><ref>Perry's Handbook, Sixth Edition, McGraw-Hill Co., 1984.</ref>
 
-References: {{reflist}}
+References:
+
+<references/>
