@@ -36,8 +36,8 @@ The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 20
 
 * Mist: the official Ethereum wallet
 
-* Solidity: a JavaScript-like language for programming smart contract on Ethereum.
-    solc: a Solidity compiler
+* Solidity: a JavaScript-like language for programming smart contract on Ethereum. 
+** solc: a Solidity compiler
 
 * Remix - Ethereum IDE<ref>https://remix.ethereum.org/</ref>
 
@@ -45,13 +45,13 @@ The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 20
 
 * Blockchain Testnet: copies of the Ethereum blockchain almost identical 
 in every way to the Mainnet except in the fact that their Ether is worthless 
+Before a project launches on the Ethereum blockchain (or before changes are made to the blockchain itself), a version is deployed to an Ethereum Test Network (“testnet”), which simulates Ethereum — this gives developers, the community, and you a chance to kick the tires before real assets are involved. Ether and tokens on a testnet are easy to obtain, and carry no real-world value <ref>https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d</ref>
 
-** Public Test
-Ropsten, Rinkeby, and Kovan.
+** Public Test: test net is essentially used as a testing environment before you bring your code onto the main net. In contrast to the main net, writing to the test net is free. Common public test nets includes Ropsten, Rinkeby, and Kovan.
 
 ** Private Test
 
-** GanacheCLI (or Testrpc)
+** emulator: GanacheCLI (or TestRPC)
 NodeJS package as a fast and customizable blockchain emulator 
 simulating the Ethereum network on a single computer
 
