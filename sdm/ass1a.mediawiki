@@ -44,16 +44,16 @@ The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 20
 * EtherScripter - Visual smart-contract builder for Ethereum<ref>https://etherscripter.com/</ref>
 
 * Blockchain Testnet: copies of the Ethereum blockchain almost identical 
-  in every way to the Mainnet except in the fact that their Ether is worthless 
+in every way to the Mainnet except in the fact that their Ether is worthless 
 
- ** Public Test
-   Ropsten, Rinkeby, and Kovan.
+** Public Test
+Ropsten, Rinkeby, and Kovan.
 
- ** Private Test
+** Private Test
 
- ** GanacheCLI (or Testrpc)
-    NodeJS package as a fast and customizable blockchain emulator 
-    simulating the Ethereum network on a single computer
+** GanacheCLI (or Testrpc)
+NodeJS package as a fast and customizable blockchain emulator 
+simulating the Ethereum network on a single computer
 
 * Coinbase’s API
     Coinbase is a San Francisco-based “fiat-to-crypto” exchange
