@@ -1,151 +1,99 @@
-= How Blockchain Will Change Software Engineering =
+= Developing applications that use the Blockchain =
 
 == Introduction ==
 In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.
 
 == Blockchain Overview ==
-
-=== How Blockchain works ===
 //Explain how the technology works
-
-=== Why Blockchain ===
 //Purpose and Value
-
-=== Applications ===
 //use of blockchain
 
-== Blockchain Empowered Software Engineering ==
+== Blockchain Application Case Study ==
 //Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.
 
-=== Basic Idea ===
-// some general statement about blockchain-based software engineering
+== Libraries and Tools ==
+This section focusing on more technical and practical aspects of Blockchain, that is, how to develop software using Blockchain. To be more specific, we are going to decribe, categorize and summarize libraries and tools for development of Blockchain-based software and integration into an applications.
 
-=== Case Study: Blockchain-based Continuous Integration System Or Package Manager ===
-//or others
+The nature of decentralisation and verification of Blockchain makes it suitable for orgnisations and activities that require trust among participants. Furthermore, Smart Contract on Ethereum empowered Blockchain by the capability of executing codes in decentralised mannar on Ethereum Virtual Machine, which naturally results in the concept and practice of Decentralised Application(DApp). 
 
-== Software Tools: Libraries, Toolkits, and Environments ==
-//Describe how to develop software using this technology. What libraries and tools are useful and how is the technology integrated into an application. Links to example code are useful.
+Blockchain is an area far from maturity so it is fast evolving, and consequently different libraries and development tools are emerging. There are a few articles collect and describe such tools.<ref name="tool15">https://blockgeeks.com/guides/15-best-tools-blockchain-development/</ref><ref>https://windowsreport.com/decentralized-cloud-storage/</ref> These tools mainly focus on one of these aspects:
 
-The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 2005), 
-23-5.</ref> The Moon, however, is not so big.<ref>R. Smith, "Size of the Moon", 
-''Scientific American'', 46 (April 1978): 44-6.</ref>
+* Smart Contract development: language, compiler, libraries, IDEs
+* DApp development: usually includes some Smart Contract development tools, but also integrates other tools such as decentralised storage or front-end frame work.
+* Blockchain as a Service: usually provides Blockchain service in the form of APIs
+* Decentralised data storage: store data on Blockchain network for security and lower cost
+* Alternative Blockchain networks, platforms and development environments
+* Testnet for testing Smart Contract and DApp before put into production
 
-<ref>https://blockgeeks.com/guides/15-best-tools-blockchain-development/</ref>
+=== Smart Contract Development ===
 
 * Geth: Go implementation of Ethereum protocol. 
 
-* Mist: the official Ethereum wallet
+* Solidity and solc: Solidity is a JavaScript-like language for programming smart contract on Ethereum and solc is a Solidity compiler
 
-* Solidity: a JavaScript-like language for programming smart contract on Ethereum. 
-** solc: a Solidity compiler
+* Remix: Ethereum IDE<ref>https://remix.ethereum.org/</ref>
 
-* Remix - Ethereum IDE<ref>https://remix.ethereum.org/</ref>
+* EtherScripter: Visual smart-contract builder for Ethereum<ref>https://etherscripter.com/</ref>
 
-* EtherScripter - Visual smart-contract builder for Ethereum<ref>https://etherscripter.com/</ref>
+* Metamask: It allows you to run Ethereum dApps right in your browser without running a full Ethereum node.<ref>https://metamask.io/</ref>
 
-* Blockchain Testnet: copies of the Ethereum blockchain almost identical 
-in every way to the Mainnet except in the fact that their Ether is worthless 
-Before a project launches on the Ethereum blockchain (or before changes are made to the blockchain itself), a version is deployed to an Ethereum Test Network (“testnet”), which simulates Ethereum — this gives developers, the community, and you a chance to kick the tires before real assets are involved. Ether and tokens on a testnet are easy to obtain, and carry no real-world value <ref>https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d</ref>
+* ethers.js: aims to be a complete and compact library for interacting with the Ethereum Blockchain and its ecosystem. 
 
-** Public Test: test net is essentially used as a testing environment before you bring your code onto the main net. In contrast to the main net, writing to the test net is free. Common public test nets includes Ropsten, Rinkeby, and Kovan.
+=== APIs or Blockchain as a Service (BaaS) ===
 
-** Private Test
+Baas is <q>an offering that allows customers to leverage cloud-based solutions to build, host and use their own blockchain apps, smart contracts and functions on the blockchain while the cloud-based service provider manages all the necessary tasks and activities to keep the infrastructure agile and operational.</q><ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>Some typical Baas solutions are:
 
-** emulator: GanacheCLI (or TestRPC)
-NodeJS package as a fast and customizable blockchain emulator 
-simulating the Ethereum network on a single computer
+* Azure Blockchain Service: Microsoft has created Azure to offer these services.<ref>https://azure.microsoft.com/en-us/services/blockchain-service/</ref> It supports several Blockchain networks such as MultiChain, Eris, Storj, and Augur. It's also a develoment environment aimimg to develop DApps in a secure and cheaper environment.
 
-* Coinbase’s API
-    Coinbase is a San Francisco-based “fiat-to-crypto” exchange
-    its API allows developers to build new bitcoin apps and integrate bitcoin into already existing applications.
+* Coinbase’s API: Coinbase is a cryptocurrency exchange at San Francisco, which opens its APIs to allow developers to build new bitcoin apps and incorporate bitcoin functionality in their applications.
 
-* Crypto APIs
-    an infrastructure layer that radically simplifies the development of any Blockchain and Crypto related applications.
+* Crypto APIs: an infrastructure layer that radically simplifies the development of any Blockchain and Crypto related applications. It provides 10+ Blockchain protocols with a unified API layer.<ref>https://cryptoapis.io/</ref>
 
-    ** Blockchain as a Service (BaaS) 
-    an offering that allows customers to leverage cloud-based solutions to build, 
-    host and use their own blockchain  apps, smart contracts and functions on the 
-    blockchain while the cloud-based service provider manages all the necessary
-    tasks and activities to keep the infrastructure agile and operational. 
-    <ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>
+=== Decentralised App(DApp) IDE ===
 
-    ** Microsoft has created Azure to offer these services. It is a useful tool for developers
-        to build dapps in a safe and cheaper environment that supports several chains, 
-        including MultiChain, Eris, Storj, and Augur.
+DApp develoment tools usually integrate some Smart Contract develoment tools, but also includes other mondatory tools so that the developer can create, test, and deploy DApps in a single environment.
 
-* Metamask
-    It allows you to run Ethereum dApps right in your browser without running a full Ethereum node.
-    <ref>https://metamask.io/</ref>
+* Embark: an `npm` library for building and deploying decentralized applications.<ref>https://embark.status.im/</ref>Embark is not only a Smart Contract development environment, but also a complete development toolkit for decentralized applications. It includes several parts for computation (EVM), storage (IPFS, Swarm), and communication (Whisper). <ref>https://embark.status.im/docs/faq.html#Embark-in-one-sentence</ref>
 
-* ethers.js
-    The ethers.js library aims to be a complete and compact library for interacting with
-    the Ethereum Blockchain and its ecosystem. 
+* Truffle Suite: <ref>https://www.trufflesuite.com/</ref> a collection of DApp development tools.
 
-* Tierion
-    Tierion enables to create a verifiable database of any data or process on the bitcoin 
-    blockchain by offering developer tools & API to add data to the distributed ledger. 
+** Truffle Teams: a DevOps tool for DApps. It provides features such as continuous integration(CI), monitoring deployed contract balances, transactions, and events.
 
-* Embark
-    An `npm` library for building and deploying decentralized applications.
-    <ref>https://embark.status.im/</ref>
-    Embark is a developer environment for building, testing, and deploying 
-    Smart Contracts, as well as fully decentralized applications — computation (EVM),
-    storage (IPFS, Swarm), and communication (Whisper). 
-    <ref>https://embark.status.im/docs/faq.html#Embark-in-one-sentence</ref>
+** Truffle: a DApp development environment, testing framework and asset pipeline based on EVM
 
-* Truffle Suite <ref>https://www.trufflesuite.com/</ref>
-    ** Truffle Teams 
-        DEVOPS FOR DAPPS 
-        Test efficiently with hosted continuous integration. 
-        Monitoring deployed contract balances, txs, and events.
+** Ganache: a personal blockchain with which developers can deploy contracts, develop your applications, and run tests for Ethereum. It is available as both a desktop application as well as a command-line tool (formerly known as the TestRPC). <ref>https://www.trufflesuite.com/docs/ganache/overview</ref>
 
-    ** Truffle LogoTRUFFLE
-        SMART CONTRACTS MADE SWEETER 
-        development environment, testing framework and asset pipeline 
-        for blockchains using the Ethereum Virtual Machine (EVM)
+** Drizzle: a collection of front-end libraries that make writing DApp front-ends easier and more predictable.
 
-    ** Ganache 
-        ONE CLICK BLOCKCHAIN 
-        Fast, easy, local development blockchain in UI and CLI flavors. 
-        Introspection of contract data and events.
-
-    ** Drizzle Logodrizzle
-        FRESH CHAIN-DATA FOR FRONT-ENDS 
-        A collection of front-end libraries that make writing dapp front-ends easier and more predictable.
+=== Blockchain Data Storage ===
 
 * <ref>https://medium.com/@eternacapital/blockchain-based-decentralised-cloud-computing-277f307611e1</ref>
 
-* BigchainDB<ref>http://docs.bigchaindb.com/en/latest/terminology</ref>
-    
-    The blockchain database. It has some database characteristics and 
-    some blockchain characteristics, including decentralization, immutability 
-    and native support for assets.
+* Tierion: Tierion is a collection of development tools and APIs to create, add data to and query from a verifiable database on the bitcoin network. 
 
-    one can communicate with a BigchainDB network (set of nodes) using the BigchainDB 
-    HTTP API, or a wrapper for that API, such as the BigchainDB Python Driver. 
-    Each BigchainDB node runs BigchainDB Server and various other software.
+* BigchainDB: a blockchain database. It has characteristics of both database and blockchain, including decentralization, immutability, and native support for assets. One can communicate with a BigchainDB network using the BigchainDB HTTP API, or a wrapper for that API, such as the BigchainDB Python Driver. Each BigchainDB node runs BigchainDB Server and various other software.<ref>http://docs.bigchaindb.com/en/latest/terminology</ref>
 
-* FileCoin
-    a decentralized cloud storage platform that rewards you with FileCoin cryptocoins for hosting files.
-    <ref>https://windowsreport.com/decentralized-cloud-storage/</ref>
+* FileCoin: a decentralized cloud storage platform that rewards you with FileCoin cryptocoins for hosting files.
 
-* Storj(Tardigrade)
-    an S3-compatible platform and suite of decentralized applications that allows you to store data in a secure and decentralized manner.
-    <ref>https://documentation.storj.io/</ref> Tardigrade is the enterprise, production-ready version of the Storj network
-    <ref>https://tardigrade.io/</ref>
+* Storj(Tardigrade): an S3-compatible platform and suite of decentralized applications that allows you to store data in a secure and decentralized manner.<ref>https://documentation.storj.io/</ref> Tardigrade is the enterprise, production-ready version of the Storj network.<ref>https://tardigrade.io/</ref>
 
-* Corda
-    an open-source blockchain platform
-    <ref>https://docs.corda.net/</ref>
+=== Alternative Blockchain Platforms ===
 
-    CorDapps (Corda Distributed Applications) are distributed applications 
-    that run on the Corda platform. <ref>https://docs.corda.net/cordapp-overview.html</ref>
+* Corda: an open-source blockchain platform.<ref>https://docs.corda.net/</ref> It enables to develop, deploy and run DApps known as CorDapps (Corda Distributed Applications).<ref>https://docs.corda.net/cordapp-overview.html</ref>
 
-* Hyperledger
-    an open source collaborative effort created to advance cross-industry 
-    blockchain technologies. It is a global collaboration, 
-    hosted by The Linux Foundation. <ref>https://wiki.hyperledger.org</ref>
-    It is a humongous collection of tools and frameworks <ref>https://dev.to/brewer1_jane/8-amazing-tools-for-building-enterprise-blockchain-apps-and-blockchain-programming-4a5h</ref>
+* Hyperledger: an open source collaborative effort created to advance cross-industry blockchain technologies hosted by The Linux Foundation.<ref>https://wiki.hyperledger.org</ref> It is a humongous collection of tools and frameworks including:<ref>https://dev.to/brewer1_jane/8-amazing-tools-for-building-enterprise-blockchain-apps-and-blockchain-programming-4a5h</ref>
+
+** Hyperledger Burrow: provides a modular blockchain client with a permissioned smart contract interpreter partially developed to the specification of the Ethereum Virtual Machine (EVM). <ref>https://www.hyperledger.org/projects/hyperledger-burrow</ref>
+
+=== Blockchain Testnet ===
+
+copies of the Ethereum blockchain almost identical in every way to the Mainnet except in the fact that their Ether is worthless Before a project launches on the Ethereum blockchain (or before changes are made to the blockchain itself), a version is deployed to an Ethereum Test Network (“testnet”), which simulates Ethereum — this gives developers, the community, and you a chance to kick the tires before real assets are involved. Ether and tokens on a testnet are easy to obtain, and carry no real-world value <ref>https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d</ref>
+
+* Public Test: test net is essentially used as a testing environment before you bring your code onto the main net. In contrast to the main net, writing to the test net is free. Common public test nets includes Ropsten, Rinkeby, and Kovan.
+
+* Private Test: Developers can create their own Blockchain network, for example, with Geth, as testnet. Another method is to emulate a Ethereum network, such as Ganache which is part of Truffle Suite.
+
+** GanacheCLI (or TestRPC): A NodeJS package for emulating the Ethereum network on a single computer. Fast and customizable.
 
 == Challenges and Shortcomings ==
 //Describe any current challenges and shortcomings of the use of the technology in software development
@@ -157,19 +105,15 @@ simulating the Ethereum network on a single computer
 //Evaluate the impact of the technology on software development in the future
 
 == References ==
-
 <references />
 
-{{reflist}}
-
-
-
 = test=
+The Sun is pretty big.<ref>E. Miller, ''The Sun'', (New York: Academic Press, 2005), 
+23-5.</ref> The Moon, however, is not so big.<ref>R. Smith, "Size of the Moon", 
+''Scientific American'', 46 (April 1978): 44-6.</ref>
 
 Hello<ref name="LoC">[https://www.loc.gov/about/ Library of Congress]</ref> World!<ref>https://www.w3.org/</ref>
 
 Hello again!<ref name="LoC" /><ref>Perry's Handbook, Sixth Edition, McGraw-Hill Co., 1984.</ref>
-
-References:
 
 <references/>

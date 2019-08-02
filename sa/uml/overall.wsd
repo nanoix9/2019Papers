@@ -1,0 +1,33 @@
+@startuml
+
+package "Extraction" as E {
+    package Crawling {}
+    package Parsing {}
+    package Transforming {}
+    package Writing {}
+
+    Parsing <- Crawling
+    Transforming <- Parsing
+    Writing <- Transforming
+}
+
+package "Storage" as S {}
+
+package "Abstraction" as A {}
+
+package API {}
+
+package "Adaptor" as Ad {}
+
+package "UI" as UI {
+    package Input {}
+    package Visualization {}
+}
+
+API <-up- E : write
+S <- A
+A <- API
+Ad -do-> API
+UI -l-> Ad
+
+@enduml
