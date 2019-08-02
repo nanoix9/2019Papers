@@ -41,7 +41,7 @@ Blockchain is an area far from maturity so it is fast evolving, and consequently
 
 === APIs or Blockchain as a Service (BaaS) ===
 
-Baas is <q>an offering that allows customers to leverage cloud-based solutions to build, host and use their own blockchain apps, smart contracts and functions on the blockchain while the cloud-based service provider manages all the necessary tasks and activities to keep the infrastructure agile and operational.</q><ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>Some typical Baas solutions are:
+Baas is '''"an offering that allows customers to leverage cloud-based solutions to build, host and use their own blockchain apps, smart contracts and functions on the blockchain while the cloud-based service provider manages all the necessary tasks and activities to keep the infrastructure agile and operational."'''<ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>Some typical Baas solutions are:
 
 * Azure Blockchain Service: Microsoft has created Azure to offer these services.<ref>https://azure.microsoft.com/en-us/services/blockchain-service/</ref> It supports several Blockchain networks such as MultiChain, Eris, Storj, and Augur. It's also a develoment environment aimimg to develop DApps in a secure and cheaper environment.
 
