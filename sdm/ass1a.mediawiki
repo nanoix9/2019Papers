@@ -111,9 +111,6 @@ Storage capacity have been a significant challenge in blockchain for long. In ma
 === Security ===
 Various vulnerabilities and security issues of Bitcoin protocol are found thanks to thorough analysis by engineers and researchers. The most well-known attack is the 51% attack or majority attack, which can happen if someone controlled at least 51% of nodes in the network because in this situation he/she took complete control of the consensus. In addition, some other attacks, such as double-spend attack, race attacks, and Denial of Service(DoS) are also discovered and investigated. Finally and interestingly, quantum computing could be seen as a dealy threat to blockchain such as Bitcoin because it unprecedented computing power can easily break the current cryptograhy algorithms underpinning blockchains.<ref name="reyna2018"/>
 
-=== Privacy ===
-    Privacy is not enforced in the Bitcoin protocol by design. A key feature of Bitcoin is its transparency. In blockchain each transaction can be checked, audited and traced from the system’s very first transaction. This is indeed an unheard of new level of transparency that doubtlessly helps to build trust. 
-
 === Vulnerability of Smart Contract ===
 Smart contract hugely expands the area of blockchain applications, but nothing comes without cost. The ability of executing abitrary code brings capability and flexibility but also more vulnerability to attack such as bugs, hacking, or viruses. Bugs in customer contract codes are particularly critical because of the system's irreversable and immutable nature. Therefore, it is essential to develop formal methods, mechanisms and tools to validate, verify and guarantee the correctnees of smart contracts before they are deployed to production network.<ref name="reyna2018"/>
 
