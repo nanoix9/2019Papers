@@ -1,17 +1,17 @@
 Developing applications that use the Blockchain
 
-== Introduction ==
+= Introduction =
 In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.
 
-== Blockchain Overview ==
+= Blockchain Overview =
 <!-- //Explain how the technology works
 //Purpose and Value
 //use of blockchain -->
 
-== Blockchain Application Case Study ==
+= Blockchain Application Case Study =
 <!-- Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.-->
 
-== Libraries and Tools ==
+= Libraries and Tools =
 This section focusing on more technical and practical aspects of Blockchain, that is, how to develop software using Blockchain. To be more specific, we are going to decribe, categorize and summarize libraries and tools for development of Blockchain-based software and integration into an applications.
 
 The nature of decentralisation and verification of Blockchain makes it suitable for orgnisations and activities that require trust among participants. Furthermore, Smart Contract on Ethereum empowered Blockchain by the capability of executing codes in decentralised mannar on Ethereum Virtual Machine, which naturally results in the concept and practice of Decentralised Application(DApp). 
@@ -25,7 +25,7 @@ Blockchain is an area far from maturity so it is fast evolving, and consequently
 * Alternative Blockchain networks, platforms and development environments
 * Testnet for testing Smart Contract and DApp before put into production
 
-=== Smart Contract Development ===
+== Smart Contract Development ==
 
 * Geth: Go implementation of Ethereum protocol. With Geth, developer can run a full Ethereum node on there computer. With Geth, one can mine Ether, make transactions, and run and deploy their Smart Contract on Ethereum blockchain.
 
@@ -35,7 +35,7 @@ Blockchain is an area far from maturity so it is fast evolving, and consequently
 
 * ethers.js: A JavaScript library completely implementing the Ethereum wallet. It enables interaction with the Ethereum Blockchain and its ecosystem. It is also fully TypeScript ready.
 
-=== Decentralised App(DApp) IDE ===
+== Decentralised App(DApp) IDE ==
 
 DApp develoment tools usually integrate some Smart Contract develoment tools, but also includes other mondatory tools so that the developer can create, test, and deploy DApps in a single environment.
 
@@ -55,7 +55,7 @@ DApp develoment tools usually integrate some Smart Contract develoment tools, bu
 
 ** Drizzle: a collection of a variety of front-end libraries aiming to make DApp front-ends development faster and more managable.
 
-=== APIs or Blockchain as a Service (BaaS) ===
+== APIs or Blockchain as a Service (BaaS) ==
 
 BaaS is known as ''"an offering that allows customers to leverage cloud-based solutions to build, host and use their own blockchain apps, smart contracts and functions on the blockchain while the cloud-based service provider manages all the necessary tasks and activities to keep the infrastructure agile and operational."''<ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>Some typical Baas solutions are:
 
@@ -65,7 +65,7 @@ BaaS is known as ''"an offering that allows customers to leverage cloud-based so
 
 * Crypto APIs: an infrastructure layer making it easier and more managable to develop applications on any Blockchain and Crypto protocol. It provides services for more than 10 Blockchain protocols with a unified API layer.<ref>https://cryptoapis.io/</ref>
 
-=== Blockchain Data Storage ===
+== Blockchain Data Storage ==
 
 Blockchain can bring decentralised storage system into reality with robustness and safety to serve today’s large-scale applications like Netflix or Facebook.<ref>https://hackernoon.com/storagepedia-an-encyclopedia-of-5-blockchain-storage-platform-8aa13c630ace</ref><ref>https://medium.com/@eternacapital/blockchain-based-decentralised-cloud-computing-277f307611e1</ref> In this section, we will list and briefly describe some solution for decentralised storage or database. 
 
@@ -77,7 +77,7 @@ Blockchain can bring decentralised storage system into reality with robustness a
 
 * Storj(Tardigrade): a decentralised platform and suite for secure data storage. It is S3-compatible.<ref>https://documentation.storj.io/</ref> Tardigrade is a production-ready version of Storj for enterprise use.<ref>https://tardigrade.io/</ref>
 
-=== Alternative Blockchain Platforms ===
+== Alternative Blockchain Platforms ==
 
 * Corda: an open-source blockchain platform. It enables to develop, deploy and run DApps known as CorDapps (Corda Distributed Applications).<ref>https://docs.corda.net/cordapp-overview.html</ref>
 
@@ -89,7 +89,7 @@ Blockchain can bring decentralised storage system into reality with robustness a
 
 ** Hyperledger Caliper: a blockchain benchmark of measurement of blockchain performance with a set of predefined use cases.
 
-=== Blockchain Testnet ===
+== Blockchain Testnet ==
 
 Before a project is released to the production Ethereum network, it is beneficial to make a test deployment to an Ethereum Test Network(testnet). Testnet is a copy of the Ethereum almost identical in every aspect to the mainnet except that their Ether values nothing. It enables a developer to test, debug and verify their codes before real assets are involved. <ref>https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d</ref>
 
@@ -97,38 +97,38 @@ Before a project is released to the production Ethereum network, it is beneficia
 
 * Private Test: Developers can deploy a personal Blockchain network on their own computers for the purpose of test, for example, with Geth. Another method is to emulate a Ethereum network, such as Ganache which is part of Truffle Suite.
 
-== Challenges and Shortcomings ==
+= Challenges and Shortcomings =
 <!-- Describe any current challenges and shortcomings of the use of the technology in software development -->
 
 The basic principles of blockchain appear to be simple, but when it comes to reality the implementation is facing a variety of challenges.<ref name="reyna2018">Reyna, A.; Martín, C.; Chen, J.; Soler, E.; Díaz, M. On blockchain and its integration with IoT Challenges and opportunities. Future Gener. Comput. Syst. 2018, 88, 173–190.</ref>
 
-=== Scalability and Performance === 
+== Scalability and Performance == 
 The basic principle underpinning blockchain is the mechanism of consensus among the network for verification of transactions. Nodes communicate with each other and make decision following predifined rules. Transactions and blocks to be appended to the network requires confirmation from a certain number of nodes in the network. This approach brings about transpancy and trust in blockchain netwok, however, it also increases the time for processing and confirmation of a transaction, thus reduces the throughput (number of transactions per second) and increases the latency.
 
-=== Storage Capacity ===
+== Storage Capacity ==
 Storage capacity have been a significant challenge in blockchain for long. In main stream blockchain technology, the chain is always growing and each node in the network stores a complete copy of the whole chain with all transactions in them. For example, in Bitcoin there are approximately 1MB per block every 10 min. Although only full nodes (a node that can fully validate transactions and blocks) need to store the whole chain, enormous storage volume are required. <ref name="reyna2018"/>
 
-=== Security ===
+== Security ==
 Various vulnerabilities and security issues of Bitcoin protocol are found thanks to thorough analysis by engineers and researchers. The most well-known attack is the 51% attack or majority attack, which can happen if someone controlled at least 51% of nodes in the network because in this situation he/she took complete control of the consensus. In addition, some other attacks, such as double-spend attack, race attacks, and Denial of Service(DoS) are also discovered and investigated. Finally and interestingly, quantum computing could be seen as a dealy threat to blockchain such as Bitcoin because it unprecedented computing power can easily break the current cryptograhy algorithms underpinning blockchains.<ref name="reyna2018"/>
 
-=== Vulnerability of Smart Contract ===
+== Vulnerability of Smart Contract ==
 Smart contract hugely expands the area of blockchain applications, but nothing comes without cost. The ability of executing abitrary code brings capability and flexibility but also more vulnerability to attack such as bugs, hacking, or viruses. Bugs in customer contract codes are particularly critical because of the system's irreversable and immutable nature. Therefore, it is essential to develop formal methods, mechanisms and tools to validate, verify and guarantee the correctnees of smart contracts before they are deployed to production network.<ref name="reyna2018"/>
 
-=== Consensus ===
+== Consensus ==
 Consensus mechanisms are fundamental for the transpancy, verification and trust without central authorisation in blockchain network. The most popular consensus is Proof of Work(PoW) which has worked successfully in Bitcoin. However, PoW has shortcomings such as low transaction rate and high latency as mentioned before, and furthermore, PoW is highly computationally intensive and results in huge amount of energy consumption. Not suprisingly many alternatives and improved consensus mechanisms are proposed, such as Proof of Stake (PoS), Leased Proof of Stake (LPoS), Proof of Burn (PoB), Proof of Importance (PoI), activity test (PoA), Elapsed Time Test (PoET), and Proof of Capacity (PoC). However,consensus mechanisms have not been appropriately formally proved thus remain an open area. 
 
-== A Research Paper ==
+= A Research Paper =
 <!-- Describe ONE research paper related to this application of or development using this technology from an academic journal -->
 
-== Impacts and Future Directions ==
+= Impacts and Future Directions =
 <!-- Evaluate the impact of the technology on software development in the future -->
 
-=== Smart Contract and DApp ===
+== Smart Contract and DApp ==
 
-=== Transparent, Decentralised File Storage & Database ===
+== Transparent, Decentralised File Storage & Database ==
 
-=== Decentralised Software Engineering Tools ===
+== Decentralised Software Engineering Tools ==
 
-== References ==
+= References =
 <references />
 
