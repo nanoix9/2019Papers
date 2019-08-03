@@ -4,12 +4,12 @@
 In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.
 
 == Blockchain Overview ==
-//Explain how the technology works
+<!-- //Explain how the technology works
 //Purpose and Value
-//use of blockchain
+//use of blockchain -->
 
 == Blockchain Application Case Study ==
-//Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.
+<!-- Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.-->
 
 == Libraries and Tools ==
 This section focusing on more technical and practical aspects of Blockchain, that is, how to develop software using Blockchain. To be more specific, we are going to decribe, categorize and summarize libraries and tools for development of Blockchain-based software and integration into an applications.
@@ -98,7 +98,7 @@ Before a project is released to the production Ethereum network, it is beneficia
 * Private Test: Developers can deploy a personal Blockchain network on their own computers for the purpose of test, for example, with Geth. Another method is to emulate a Ethereum network, such as Ganache which is part of Truffle Suite.
 
 == Challenges and Shortcomings ==
-//Describe any current challenges and shortcomings of the use of the technology in software development
+<!-- Describe any current challenges and shortcomings of the use of the technology in software development -->
 
 The basic principles of blockchain looks to be simple, but when it comes to reality the implementation is facing a variety of challenges.<ref name="reyna2018">Reyna, A.; Martín, C.; Chen, J.; Soler, E.; Díaz, M. On blockchain and its integration with IoT Challenges and opportunities. Future Gener. Comput. Syst. 2018, 88, 173–190.</ref>
 
@@ -118,10 +118,10 @@ Smart contract hugely expands the area of blockchain applications, but nothing c
 Consensus mechanisms are fundamental for the transpancy, verification and trust without central authorisation in blockchain network. The most popular consensus is Proof of Work(PoW) which has worked successfully in Bitcoin. However, PoW has shortcomings such as low transaction rate and high latency as mentioned before, and furthermore, PoW is highly computationally intensive and results in huge amount of energy consumption. Not suprisingly many alternatives and improved consensus mechanisms are proposed, such as Proof of Stake (PoS), Leased Proof of Stake (LPoS), Proof of Burn (PoB), Proof of Importance (PoI), activity test (PoA), Elapsed Time Test (PoET), and Proof of Capacity (PoC). However,consensus mechanisms have not been appropriately formally proved thus remain an open area. 
 
 == A Research Paper ==
-//Describe ONE research paper related to this application of or development using this technology from an academic journal
+<!-- Describe ONE research paper related to this application of or development using this technology from an academic journal -->
 
 == Impacts and Future Directions ==
-//Evaluate the impact of the technology on software development in the future
+<!-- Evaluate the impact of the technology on software development in the future -->
 
 === Smart Contract and DApp ===
 
