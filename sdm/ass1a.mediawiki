@@ -14,16 +14,16 @@ In recent years, the emerging concepts of Blockchain and Smart Contract have bee
 = Libraries and Tools =
 This section focusing on more technical and practical aspects of Blockchain, that is, how to develop software using Blockchain. To be more specific, we are going to decribe, categorize and summarize libraries and tools for development of Blockchain-based software and integration into an applications.
 
-The nature of decentralisation and verification of Blockchain makes it suitable for orgnisations and activities that require trust among participants. Furthermore, Smart Contract on Ethereum empowered Blockchain by the capability of executing codes in decentralised mannar on Ethereum Virtual Machine, which naturally results in the concept and practice of Decentralised Application(DApp). 
+The nature of decentralisation and verification of Blockchain makes it suitable for orgnisations and activities that require trust among participants. Furthermore, Smart Contract on Ethereum empowered Blockchain by the capability of executing codes in decentralised mannar on Ethereum Virtual Machine, which naturally results in the concept and practice of Decentralised Application(dApp). 
 
 Blockchain is an area far from maturity so it is fast evolving, and consequently different libraries and development tools are emerging. There are a few articles collect and describe such tools.<ref name="tool15">https://blockgeeks.com/guides/15-best-tools-blockchain-development/</ref><ref>https://windowsreport.com/decentralized-cloud-storage/</ref> These tools mainly focus on one of these aspects:
 
 * Smart Contract development: language, compiler, libraries, IDEs
-* DApp development: usually includes some Smart Contract development tools, but also integrates other tools such as decentralised storage or front-end frame work.
+* dApp development: usually includes some Smart Contract development tools, but also integrates other tools such as decentralised storage or front-end frame work.
 * Blockchain as a Service: usually provides Blockchain service in the form of APIs
 * Decentralised data storage: store data on Blockchain network for security and lower cost
 * Alternative Blockchain networks, platforms and development environments
-* Testnet for testing Smart Contract and DApp before put into production
+* Testnet for testing Smart Contract and dApp before put into production
 
 == Smart Contract Development ==
 
@@ -35,31 +35,31 @@ Blockchain is an area far from maturity so it is fast evolving, and consequently
 
 * ethers.js: A JavaScript library completely implementing the Ethereum wallet. It enables interaction with the Ethereum Blockchain and its ecosystem. It is also fully TypeScript ready.
 
-== Decentralised App(DApp) IDE ==
+== Decentralised App(dApp) IDE ==
 
-DApp develoment tools usually integrate some Smart Contract develoment tools, but also includes other mondatory tools so that the developer can create, test, and deploy DApps in a single environment.
+dApp develoment tools usually integrate some Smart Contract develoment tools, but also includes other mondatory tools so that the developer can create, test, and deploy dApps in a single environment.
 
-* Remix: A suite of tools for Blockchain development. It includes a debugger to debug transactions on Ethereum network, a unit test frame work for Solidity, and an IDE for Smart Contract and DApp development.<ref>https://remix.ethereum.org/</ref>
+* Remix: A suite of tools for Blockchain development. It includes a debugger to debug transactions on Ethereum network, a unit test frame work for Solidity, and an IDE for Smart Contract and dApp development.<ref>https://remix.ethereum.org/</ref>
 
 * Metamask: It allows developers to run Ethereum dApps right in your browser without running a full Ethereum node.<ref>https://metamask.io/</ref>
 
-* Embark: a JavaScript library for building and deploying DApps. Embark is not only a Smart Contract development environment, but also a complete development toolkit for DApps. It also integrates several parts for computation (EVM), storage (IPFS, Swarm), and communication (Whisper). <ref>https://embark.status.im/docs/faq.html#Embark-in-one-sentence</ref>
+* Embark: a JavaScript library for building and deploying dApps. Embark is not only a Smart Contract development environment, but also a complete development toolkit for dApps. It also integrates several parts for computation (EVM), storage (IPFS, Swarm), and communication (Whisper). <ref>https://embark.status.im/docs/faq.html#Embark-in-one-sentence</ref>
 
-* Truffle Suite: a collection of DApp development tools, which includes:<ref>https://www.trufflesuite.com/</ref> 
+* Truffle Suite: a collection of dApp development tools, which includes:<ref>https://www.trufflesuite.com/</ref> 
 
-** Truffle: a development environment and testing framework for DApps. It is based on EVM
+** Truffle: a development environment and testing framework for dApps. It is based on EVM
 
-** Truffle Teams: a DevOps tool for DApp development. It provides features such as creating continuous integration(CI) pipeline, running and deploying contract, monitoring transactions and events.
+** Truffle Teams: a DevOps tool for dApp development. It provides features such as creating continuous integration(CI) pipeline, running and deploying contract, monitoring transactions and events.
 
-** Ganache: Is a tool to simulate an Ethereum network with which developers can deploy, run, and test Smart contracts and DApps. It has both a GUI for desktop application and a command-line interface, with the latter formerly known as the TestRPC.<ref>https://www.trufflesuite.com/docs/ganache/overview</ref>
+** Ganache: Is a tool to simulate an Ethereum network with which developers can deploy, run, and test Smart contracts and dApps. It has both a GUI for desktop application and a command-line interface, with the latter formerly known as the TestRPC.<ref>https://www.trufflesuite.com/docs/ganache/overview</ref>
 
-** Drizzle: a collection of a variety of front-end libraries aiming to make DApp front-ends development faster and more managable.
+** Drizzle: a collection of a variety of front-end libraries aiming to make dApp front-ends development faster and more managable.
 
 == APIs or Blockchain as a Service (BaaS) ==
 
-BaaS is known as ''"an offering that allows customers to leverage cloud-based solutions to build, host and use their own blockchain apps, smart contracts and functions on the blockchain while the cloud-based service provider manages all the necessary tasks and activities to keep the infrastructure agile and operational."''<ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref>Some typical Baas solutions are:
+BaaS is a service, usually cloud-based, that enable developers build, deploy and host their Smart Contracts or dApps on blockchain network, while all operational and maintaining tasks are managed by cloud computing service provider and transparent to users.<ref>https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</ref> Some typical BaaS solutions are:
 
-* Azure Blockchain Service: Microsoft has created Azure to offer these services.<ref>https://azure.microsoft.com/en-us/services/blockchain-service/</ref> It supports several Blockchain networks such as MultiChain, Eris, Storj, and Augur. It's also a develoment environment aimimg to develop DApps in a secure and cheaper environment.
+* Azure Blockchain Service: Microsoft has created Azure to offer these services.<ref>https://azure.microsoft.com/en-us/services/blockchain-service/</ref> It supports several Blockchain networks such as MultiChain, Eris, Storj, and Augur. It's also a develoment environment aimimg to develop dApps in a secure environment with less cost.
 
 * Coinbase’s API: Coinbase is a cryptocurrency exchange at San Francisco, which opens its APIs to allow developers to build new bitcoin apps and incorporate bitcoin functionality in their applications.
 
@@ -79,9 +79,9 @@ Blockchain can bring decentralised storage system into reality with robustness a
 
 == Alternative Blockchain Platforms ==
 
-* Corda: an open-source blockchain platform. It enables to develop, deploy and run DApps known as CorDapps (Corda Distributed Applications).<ref>https://docs.corda.net/cordapp-overview.html</ref>
+* Corda: an open-source blockchain platform. It enables to develop, deploy and run dApps known as Cordapps (Corda Distributed Applications).<ref>https://docs.corda.net/cordapp-overview.html</ref>
 
-* Hyperledger: an open source collaborative effort created to advance cross-industry blockchain technologies hosted by The Linux Foundation.<ref>https://wiki.hyperledger.org</ref> It is a large collection of a range of tools and frameworks for blockchain and DApp development, including:<ref>https://dev.to/brewer1_jane/8-amazing-tools-for-building-enterprise-blockchain-apps-and-blockchain-programming-4a5h</ref>
+* Hyperledger: an open source collaborative effort created to advance cross-industry blockchain technologies hosted by The Linux Foundation.<ref>https://wiki.hyperledger.org</ref> It is a large collection of a range of tools and frameworks for blockchain and dApp development, including:<ref>https://dev.to/brewer1_jane/8-amazing-tools-for-building-enterprise-blockchain-apps-and-blockchain-programming-4a5h</ref>
 
 ** Hyperledger Burrow: provides a modular blockchain client with a permissioned smart contract interpreter partially developed to the specification of the Ethereum Virtual Machine (EVM). <ref>https://www.hyperledger.org/projects/hyperledger-burrow</ref>
 
@@ -115,7 +115,7 @@ Various vulnerabilities and security issues of Bitcoin protocol are found thanks
 Smart contract hugely expands the area of blockchain applications, but nothing comes without cost. The ability of executing abitrary code brings capability and flexibility but also more vulnerability to attack such as bugs, hacking, or viruses. Bugs in customer contract codes are particularly critical because of the system's irreversable and immutable nature. Therefore, it is essential to develop formal methods, mechanisms and tools to validate, verify and guarantee the correctnees of smart contracts before they are deployed to production network.<ref name="reyna2018"/>
 
 == Consensus ==
-Consensus mechanisms are fundamental for the transpancy, verification and trust without central authorisation in blockchain network. The most popular consensus is Proof of Work(PoW) which has worked successfully in Bitcoin. However, PoW has shortcomings such as low transaction rate and high latency as mentioned before, and furthermore, PoW is highly computationally intensive and results in huge amount of energy consumption. Not suprisingly many alternatives and improved consensus mechanisms are proposed, such as Proof of Stake (PoS), Leased Proof of Stake (LPoS), Proof of Burn (PoB), Proof of Importance (PoI), activity test (PoA), Elapsed Time Test (PoET), and Proof of Capacity (PoC). However,consensus mechanisms have not been appropriately formally proved thus remain an open area. 
+Consensus mechanisms are fundamental for the transpancy, verification and trust without central authorisation in blockchain network. The most popular consensus is Proof of Work(PoW) which has been working successfully in Bitcoin. However, PoW has shortcomings such as low transaction rate and high latency as mentioned before, and furthermore, is highly computationally intensive and results in huge amount of energy consumption. Not suprisingly many alternatives and improved consensus mechanisms are proposed, such as Proof of Stake (PoS), Leased Proof of Stake (LPoS), Proof of Burn (PoB), Proof of Importance (PoI), activity test (PoA), Elapsed Time Test (PoET), and Proof of Capacity (PoC). However,consensus mechanisms have not been appropriately formally proved thus remain an open area. 
 
 = A Research Paper =
 <!-- Describe ONE research paper related to this application of or development using this technology from an academic journal -->
@@ -123,11 +123,16 @@ Consensus mechanisms are fundamental for the transpancy, verification and trust 
 = Impacts and Future Directions =
 <!-- Evaluate the impact of the technology on software development in the future -->
 
-== Smart Contract and DApp ==
+Blockchain system was created with characteristics of decentralisation, immutability and transparency. It enables an infrastructure layer and a new paradigm for software development. Empowered by blockchain, developers can create secure and autonomous-running applications. Blockchain is seen as the next generation of internet.
+
+== Smart Contract and dApp ==
+One of the most significant consequence of blockchain is dApps enabled by Smart Contract. Empowered by the verifiable and decentralised nature of blockchain, dApps is an innovative and promising software development paradigm. A increasing number of dApps are being created, including games, user-generated context (UGC) network, supply chain management. Blockchain and dApps are still in its early stage but some researchers believe we are at the start of a new era of decentralised computing which will eventually lead the internet service into next generation.<ref name="cai2018">W. Cai, Z. Wang, J. B. Ernst, Z. Hong, C. Feng, and V. C. M. Leung, "Decentralized applications: The blockchain-empowered software system," IEEE Access, vol. 6, pp. 53019–53033, 2018.</ref>
 
 == Transparent, Decentralised File Storage & Database ==
+The fundamental concepts of blockchain can also enables decentralised, transpancy and secure data storage on peer-to-peer networks. It will have lower data loss rate and lower costs. The decentralised data storage will benefit large-scale web applications.
 
 == Decentralised Software Engineering Tools ==
+Blockchain technology not only brings about new software infrastructure and programming paradigm, but also could revolutionise software engineering itself. The key concepts in blockchain can bring about more trustable and efficient collaboration into software development and benefit many stages in software development lifecycle. For example, a decentralised continuous integration(CI) system and package manager were investigated.<ref>Beller M, Hejderup J. Blockchain-based Software Engineering. In: Proceedings of the 41th International Conference on Software Engineering: New Ideas and Emerging Results ICSE-NIER ’19; 2018. .</ref> Decentralised version control system such as Git can also be expected.
 
 = References =
 <references />
