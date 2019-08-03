@@ -100,12 +100,12 @@ Before a project is released to the production Ethereum network, it is beneficia
 == Challenges and Shortcomings ==
 <!-- Describe any current challenges and shortcomings of the use of the technology in software development -->
 
-The basic principles of blockchain looks to be simple, but when it comes to reality the implementation is facing a variety of challenges.<ref name="reyna2018">Reyna, A.; Martín, C.; Chen, J.; Soler, E.; Díaz, M. On blockchain and its integration with IoT Challenges and opportunities. Future Gener. Comput. Syst. 2018, 88, 173–190.</ref>
+The basic principles of blockchain appear to be simple, but when it comes to reality the implementation is facing a variety of challenges.<ref name="reyna2018">Reyna, A.; Martín, C.; Chen, J.; Soler, E.; Díaz, M. On blockchain and its integration with IoT Challenges and opportunities. Future Gener. Comput. Syst. 2018, 88, 173–190.</ref>
 
 === Scalability and Performance === 
 The basic principle underpinning blockchain is the mechanism of consensus among the network for verification of transactions. Nodes communicate with each other and make decision following predifined rules. Transactions and blocks to be appended to the network requires confirmation from a certain number of nodes in the network. This approach brings about transpancy and trust in blockchain netwok, however, it also increases the time for processing and confirmation of a transaction, thus reduces the throughput (number of transactions per second) and increases the latency.
 
-=== Storage capacity ===
+=== Storage Capacity ===
 Storage capacity have been a significant challenge in blockchain for long. In main stream blockchain technology, the chain is always growing and each node in the network stores a complete copy of the whole chain with all transactions in them. For example, in Bitcoin there are approximately 1MB per block every 10 min. Although only full nodes (a node that can fully validate transactions and blocks) need to store the whole chain, enormous storage volume are required. <ref name="reyna2018"/>
 
 === Security ===
