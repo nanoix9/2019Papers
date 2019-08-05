@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ass1a</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<p>Developing applications that use the Blockchain</p>
+<h1 id="introduction"><span class="header-section-number">1</span> Introduction</h1>
+<p>In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.</p>
+<h1 id="blockchain-overview"><span class="header-section-number">2</span> Blockchain Overview</h1>
+<!-- //Explain how the technology works
+//Purpose and Value
+//use of blockchain -->
+<h1 id="blockchain-application-case-study"><span class="header-section-number">3</span> Blockchain Application Case Study</h1>
+<!-- Describe ONE significant current or predicted application that demonstrates the use of this technology. A web link to a demonstration or simulation is useful.-->
+<h1 id="libraries-and-tools"><span class="header-section-number">4</span> Libraries and Tools</h1>
+<p>This section focusing on more technical and practical aspects of Blockchain, that is, how to develop software using Blockchain. To be more specific, we are going to decribe, categorize and summarize libraries and tools for development of Blockchain-based software and integration into an applications.</p>
+<p>The nature of decentralisation and verification of Blockchain makes it suitable for orgnisations and activities that require trust among participants. Furthermore, Smart Contract on Ethereum empowered Blockchain by the capability of executing codes in decentralised mannar on Ethereum Virtual Machine, which naturally results in the concept and practice of Decentralised Application(dApp).</p>
+<p>Blockchain is an area far from maturity so it is fast evolving, and consequently different libraries and development tools are emerging. There are a few articles collect and describe such tools.<span class="citation" data-cites="tool15">(Blockgeeks, n.d.)</span><span class="citation" data-cites="decen_cloud_storage">(Dinita, 2019)</span> These tools mainly focus on one of these aspects:</p>
+<ul>
+<li>Smart Contract development: language, compiler, libraries, IDEs</li>
+<li>dApp development: usually includes some Smart Contract development tools, but also integrates other tools such as decentralised storage or front-end frame work.</li>
+<li>Blockchain as a Service: usually provides Blockchain service in the form of APIs</li>
+<li>Decentralised data storage: store data on Blockchain network for security and lower cost</li>
+<li>Alternative Blockchain networks, platforms and development environments</li>
+<li>Testnet for testing Smart Contract and dApp before put into production</li>
+</ul>
+<h2 id="smart-contract-development"><span class="header-section-number">4.1</span> Smart Contract Development</h2>
+<ul>
+<li><p>Geth: Go implementation of Ethereum protocol. With Geth, developer can run a full Ethereum node on there computer. With Geth, one can mine Ether, make transactions, and run and deploy their Smart Contract on Ethereum blockchain.</p></li>
+<li><p>Solidity and solc: Solidity is a programming language for development of smart contract on Ethereum. It syntax is JavaScript-like. <code>solc</code> is a Solidity compiler.</p></li>
+<li><p>EtherScripter: Visual smart-contract builder for Ethereum. Developer can drag and connect different components like building blocks to create a Smart Contract. Offical examples are available <a href="https://etherscripter.com/0-5-1">here</a>.<span class="citation" data-cites="etherscripter">(“EtherScripter - visual smart-contract builder for ethereum,” n.d.)</span></p></li>
+<li><p>ethers.js: A JavaScript library completely implementing the Ethereum wallet. It enables interaction with the Ethereum Blockchain and its ecosystem. It is also fully TypeScript ready.</p></li>
+</ul>
+<h2 id="decentralised-appdapp-ide"><span class="header-section-number">4.2</span> Decentralised App(dApp) IDE</h2>
+<p>dApp develoment tools usually integrate some Smart Contract develoment tools, but also includes other mondatory tools so that the developer can create, test, and deploy dApps in a single environment.</p>
+<ul>
+<li><p>Remix: A suite of tools for Blockchain development. It includes a debugger to debug transactions on Ethereum network, a unit test frame work for Solidity, and an IDE for Smart Contract and dApp development.<span class="citation" data-cites="remix">(“Remix - ethereum ide,” n.d.)</span></p></li>
+<li><p>Metamask: It allows developers to run Ethereum dApps right in your browser without running a full Ethereum node.<span class="citation" data-cites="metamask">(“MetaMask,” n.d.)</span></p></li>
+<li><p>Embark: a JavaScript library for building and deploying dApps. Embark is not only a Smart Contract development environment, but also a complete development toolkit for dApps. It also integrates several parts for computation (EVM), storage (IPFS, Swarm), and communication (Whisper).<span class="citation" data-cites="embark">(n.d.-a)</span></p></li>
+<li><p>Truffle Suite: a collection of dApp development tools, which includes:<span class="citation" data-cites="trufflesuite">(n.d.-b)</span></p>
+<ul>
+<li><p>Truffle: a development environment and testing framework for dApps. It is based on EVM</p></li>
+<li><p>Truffle Teams: a DevOps tool for dApp development. It provides features such as creating continuous integration(CI) pipeline, running and deploying contract, monitoring transactions and events.</p></li>
+<li><p>Ganache: Is a tool to simulate an Ethereum network with which developers can deploy, run, and test Smart contracts and dApps. It has both a GUI for desktop application and a command-line interface, with the latter formerly known as the TestRPC.</p></li>
+<li><p>Drizzle: a collection of a variety of front-end libraries aiming to make dApp front-ends development faster and more managable.</p></li>
+</ul></li>
+</ul>
+<h2 id="apis-or-blockchain-as-a-service-baas"><span class="header-section-number">4.3</span> APIs or Blockchain as a Service (BaaS)</h2>
+<p>BaaS is a service, usually cloud-based, that enable developers build, deploy and host their Smart Contracts or dApps on blockchain network, while all operational and maintaining tasks are managed by cloud computing service provider and transparent to users.<span class="citation" data-cites="bass_investopedia">(n.d.-c)</span> Some typical BaaS solutions are:</p>
+<ul>
+<li><p>Azure Blockchain Service: Microsoft has created Azure to offer these services.<span class="citation" data-cites="bass:azure">(Frankenfield, 2018)</span> It supports several Blockchain networks such as MultiChain, Eris, Storj, and Augur. It’s also a develoment environment aimimg to develop dApps in a secure environment with less cost.</p></li>
+<li><p>Coinbase’s API: Coinbase is a cryptocurrency exchange at San Francisco, which opens its APIs to allow developers to build new bitcoin apps and incorporate bitcoin functionality in their applications.</p></li>
+<li><p>Crypto APIs: an infrastructure layer making it easier and more managable to develop applications on any Blockchain and Crypto protocol. It provides services for more than 10 Blockchain protocols with a unified API layer.<span class="citation" data-cites="cryptoapis">(“Crypto api,” n.d.)</span></p></li>
+</ul>
+<h2 id="blockchain-data-storage"><span class="header-section-number">4.4</span> Blockchain Data Storage</h2>
+<p>Blockchain can bring decentralised storage system into reality with robustness and safety to serve today’s large-scale applications like Netflix or Facebook.<span class="citation" data-cites="storage5:hackernoon">(Saini, 2018)</span><span class="citation" data-cites="bc-cloud:medium">(Eterna Capital, n.d.)</span> In this section, we will list and briefly describe some solution for decentralised storage or database.</p>
+<ul>
+<li><p>Tierion: Tierion is a collection of development tools and APIs to create, add data to and query from a verifiable database on the bitcoin network.</p></li>
+<li><p>BigchainDB: a blockchain database. It has characteristics of both database and blockchain, including decentralization, immutability, and native support for assets. Each BigchainDB node runs BigchainDB Server and various other software. It provides BigchainDB HTTP API and API wrapper libraries such as the BigchainDB Python Driver.<span class="citation" data-cites="bigchaindb">(“Terminology - bigchaindb docs,” n.d.)</span></p></li>
+<li><p>FileCoin: a decentralized cloud storage platform on which users can provide their unused storage to fulfill storage request, and then earn FileCoin cryptocoins for hosting files.</p></li>
+<li><p>Storj(Tardigrade): a decentralised platform and suite for secure data storage. It is S3-compatible. Tardigrade is a production-ready version of Storj for enterprise use.<span class="citation" data-cites="storj">(“Introduction -storj,” n.d.)</span></p></li>
+</ul>
+<h2 id="alternative-blockchain-platforms"><span class="header-section-number">4.5</span> Alternative Blockchain Platforms</h2>
+<ul>
+<li><p>Corda: an open-source blockchain platform. It enables to develop, deploy and run dApps known as Cordapps (Corda Distributed Applications).<span class="citation" data-cites="corda">(R3 Limited, n.d.)</span></p></li>
+<li><p>Hyperledger: an open source collaborative effort created to advance cross-industry blockchain technologies hosted by The Linux Foundation.<span class="citation" data-cites="hyperledger">(Foundation, n.d.)</span> It is a large collection of a range of tools and frameworks for blockchain and dApp development, including:</p>
+<ul>
+<li><p>Hyperledger Burrow: provides a modular blockchain client with a permissioned smart contract interpreter partially developed to the specification of the Ethereum Virtual Machine (EVM).<span class="citation" data-cites="hyperledger-burrow">(The Linux Foundation, n.d.)</span></p></li>
+<li><p>Hyperledger Sawtooth: a platform enabling development, deployment, and execution of distributed ledgers. It invents a novel consensus algorithm, Proof of Elapsed Time (PoET), targeting to significantly reduce the resource consumption for distributed validation.</p></li>
+<li><p>Hyperledger Caliper: a blockchain benchmark of measurement of blockchain performance with a set of predefined use cases.</p></li>
+</ul></li>
+</ul>
+<h2 id="blockchain-testnet"><span class="header-section-number">4.6</span> Blockchain Testnet</h2>
+<p>Before a project is released to the production Ethereum network, it is beneficial to make a test deployment to an Ethereum Test Network(testnet). Testnet is a copy of the Ethereum almost identical in every aspect to the mainnet except that their Ether values nothing. It enables a developer to test, debug and verify their codes before real assets are involved.<span class="citation" data-cites="testnet">(Hayes, 2018)</span></p>
+<ul>
+<li><p>Public Test: Public testnets are copies of Ethereum network which is publicly availabe. In contrast to the mainnet, writing to the testnet is free. Common public testnets includes Ropsten, Rinkeby, and Kovan.<span class="citation" data-cites="tool15">(Blockgeeks, n.d.)</span></p></li>
+<li><p>Private Test: Developers can deploy a personal Blockchain network on their own computers for the purpose of test, for example, with Geth. Another method is to emulate a Ethereum network, such as Ganache which is part of Truffle Suite.</p></li>
+</ul>
+<h1 id="challenges-and-shortcomings"><span class="header-section-number">5</span> Challenges and Shortcomings</h1>
+<!-- Describe any current challenges and shortcomings of the use of the technology in software development -->
+<p>The basic principles of blockchain appear to be simple, but when it comes to reality the implementation is facing a variety of challenges.<span class="citation" data-cites="reyna2018iot">(Reyna, Martín, Chen, Soler, &amp; Díaz, 2018)</span></p>
+<h2 id="scalability-and-performance"><span class="header-section-number">5.1</span> Scalability and Performance</h2>
+<p>The basic principle underpinning blockchain is the mechanism of consensus among the network for verification of transactions. Nodes communicate with each other and make decision following predifined rules. Transactions and blocks to be appended to the network requires confirmation from a certain number of nodes in the network. This approach brings about transpancy and trust in blockchain netwok, however, it also increases the time for processing and confirmation of a transaction, thus reduces the throughput (number of transactions per second) and increases the latency.</p>
+<h2 id="storage-capacity"><span class="header-section-number">5.2</span> Storage Capacity</h2>
+<p>Storage capacity have been a significant challenge in blockchain for long. In main stream blockchain technology, the chain is always growing and each node in the network stores a complete copy of the whole chain with all transactions in them. For example, in Bitcoin there are approximately 1MB per block every 10 min. Although only full nodes (a node that can fully validate transactions and blocks) need to store the whole chain, enormous storage volume are required. <span class="citation" data-cites="reyna2018iot">(Reyna et al., 2018)</span></p>
+<h2 id="security"><span class="header-section-number">5.3</span> Security</h2>
+<p>Various vulnerabilities and security issues of Bitcoin protocol are found thanks to thorough analysis by engineers and researchers. The most well-known attack is the 51% attack or majority attack, which can happen if someone controlled at least 51% of nodes in the network because in this situation he/she took complete control of the consensus. In addition, some other attacks, such as double-spend attack, race attacks, and Denial of Service(DoS) are also discovered and investigated. Finally and interestingly, quantum computing could be seen as a dealy threat to blockchain such as Bitcoin because it unprecedented computing power can easily break the current cryptograhy algorithms underpinning blockchains.<span class="citation" data-cites="reyna2018iot">(Reyna et al., 2018)</span></p>
+<h2 id="vulnerability-of-smart-contract"><span class="header-section-number">5.4</span> Vulnerability of Smart Contract</h2>
+<p>Smart contract hugely expands the area of blockchain applications, but nothing comes without cost. The ability of executing abitrary code brings capability and flexibility but also more vulnerability to attack such as bugs, hacking, or viruses. Bugs in customer contract codes are particularly critical because of the system’s irreversable and immutable nature. Therefore, it is essential to develop formal methods, mechanisms and tools to validate, verify and guarantee the correctnees of smart contracts before they are deployed to production network.<span class="citation" data-cites="reyna2018iot">(Reyna et al., 2018)</span></p>
+<h2 id="consensus"><span class="header-section-number">5.5</span> Consensus</h2>
+<p>Consensus mechanisms are fundamental for the transpancy, verification and trust without central authorisation in blockchain network. The most popular consensus is Proof of Work(PoW) which has been working successfully in Bitcoin. However, PoW has shortcomings such as low transaction rate and high latency as mentioned before, and furthermore, is highly computationally intensive and results in huge amount of energy consumption. Not suprisingly many alternatives and improved consensus mechanisms are proposed, such as Proof of Stake (PoS), Leased Proof of Stake (LPoS), Proof of Burn (PoB), Proof of Importance (PoI), activity test (PoA), Elapsed Time Test (PoET), and Proof of Capacity (PoC). However,consensus mechanisms have not been appropriately formally proved thus remain an open area.<span class="citation" data-cites="reyna2018iot">(Reyna et al., 2018)</span></p>
+<h1 id="a-research-paper"><span class="header-section-number">6</span> A Research Paper</h1>
+<!-- Describe ONE research paper related to this application of or development using this technology from an academic journal -->
+<h1 id="impacts-and-future-directions"><span class="header-section-number">7</span> Impacts and Future Directions</h1>
+<!-- Evaluate the impact of the technology on software development in the future -->
+<p>Blockchain system was created with characteristics of decentralisation, immutability and transparency. It enables an infrastructure layer and a new paradigm for software development. Empowered by blockchain, developers can create secure and autonomous-running applications. Blockchain is seen as the next generation of internet.</p>
+<h2 id="smart-contract-and-dapp"><span class="header-section-number">7.1</span> Smart Contract and dApp</h2>
+<p>One of the most significant consequence of blockchain is dApps enabled by Smart Contract. Empowered by the verifiable and decentralised nature of blockchain, dApps is an innovative and promising software development paradigm. A increasing number of dApps are being created, including games, user-generated context (UGC) network, supply chain management. Blockchain and dApps are still in its early stage but some researchers believe we are at the start of a new era of decentralised computing which will eventually lead the internet service into next generation.<span class="citation" data-cites="cai2018dapp">(Cai et al., 2018)</span></p>
+<h2 id="transparent-decentralised-file-storage-database"><span class="header-section-number">7.2</span> Transparent, Decentralised File Storage &amp; Database</h2>
+<p>The fundamental concepts of blockchain can also enables decentralised, transpancy and secure data storage on peer-to-peer networks. It will have lower data loss rate and lower costs. The decentralised data storage will benefit large-scale web applications.</p>
+<h2 id="decentralised-software-engineering-tools"><span class="header-section-number">7.3</span> Decentralised Software Engineering Tools</h2>
+<p>Blockchain technology not only brings about new software infrastructure and programming paradigm, but also could revolutionise software engineering itself. The key concepts in blockchain can bring about more trustable and efficient collaboration into software development and benefit many stages in software development lifecycle. For example, a decentralised continuous integration(CI) system and package manager were investigated.<span class="citation" data-cites="Beller:2019:BSE">(Beller &amp; Hejderup, 2019)</span> Decentralised version control system such as Git can also be expected.</p>
+<h2 id="references" class="unnumbered">References</h2>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-Beller:2019:BSE">
+<p>Beller, M., &amp; Hejderup, J. (2019). Blockchain-based software engineering. <em>Proceedings of the 41st international conference on software engineering: New ideas and emerging results</em>, 53–56. <a href="https://doi.org/10.1109/ICSE-NIER.2019.00022">https://doi.org/10.1109/ICSE-NIER.2019.00022</a></p>
+</div>
+<div id="ref-tool15">
+<p>Blockgeeks. (n.d.). 15 of the best tools for blockchain development. Retrieved August 2, 2019, from <a href="https://blockgeeks.com/guides/15-best-tools-blockchain-development">https://blockgeeks.com/guides/15-best-tools-blockchain-development</a></p>
+</div>
+<div id="ref-cai2018dapp">
+<p>Cai, W., Wang, Z., Ernst, J. B., Hong, Z., Feng, C., &amp; Leung, V. C. M. (2018). Decentralized applications: The blockchain-empowered software system. <em>IEEE Access</em>, <em>6</em>, 53019–53033. <a href="https://doi.org/10.1109/ACCESS.2018.2870644">https://doi.org/10.1109/ACCESS.2018.2870644</a></p>
+</div>
+<div id="ref-cryptoapis">
+<p>Crypto api. (n.d.). Retrieved August 2, 2019, from <a href="https://cryptoapis.io">https://cryptoapis.io</a></p>
+</div>
+<div id="ref-decen_cloud_storage">
+<p>Dinita, M. (2019, January). 4 of the best decentralized cloud storage solutions to use in 2019. Retrieved August 2, 2019, from <a href="https://windowsreport.com/decentralized-cloud-storage">https://windowsreport.com/decentralized-cloud-storage</a></p>
+</div>
+<div id="ref-bc-cloud:medium">
+<p>Eterna Capital. (n.d.). Blockchain based decentralised cloud computing. Retrieved August 2, 2019, from <a href="https://medium.com/@eternacapital/blockchain-based-decentralised-cloud-computing-277f307611e1">https://medium.com/@eternacapital/blockchain-based-decentralised-cloud-computing-277f307611e1</a></p>
+</div>
+<div id="ref-etherscripter">
+<p>EtherScripter - visual smart-contract builder for ethereum. (n.d.). Retrieved August 2, 2019, from <a href="https://etherscripter.com">https://etherscripter.com</a></p>
+</div>
+<div id="ref-hyperledger">
+<p>Foundation, T. L. (n.d.). Hyperledger. Retrieved August 2, 2019, from <a href="https://wiki.hyperledger.org">https://wiki.hyperledger.org</a></p>
+</div>
+<div id="ref-bass:azure">
+<p>Frankenfield, J. (2018, May). Blockchain-as-a-service (baas). Retrieved August 2, 2019, from <a href="https://azure.microsoft.com/en-us/services/blockchain-service">https://azure.microsoft.com/en-us/services/blockchain-service</a></p>
+</div>
+<div id="ref-testnet">
+<p>Hayes, G. (2018, February). The beginners guide to using an ethereum test network. Retrieved August 2, 2019, from <a href="https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d">https://medium.com/compound-finance/the-beginners-guide-to-using-an-ethereum-test-network-95bbbc85fc1d</a></p>
+</div>
+<div id="ref-storj">
+<p>Introduction -storj. (n.d.). Retrieved August 2, 2019, from <a href="https://documentation.storj.io">https://documentation.storj.io</a></p>
+</div>
+<div id="ref-metamask">
+<p>MetaMask. (n.d.). Retrieved August 2, 2019, from <a href="https://metamask.io">https://metamask.io</a></p>
+</div>
+<div id="ref-corda">
+<p>R3 Limited. (n.d.). What is a cordapp? Retrieved August 2, 2019, from <a href="https://docs.corda.net/cordapp-overview.html">https://docs.corda.net/cordapp-overview.html</a></p>
+</div>
+<div id="ref-remix">
+<p>Remix - ethereum ide. (n.d.). Retrieved August 2, 2019, from <a href="https://remix.ethereum.org">https://remix.ethereum.org</a></p>
+</div>
+<div id="ref-reyna2018iot">
+<p>Reyna, A., Martín, C., Chen, J., Soler, E., &amp; Díaz, M. (2018). On blockchain and its integration with iot. Challenges and opportunities. <em>Future Generation Computer Systems</em>, <em>88</em>, 173–190. <a href="https://doi.org/https://doi.org/10.1016/j.future.2018.05.046">https://doi.org/https://doi.org/10.1016/j.future.2018.05.046</a></p>
+</div>
+<div id="ref-storage5:hackernoon">
+<p>Saini, V. (2018, August). StoragePedia: An encyclopedia of 5 blockchain storage platforms. Retrieved August 2, 2019, from <a href="https://hackernoon.com/storagepedia-an-encyclopedia-of-5-blockchain-storage-platform-8aa13c630ace">https://hackernoon.com/storagepedia-an-encyclopedia-of-5-blockchain-storage-platform-8aa13c630ace</a></p>
+</div>
+<div id="ref-bigchaindb">
+<p>Terminology - bigchaindb docs. (n.d.). Retrieved August 2, 2019, from <a href="http://docs.bigchaindb.com/en/latest/terminology.html">http://docs.bigchaindb.com/en/latest/terminology.html</a></p>
+</div>
+<div id="ref-hyperledger-burrow">
+<p>The Linux Foundation. (n.d.). Hyperledger burrow. Retrieved August 2, 2019, from <a href="https://www.hyperledger.org/projects/hyperledger-burrow">https://www.hyperledger.org/projects/hyperledger-burrow</a></p>
+</div>
+<div id="ref-embark">
+<p> (n.d.-a). Retrieved August 2, 2019, from <a href="https://embark.status.im/docs/faq.html#Embark-in-one-sentence">https://embark.status.im/docs/faq.html#Embark-in-one-sentence</a></p>
+</div>
+<div id="ref-trufflesuite">
+<p> (n.d.-b). Retrieved August 2, 2019, from <a href="https://www.trufflesuite.com">https://www.trufflesuite.com</a></p>
+</div>
+<div id="ref-bass_investopedia">
+<p> (n.d.-c). Retrieved August 2, 2019, from <a href="https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp">https://www.investopedia.com/terms/b/blockchainasaservice-baas.asp</a></p>
+</div>
+</div>
+</body>
+</html>
