@@ -1,5 +1,10 @@
 ---
 bibliography: [./ass1a.bib] 
+papersize: a4
+mainfont: Arial
+fontsize: 11pt
+linestretch: 1
+geometry: [margin=25mm]
 ---
 
 Developing applications that use the Blockchain

@@ -1,2 +1,10 @@
 .DS_store
 ~*
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+
+#*.pdf
+#*.tex

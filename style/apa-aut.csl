@@ -405,7 +405,7 @@
                 <text macro="format-short" prefix="[" suffix="]"/>
               </else-if>
               <else-if type="post post-weblog webpage" variable="container-title" match="any">
-                <text variable="title" form="short" quotes="true"/>
+                <text variable="title" form="short" quotes="false"/>
               </else-if>
               <else>
                 <text variable="title" form="short" font-style="italic"/>
@@ -530,7 +530,7 @@
             </choose>
           </else-if>
           <else-if type="post post-weblog webpage" variable="container-title" match="any">
-            <text variable="title"/>
+            <text variable="title" font-style="italic"/>
           </else-if>
           <else>
             <text variable="title" font-style="italic"/>
