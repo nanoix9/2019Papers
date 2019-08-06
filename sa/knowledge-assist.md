@@ -1,4 +1,9 @@
-a knowledge extraction and presenting system
+---
+title: A Knowledge Extraction and Presenting System
+author: "Stone Fang (ID: 19049045)" 
+bibliography:
+    - sa.bib
+---
 
 # Overview
 
@@ -6,7 +11,7 @@ My topic is a system for knowledge extraction, presenting, and searching. The ul
 
 # Motivation
 
-We are living in a data explosion time. We have enumerous and rapid-growing amount of data, which makes it harder to extract useful information from it, and even more difficult to acquire real knowledge. For example, when I get started to do research on a new topic (that happens all the time), first I need to get familiar with the basic concepts in that topic, how its position in a bigger background, and how it relates to or different from similar concepts. To do this, the researcher usually collects surveys in this topic or simply go to the Wikipedia page for a quick review. However, the researcher needs to go through the articles, select important parts and key concepts, and form a mental representation in the brain. I think we can do something better: what if there is a system which displays the knowledge, not in the plain sequential text, but a more intuitive and structured way? If so, we can get familiar with new areas and learn new things in a shorter time.
+We are living in a data explosion time. We have numerous and rapid-growing amount of data, which makes it harder to extract useful information from it, and even more difficult to acquire real knowledge. For example, when I get started to do research on a new topic (that happens all the time), first I need to get familiar with the basic concepts in that topic, how its position in a bigger background, and how it relates to or different from similar concepts. To do this, the researcher usually collects surveys in this topic or simply go to the Wikipedia page for a quick review. However, the researcher needs to go through the articles, select important parts and key concepts, and form a mental representation in the brain. I think we can do something better: what if there is a system which displays the knowledge, not in the plain sequential text, but a more intuitive and structured way? If so, we can get familiar with new areas and learn new things in a shorter time.
 
 
 # Features
@@ -38,6 +43,19 @@ Since it's machine learning approaches for knowledge extraction, we will probabl
 Obviously, this system must involve some machine learning or knowledge engineering algorithms, but this architectural design focuses on the system & engineering aspects instead of the machine learning aspect. Since the data structures and algorithms for knowledge extraction and representation might evolve over time, the system architecture will provide some feasibility and extensibility to fit this requirement. E.g. the system will not simply use graph or tree as knowledge representation, but support a range of representations and storages and even future changes. 
 
 # Architectual Drivers
+
+## Stakeholders' Concerns
+
+### Stakeholders
+
+These models provide a set of quality characteristics relevant to a wide range of stakeholders, such as: software developers, system integrators, acquirers, owners, maintainers, contractors, quality assurance and control professionals, and users.[@isoiec25010]
+
+### Functional
+### Qualities
+
+## Business and technical constraints
+
+---
 
 ## Business goals and constraints
 

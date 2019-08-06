@@ -529,6 +529,9 @@
               </if>
             </choose>
           </else-if>
+          <else-if type="report techreport" variable="container-title" match="any">
+            <text variable="title"/>
+          </else-if>
           <else-if type="post post-weblog" variable="container-title" match="any">
             <text variable="title"/>
           </else-if>
