@@ -11,33 +11,54 @@ STYLE=$(STYLE_DIR)/apa-aut.csl
 DOC_STYLE=$(STYLE_DIR)/sdm.docx
 TEX_TMPL=$(STYLE_DIR)/sdm.tex
 
-pdf1:
-	pandoc -s -F pandoc-crossref  \
-	 -f markdown -t latex+raw_tex+tex_math_dollars+citations -o ass1a.tex ass1a.md
+tex:
+	pandoc -s \
+		-F pandoc-crossref  \
+		--natbib ass1a-tex.yaml \
+		--metadata-file ass1a-tex.yaml \
+		--csl=$(STYLE) \
+		--template=$(TEX_TMPL) \
+		--bibliography=ass1a.bib \
+	 	-f markdown \
+		-t latex+raw_tex+tex_math_dollars+citations \
+		-o ass1a.tex \
+		ass1a.md
 	
-	#--natbib meta.yaml --template=mytemplate.tex -N
-
-	pdflatex ass1a.tex &> /dev/null
-	bibtex ass1a &> /dev/null
-	pdflatex ass1a.tex &> /dev/null
-	pdflatex ass1a.tex &> /dev/null
+	#xelatex ass1a.tex
+	#bibtex ass1a
+	#xelatex ass1a.tex
+	#xelatex ass1a.tex
 
 
 pdf:
-	pandoc -s --filter pandoc-citeproc \
+	pandoc -s \
+		--number-section \
+		--filter pandoc-crossref \
+		--filter pandoc-citeproc \
+		--bibliography=ass1a.bib \
+		--csl=$(STYLE) \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
 		--pdf-engine=xelatex \
-		--bibliography=ass1a.bib --csl=$(STYLE) \
 		--template=$(TEX_TMPL) \
 	 	-f markdown \
 		-o ass1a.pdf ass1a.md
-	#--number-section \
+	# \
+	--number-section \
 	--template=$(TEX_TMPL) \
+		--filter pandoc-citeproc \
+
 
 html:
-	pandoc -s -F pandoc-crossref --bibliography=ass1a.bib --csl=$(STYLE) -N \
-	 -f markdown -t html -o ass1a.html ass1a.md
+	pandoc -s -F pandoc-citeproc --bibliography=ass1a.bib --csl=$(STYLE) -N \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+		--css $(STYLE_DIR)/aut.css \
+		-f markdown -t html -o ass1a.html ass1a.md
 
 docx:
-	pandoc -s -F pandoc-crossref --bibliography=ass1a.bib --csl=$(STYLE) -N \
-	 --reference-doc=$(DOC_STYLE) \
-	 -f markdown -t docx -o ass1a.docx ass1a.md
+	pandoc -s -F pandoc-citeproc --bibliography=ass1a.bib --csl=$(STYLE) -N \
+	 	--reference-doc=$(DOC_STYLE) \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+	 	-f markdown -t docx -o ass1a.docx ass1a.md

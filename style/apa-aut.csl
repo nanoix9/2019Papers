@@ -529,7 +529,10 @@
               </if>
             </choose>
           </else-if>
-          <else-if type="post post-weblog webpage" variable="container-title" match="any">
+          <else-if type="post post-weblog" variable="container-title" match="any">
+            <text variable="title"/>
+          </else-if>
+          <else-if type="webpage" variable="container-title" match="any">
             <text variable="title" font-style="italic"/>
           </else-if>
           <else>

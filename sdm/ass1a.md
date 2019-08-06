@@ -1,13 +1,15 @@
 ---
-bibliography: [./ass1a.bib] 
+title: Developing Applications that Use the Blockchain
+bibliography: 
+    - ass1a.bib
+biblio-title: Bibliography
 papersize: a4
 mainfont: Arial
 fontsize: 11pt
 linestretch: 1
-geometry: [margin=25mm]
+geometry:
+    - margin=25mm
 ---
-
-Developing applications that use the Blockchain
 
 # Introduction
 In recent years, the emerging concepts of Blockchain and Smart Contract have been gaining sharply increasing attention. More and more researchers and engineers are contributing to this area to form fundamental theories and invent new algorithms. In addition, applications in real-world are also emerging with cryptocurrency as the most typical one. In this report, we are going to describe the basic principles, software tools, pros and cons, and impacts of Blockchain, focusing on the application and effect in software engineering.
@@ -143,4 +145,6 @@ The fundamental concepts of blockchain can also enables decentralised, transpanc
 ## Decentralised Software Engineering Tools
 Blockchain technology not only brings about new software infrastructure and programming paradigm, but also could revolutionise software engineering itself. The key concepts in blockchain can bring about more trustable and efficient collaboration into software development and benefit many stages in software development lifecycle. For example, a decentralised continuous integration(CI) system and package manager were investigated.[@Beller:2019:BSE] Decentralised version control system such as Git can also be expected.
 
-## References
+# References
+
+<div id="refs"></div>
