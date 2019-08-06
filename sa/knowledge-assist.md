@@ -50,8 +50,16 @@ Obviously, this system must involve some machine learning or knowledge engineeri
 
 These models provide a set of quality characteristics relevant to a wide range of stakeholders, such as: software developers, system integrators, acquirers, owners, maintainers, contractors, quality assurance and control professionals, and users.[@isoiec25010]
 
+1. Primary user: person who interacts with the system to achieve the primary goals.
+2. Secondary users who provide support, for example
+    a) content provider, system manager/administrator, security manager;
+    b) maintainer, analyzer, porter, installer.
+3. Indirect user: person who receives output, but does not interact with the system.[@isoiec25010]
+
 ### Functional
 ### Qualities
+
+system/software product quality properties into eight characteristics: functional suitability, performance efficiency, compatibility, usability, reliability, security, maintainability and portability.[@isoiec25010]
 
 ## Business and technical constraints
 
