@@ -9,8 +9,6 @@ geometry:
 
 # Summary
 
-> A summary sheet should briefly present the most important findings for each area of the report as a summary. Summary diagrams are a good idea.
-
 Blockchain is an emerging and fast-developing technology revolutionizing our world. In this report, we analyzed this technology in a variety of different views from basic ideas to challenges to future impacts. The main findings in this report are summarized as follows:
 
 1. The basic concepts, purpose and key values of blockchain and smart contract are comprehensively studied and briefly summarized. Blockchain is enabled by distributed ledger in which transactions are verified by each participant being stamped and hashing and consequently requires no immediate third party authority. Ethereum and smart contract expanded the use of blockchain by enabling the execution of arbitrary operation programmed in advance. 
