@@ -14,6 +14,10 @@ CSS_FILE=$(STYLE_DIR)/aut.css
 
 NAME=ass1a
 MD_FILE=$(NAME).md
+
+SUMMARY_NAME=$(NAME)-summary
+SUMMARY_FILE=$(SUMMARY_NAME).md
+
 BIB_FILE=$(NAME).bib
 
 tex:
@@ -53,6 +57,12 @@ pdf:
 	--template=$(TEX_TMPL) \
 		--filter pandoc-citeproc \
 
+pdf-summary:
+	pandoc -s \
+		--pdf-engine=xelatex \
+		--template=$(TEX_TMPL) \
+	 	-f markdown \
+		-o $(SUMMARY_NAME).pdf $(SUMMARY_FILE)
 
 html:
 	pandoc -s -F pandoc-citeproc --bibliography=$(NAME).bib --csl=$(STYLE) -N \
