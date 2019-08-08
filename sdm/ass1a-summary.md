@@ -27,4 +27,4 @@ Blockchain is an emerging and fast-developing technology revolutionizing our wor
 
 Reference
 
-[1] Blockchain. (n.d.). *In Wikipedia*. Retrieved Augest 8, 2019, from https://en.wikipedia.org/wiki/Blockchain
+Blockchain. (n.d.). *In Wikipedia*. Retrieved Augest 8, 2019, from https://en.wikipedia.org/wiki/Blockchain
