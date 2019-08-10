@@ -17,13 +17,13 @@ Blockchain is an emerging and fast-developing technology revolutionizing our wor
 
 ![blockchain concept (Blockchain, n.d.)](./img/Bitcoin_Block_Data.png)
 
-1. A range of libraries and tools for development of smart contracts, decentralized applications and other software over blockchain network are collected. Categorization and summarization are made. Existing development tools can include development tools and environment of smart contract and decentralized applications(dApps), blockchain as a service(Baas) platforms, blockchain storage and database, alternative blockchain platforms, and test tools for software over blockchain network.
+3. A range of libraries and tools for development of smart contracts, decentralized applications and other software over blockchain network are collected. Categorization and summarization are made. Existing development tools can include development tools and environment of smart contract and decentralized applications(dApps), blockchain as a service(Baas) platforms, blockchain storage and database, alternative blockchain platforms, and test tools for software over blockchain network.
 
-2. Several challenges and shortcomings of blockchain is studied and analyzed, including scalability and performance such as throughput and latency, storage capacity for increasing amount of transaction data, security issues and vulnerability to attacks especially for smart contract, more efficient consensus mechanisms.
+4. Several challenges and shortcomings of blockchain is studied and analyzed, including scalability and performance such as throughput and latency, storage capacity for increasing amount of transaction data, security issues and vulnerability to attacks especially for smart contract, more efficient consensus mechanisms.
 
-3. A case study is made about a research paper about using blockchain technology for car insurance. The system basically works as a blockchain application with interaction to sensors on a vehicle and a mobile app. Sensor data as well as photos of the vehicle will be appended to the blockchain network. With the mobile app, users can interact with the insurances plan, such as activating/deactivating insurance coverage. 
+5. A case study is made about a research paper about using blockchain technology for car insurance. The system basically works as a blockchain application with interaction to sensors on a vehicle and a mobile app. Sensor data as well as photos of the vehicle will be appended to the blockchain network. With the mobile app, users can interact with the insurances plan, such as activating/deactivating insurance coverage. 
 
-4. Several impacts of blockchain as well as future directions are described. Smart contract and dApps enable support for large-scale web applications without centralized management. Storage and database over blockchain is more transparent, more secure and cheaper than existing solutions. Furthermore, blockchain can also benefit software engineering itself. 
+6. Several impacts of blockchain as well as future directions are described. Smart contract and dApps enable support for large-scale web applications without centralized management. Storage and database over blockchain is more transparent, more secure and cheaper than existing solutions. Furthermore, blockchain can also benefit software engineering itself. 
 
 # Reference
 
