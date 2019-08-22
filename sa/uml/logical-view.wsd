@@ -1,0 +1,47 @@
+@startuml
+
+class "Extraction" as E 
+' {
+    ' package Crawling {}
+    ' package Parsing {}
+    ' package Transforming {}
+    ' package Writing {}
+
+    ' Parsing <- Crawling
+    ' Transforming <- Parsing
+    ' Writing <- Transforming
+' }
+
+class "Storage" as S
+
+' package "Abstraction" as A {}
+
+class "Service" as Sv
+
+' package API {}
+
+' package "Adaptor" as Ad {}
+
+package "UI" as UI {
+    class Searching
+    class Visualization
+    class Modification
+
+    ' Searching -[hidden]do- Visualization
+    ' Visualization -[hidden]do- Modification
+}
+
+' API <-up- E : write
+Sv <-down- E
+' Sv --> E: "read KB"
+S <-left- Sv
+' A <- API
+' Ad -do-> API
+' UI -l-> Ad
+' UI -l-> Sv
+
+Sv <-- Searching
+Sv <-- Visualization
+Sv <-- Modification
+
+@enduml

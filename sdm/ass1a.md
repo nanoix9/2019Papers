@@ -1,7 +1,6 @@
 ---
 title: Developing Applications that Use the Blockchain
-bibliography: 
-    - ass1a.bib
+bibliography: [ass1a.bib]
 biblio-title: Bibliography
 papersize: a4
 mainfont: Arial

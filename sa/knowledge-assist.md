@@ -79,8 +79,22 @@ What system features require explicit support from or can impact on its architec
 
 ## Quality attributes
 
-Explain the most important quality attributes for the system, along with the process you followed to identify and prioritise them.
+Explain the most important quality attributes for the system, along with the process you followed to identify and prioritize them.
+
+- Functional suitability
+- Performance
+  + Scalability
+- Compatibility
+- Maintainability
 
 ## Evaluation criteria
 
 Explain how you will evaluate an architecture based on the drivers identified in sections 2-5.
+
+
+---
+
+# Views
+
+## Logical View
+
