@@ -8,3 +8,7 @@
 - what is agile/why agile
 - revise springs and stories
 - **key point: collaboration**
+
+
+# Team Agreement
+
