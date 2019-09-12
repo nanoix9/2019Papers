@@ -1,7 +1,7 @@
-(defmacro echo-run-line (&body body)
-  (let ((p (car body)))
-    (format t "expression: ~c[96m~:a~c[0m~%    result: ~c[93m~:a~c[0m~%~%" 
-      #\ESC p #\ESC #\ESC (eval p) #\ESC)))
+(load "print-util.cl")
+
+;; uncomment this function if you want print nil as ()
+;; (print-nil-as-empty)
 
 (defun drop-x (n L)
   (cond ((= n 0) L)
