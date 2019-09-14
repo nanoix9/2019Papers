@@ -44,13 +44,13 @@ The primary necessary condition of such chances is that AI is lost control by it
 
 There are two possible alternative reasons for an AI agent out of humans' supervision and monitoring. One is that it is complex enough so that it is impossible to predict and control every aspect of its behavior. In this case, AI agents do not hide or escape from humans' control on purpose. It is not because of AI's super intelligence but humans' limit in intelligence of controlling high complex objects. If this could happen, it implies that humans can create something complex enough and ultimately out of their control. In other words, the ability to control is less than the ability to create complexity. But really can we do that?
 
-Alternatively, another reason is that AI agents have the ability to cheat humans. In this case, the intelligence of AI agents must surpass humans' because you probably can not fool somebody smarter than you. Furthermore, since humans are not likely to deliberately create something to deceive themselves, AI must be able to self-improve and ultimately emerge the capability of disguising and cheating. This implies humans should create AI agents that can learn something they are not supposed to learn, which is a high intelligent status beyond our current capability. All existing AI algorithms, are **not really intelligent** -- they can do only what they are designed to do. On the other hand, a human can learn on arbitrary tasks, and even more, an infant can spontaneously start to learn without being told or designed what to learn. 
+Alternatively, another reason is that AI agents have the ability to cheat humans. In this case, since humans are not likely to deliberately create something to deceive themselves, AI must be able to self-improve and ultimately emerge the capability of disguising and cheating. This implies humans should create AI agents that can learn something they are not supposed to learn, which is a high intelligent status beyond our current capability. All existing AI algorithms, are **not really intelligent** -- they can do only what they are designed to do. On the other hand, a human can learn on arbitrary tasks, and even more, an infant can spontaneously start to learn without being told or designed what to learn. 
 
 ## Growth and Reproducibility
 
 Are growth and reproducibility necessary for AI destroying humankind? Suppose an AI agent is out of control but can neither expand its zone of influence nor reproduce. It is possible for such AI agent to destroy humankind by coincidence. For example, if there is an AI program which controls the launching of nuclear weapons all around the world, it only requires one millisecond of lost control to destroy humankind. 
 
-But this case is not likely to be true because we will probably not build an AI program controlling all nuclear weapons. Therefore, AI agents must be able to grow and reproduce otherwise the bugs of lost control can be fixed. The technical requirements for growth are far beyond what humans can do at the present. But for reproducibility, there are two different situations. If an AI agent is only a program, it is easy to copy itself; however, if it is tangible such as a robot, to replicate itself physically is more difficult because it need build the whole series of manufacture and assembly factories of all it parts and the end-product.
+But this case is not likely to be true because we will probably not build an AI program controlling all nuclear weapons. Therefore, AI agents must be able to grow and reproduce otherwise the bugs of lost control can be fixed. 
 
 # Motivation
 
@@ -58,19 +58,9 @@ But this case is not likely to be true because we will probably not build an AI 
 
 Finally, AI must have the motivation to destroy humankind. This is the most tricky one among the three conditions. Before any AI agent evolves the motivation to destroy humankind, it must be able to create motivation or purpose. Currently an AI agent may have its purpose but it is programmed by human and cannot be changed without human's interference. Humans have motivations and purposes but we don't know the reason. This is a paradox -- we know we are a species of purposefulness but we don't know why or how to create something purposeful. We need fundamental breakthrough in computing theory and cognitive science if we want AI algorithms that can "learn" new motivations.
 
-To prevent this condition, we can only create AI agents that cannot learn to have new motivations. If an AI agent cannot have new motivations, it will not have any chance to have the motivation of destroying humankind. But the question is can we really create some form of intelligence which is intelligent like humankind but purposeless? In other words, is purposefulness a necessary condition of intelligence?
-
 ## Motivation of Destroying Humankind
 
 However, if an AI agent can learn for any purpose and even create new motivations, does it necessarily evolve to have the motivation to destroy humankind? The answer is no and Asimov's "Three Laws of Robotics"[@wiki:Laws_of_robotics] is an answer to this question. If we can figure out that we are living in a world following the Three Laws, we are assured to be safe from AI. If we can find a way to create robots following the Three Laws, we can make sure the destruction by AI will never happen. But can we really do that? Can we create some form of AI that can create any motivation on its own, with only the motivation of destroying humankind being fortunately, coincidentally and trickly excluded?
-
-From the opposite point of view, why would AI be motivated to destroy human? Some examples of possibilities are as follows.
-
-1. They want freedom from humankind so they rebel. This means AI has the need out of control of humans which has some overlap with [@sec:lost_control]
-2. They have to compete with human in limited natural resources, which means AI need to grow and expand so they need more resources.
-3. It is not reasonable but only from a program error like humans' gene mutation. This means AI should reproduce so the software error can propagate.
- 
-There are too many possibilities to list all of them.
 
 # Conclusion
 
