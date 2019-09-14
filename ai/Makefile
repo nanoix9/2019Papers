@@ -23,7 +23,7 @@ pdf:
 		--bibliography=$(BIB_FILE) \
 		--csl=$(STYLE) \
 		--metadata=link-citations \
-		--metadata=reference-section-title:References \
+		--metadata=reference-section-title:Reference \
 		--pdf-engine=xelatex \
 	 	-f markdown \
 		-o $(NAME).pdf $(NAME).md
