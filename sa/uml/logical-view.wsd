@@ -24,11 +24,11 @@ class "Service" as Sv
 
 package "UI" as UI {
     class Searching
-    class Visualization
-    class Modification
+    class Displaying
+    class Modifying
 
-    ' Searching -[hidden]do- Visualization
-    ' Visualization -[hidden]do- Modification
+    ' Searching -[hidden]do- Displaying
+    ' Displaying -[hidden]do- Modifying
 }
 
 ' API <-up- E : write
@@ -41,7 +41,7 @@ S <-left- Sv
 ' UI -l-> Sv
 
 Sv <-- Searching
-Sv <-- Visualization
-Sv <-- Modification
+Sv <-- Displaying
+Sv <-- Modifying
 
 @enduml

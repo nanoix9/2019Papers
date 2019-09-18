@@ -112,3 +112,35 @@ These models provide a set of quality characteristics relevant to a wide range o
 system/software product quality properties into eight characteristics: functional suitability, performance efficiency, compatibility, usability, reliability, security, maintainability and portability.[@isoiec25010]
 
 ## Business and technical constraints
+
+
+
+
+## Logical View
+
+1. Primary presentation
+
+> box & line - try to use UML
+
+2. Element catalog
+
+> explain each box & line
+
+  - Elements and their properties
+  - Relations
+  - Element interfaces
+  - Element behavior
+
+3. Context diagram
+
+4. Variability guide
+
+5. Architecture background
+  - Rationale
+  - Analysis results
+  - Assumptions
+
+6. Other information
+
+7. Related view packets
+

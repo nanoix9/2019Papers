@@ -1,0 +1,24 @@
+@startuml
+
+actor User
+participant UI
+participant Service
+database Storage
+
+autonumber
+
+User -> UI: start searching
+activate UI
+UI -> Service: send request
+activate Service
+Service -> Storage: query DB
+activate Storage
+
+Service <- Storage: returns data
+deactivate Storage
+UI <- Service: returns unified data
+deactivate Service
+User <- UI: render and display
+deactivate UI
+
+@enduml

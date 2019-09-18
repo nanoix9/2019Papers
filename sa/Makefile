@@ -16,24 +16,14 @@ NAME=knowledge-assist
 MD_FILE=$(NAME).md
 BIB_FILE=sa.bib
 
-tex:
-	pandoc -s \
-		-F pandoc-crossref  \
-		--natbib ass1a-tex.yaml \
-		--metadata-file ass1a-tex.yaml \
-		--csl=$(STYLE) \
-		--template=$(TEX_TMPL) \
-		--bibliography=$(BIB_FILE) \
-	 	-f markdown \
-		-t latex+raw_tex+tex_math_dollars+citations \
-		-o ass1a.tex \
-		ass1a.md
-	
-	#xelatex ass1a.tex
-	#bibtex ass1a
-	#xelatex ass1a.tex
-	#xelatex ass1a.tex
+PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.11.3/plantuml.jar
+UMLS=logical-view.wsd \
+	process-view.wsd \
+	process-view-extract.wsd \
+	micro-services.wsd
 
+umls: 
+	cd uml && $(PLANTUML) $(UMLS)
 
 pdf:
 	pandoc -s \

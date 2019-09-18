@@ -1,0 +1,62 @@
+@startuml
+
+' left to right direction
+
+' top to bottom direction
+
+package Service {
+    component "RESTful API" as RESTful_API
+    component Unifier 
+
+    Unifier --> RESTful_API
+}
+
+package Storage {
+    component "MongoDB Engine" as MongoDB_Engine
+    component MongoDB 
+    component "Neo4j Engine" as Neo4j_Engine
+    component Neo4j
+
+    component "DB Abstraction" as DB_Abs
+    component Adaptor
+
+    MongoDB -up-> MongoDB_Engine
+    Neo4j -up-> Neo4j_Engine
+    MongoDB_Engine -up-> DB_Abs
+    Neo4j_Engine -up-> DB_Abs
+    DB_Abs -up-> Adaptor
+}
+
+package FrontEnd {
+    component Searching
+    component Displaying
+    component Modifying
+
+    component Client
+    component "Format Transformer" as Format_Transformer
+
+    Searching --down-> Client
+    Client -up-> Format_Transformer
+    Format_Transformer -up-> Displaying
+    Modifying --down-> Client
+}
+
+package "API Contract" as API_Contract {
+    component "Service API Contract" as Service_API_Contract
+}
+
+package "Storage Contract" as Storage_Contract {
+    component "DB Storage Contract" as DB_Storage_Contract
+}
+
+' FrontEnd -[hidden]down- Service
+' Service -[hidden]down- Storage
+
+Client ..o Service_API_Contract
+RESTful_API ..o Service_API_Contract
+
+Unifier .up.o DB_Storage_Contract
+Adaptor .up.o DB_Storage_Contract
+
+
+@enduml

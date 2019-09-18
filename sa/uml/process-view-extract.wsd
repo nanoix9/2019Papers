@@ -1,0 +1,12 @@
+@startuml
+
+entity Extractor
+participant Service
+database Storage
+
+autonumber
+
+Extractor -> Service: add new knowledge
+Service -> Storage: write DB/KB
+
+@enduml

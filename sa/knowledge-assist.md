@@ -63,45 +63,51 @@ The primary features of this system will be as follows:
 
 ### Stakeholder's concerns
 
-- Users
+- Users: a) The system should be easy to use and intuitive. b) Users should be able to correct errors introduced by automatic knowledge extraction algorithms
 
 - Developers
-  + System developer
-  + Algorithmic developer/knowledge engineer
+  + System developer: The system should be highly decoupled from specific knowledge representation/extraction/visualization algorithms so upgrade on any of these modules won't break the whole system
+  + Algorithmic developer/knowledge engineer: The system should be flexible and extensible so that improving, upgrading and replacing algorithms is simple and won't affect other modules.
+
+- Operator: The system should be maintained in low cost
 
 ### Quality attribute scenarios
 
-#### Initial list of quality attributes
+#### QAS 1: Usability
 
-- Functional suitability
-  
-- Performance
-  + Time behavior
-  + Scalability
+When a user start to do searching and understanding the search result, the usage should be intuitive and requires minimal learning cost.
 
-- Compatibility
-  + Co-existence
-  + Interoperability
+- Stimulus: A user try to use the system
+- Environment: The service is running
+- Response:  return and render search result in intuitive form
+- Response measure: cost for a new user to learn the usage of the system.
 
-- Usability
-  + Learnability
-  + User error protection
+#### QAS 2: Modularity
 
-- Reliability
-  + Maturity  
-  + Availability
-  + Fault tolerance
-  + Recoverability
+A developer may improve or introduce a new knowledge representation or AI algorithm for knowledge extraction or visualization method because he find a new one. Therefore the system should be highly modular and decoupled so each module can be modified without affecting others.
 
-- Maintainability
-  + Modularity
-  + Analyzability
-  + Modifiability
+- Stimulus: better algorithms/methods are discovered and preferable to replace the new one. 
+- Environment: Development time, runtime
+- Response: new methods are successfully created and integrated into the service
+- Response measure: other parts of the service are not affected and require no modification.
 
-- Portability
-  + Adaptability
-  + Replaceability
+#### QAS 3: Performance - Resource Utilization
 
+As the system should be running in low cost so it might make use of resources very efficiently.
+
+- Stimulus: operation of the system
+- Environment: Runtime
+- Response: the resources required by running the service are satisfied
+- Response measure: the cost of operation of system
+
+#### QAS 4: Performance - Scalability
+
+Since new knowledge will be continuously added into the system's knowledge base so the system should be able to scaled.
+
+- Stimulus: new data come into knowledge base
+- Environment: Runtime
+- Response: system are scaled to handle new data
+- Response measure: the time of scaling
 
 ## Evaluation criteria
 
@@ -115,6 +121,80 @@ Explain how you will evaluate an architecture based on the drivers identified in
 > logical/process/physical/development/
 
 ## Logical View
+
+1. Primary presentation
+
+![Logical View](./uml/logical-view.png)
+
+2. Element catalog
+
+> explain each box & line
+
+- Elements
+  + Storage
+  + Service
+  + Extraction
+  + UI
+    - Searching
+    - Displaying
+    - Modifying
+ 
+- Relations
+  + Extraction -> Service
+  + Service -> Storage
+  + UI -> Service
+
+- Element interfaces
+- Element behavior
+
+1. Context diagram
+
+2. Variability guide
+
+3. Architecture background
+  - Rationale
+  - Analysis results
+  - Assumptions
+
+6. Other information
+
+7. Related view packets
+
+
+## Process View
+
+![Searching Process View](uml/process-view.png)
+
+![Extraction Process View](uml/process-view-extract.png)
+
+1. Primary presentation
+
+> box & line - try to use UML
+
+2. Element catalog
+
+> explain each box & line
+
+  - Elements and their properties
+  - Relations
+  - Element interfaces
+  - Element behavior
+
+3. Context diagram
+
+4. Variability guide
+
+5. Architecture background
+  - Rationale
+  - Analysis results
+  - Assumptions
+
+6. Other information
+
+7. Related view packets
+
+
+## Physical View
 
 1. Primary presentation
 
