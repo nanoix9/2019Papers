@@ -1,26 +1,10 @@
 @startuml
 
-class "Extraction" as E 
-' {
-    ' package Crawling {}
-    ' package Parsing {}
-    ' package Transforming {}
-    ' package Writing {}
+class "Extractor" as E 
 
-    ' Parsing <- Crawling
-    ' Transforming <- Parsing
-    ' Writing <- Transforming
-' }
-
-class "Storage" as S
-
-' package "Abstraction" as A {}
+class "Knowledge Base" as S
 
 class "Service" as Sv
-
-' package API {}
-
-' package "Adaptor" as Ad {}
 
 package "UI" as UI {
     class Searching
@@ -31,17 +15,11 @@ package "UI" as UI {
     ' Displaying -[hidden]do- Modifying
 }
 
-' API <-up- E : write
-Sv <-down- E
-' Sv --> E: "read KB"
-S <-left- Sv
-' A <- API
-' Ad -do-> API
-' UI -l-> Ad
-' UI -l-> Sv
+E -> Sv
+Sv --> S
 
-Sv <-- Searching
-Sv <-- Displaying
-Sv <-- Modifying
+Searching --> Sv 
+Displaying --> Sv 
+Modifying --> Sv 
 
 @enduml

@@ -1,6 +1,11 @@
 ---
 title: A Knowledge Extraction and Presenting System
 author: "Stone Fang (Student ID: 19049045)" 
+papersize: a4
+fontsize: 12pt
+linestretch: 1
+geometry:
+    - margin=25mm
 ---
 
 
@@ -79,7 +84,7 @@ When a user start to do searching and understanding the search result, the usage
 
 - Stimulus: A user try to use the system
 - Environment: The service is running
-- Response:  return and render search result in intuitive form
+- Response: return and render search result in intuitive form
 - Response measure: cost for a new user to learn the usage of the system.
 
 #### QAS 2: Modularity
@@ -109,115 +114,186 @@ Since new knowledge will be continuously added into the system's knowledge base 
 - Response: system are scaled to handle new data
 - Response measure: the time of scaling
 
+### Priority of QAs
+
+Based on our business/technical goals and the QA scenarios described above, these QAs are prioritized from highest to lowest as follows
+
+1. Modularity
+1. Scalability
+1. Resource Utilization
+1. Usability
+
 ## Evaluation criteria
 
-Explain how you will evaluate an architecture based on the drivers identified in sections 2-5.
+The architecture will be evaluated based on the drivers identified in above sections.
 
+### Modularity
 
----
+Modularity will be evaluated by:
+
+- the decoupling and isolation of modules
+- the effort required on other parts of the system to modify one module 
+
+### Scalability
+
+Scalability will be evaluated by the effort to scale out the system in order to handle larger size of data and amount of traffic.
+
+### Resource Utilization
+
+Resource Utilization will be evaluated by the resource required by the architecture given the size of data and number of requests per second.
+
+### Usability
+
+Usability will be evaluated by the effort for a new user to learn how to use this system.
+
 
 # Views
 
-> logical/process/physical/development/
-
 ## Logical View
 
-1. Primary presentation
+### Primary presentation
 
 ![Logical View](./uml/logical-view.png)
 
-2. Element catalog
+### Element catalog
 
-> explain each box & line
+#### Elements
 
-- Elements
-  + Storage
-  + Service
-  + Extraction
-  + UI
-    - Searching
-    - Displaying
-    - Modifying
- 
-- Relations
-  + Extraction -> Service
-  + Service -> Storage
-  + UI -> Service
+- Storage: store extracted knowledge
+- Service: provide unified interface for accessing knowledge representation.
+- Extractor: automatic knowledge extraction process enabled by machine learning algorithms
+- UI
+  - Searching: user search certain concepts
+  - Displaying: easy-reading, intuitive display of searched and related concepts, preferably in visual ways
+  - Modifying: user modify knowledge in the storage to correct errors introduced by automatic algorithms
 
-- Element interfaces
-- Element behavior
+#### Relations
 
-1. Context diagram
+- Extractor and Service
+  + the automatic Extractor will generate new content of knowledge and write into Storage through unified Service.
+  + Extractor may read existing knowledge to improve its performance according to the AI algorithms
 
-2. Variability guide
+- Service and Storage: Storage will not interact with other parts directly. Service will act as an abstract layer to isolate the storage and other parts.
 
-3. Architecture background
-  - Rationale
-  - Analysis results
-  - Assumptions
+- UI and Service: UI interacts with end user and convert user searching/modifying/browsing into requests to server and display data accordingly.
 
-6. Other information
+### Context diagram {#sec:logical-view-context}
 
-7. Related view packets
+![Context Diagram](uml/logical-view-context.png)
+
+### Variability guide
+
+### Architecture background
+
+#### Rationale
+
+As modularity is at the highest priority, the Service module is introduced as an adaptor and isolation layer to keep the knowledge storage base isolated from the Extractor and UI parts. The knowledge representation stored in database and AI algorithms for knowledge extraction are decoupled so that they can change independently. 
+
+#### Analysis results
+
+
+
+#### Assumptions
 
 
 ## Process View
 
-![Searching Process View](uml/process-view.png)
+### Primary presentation
 
-![Extraction Process View](uml/process-view-extract.png)
+  ![Searching Process View](uml/process-view.png)
 
-1. Primary presentation
+### Element catalog
 
-> box & line - try to use UML
+#### Elements and their properties
 
-2. Element catalog
+- UI: User interface for user to search, browse and modify
+- Representation service: for access of knowledge representation
+- Storage: database service for storage
 
-> explain each box & line
+#### Relations
 
-  - Elements and their properties
-  - Relations
-  - Element interfaces
-  - Element behavior
+- UI and Representation service: UI will convert user operations to requests to Representation service
+- Representation service and storage: abstract representation will be mapped to physical storage by DB querying
 
-3. Context diagram
+### Context diagram
 
-4. Variability guide
+![Process View Context Diagram](uml/process-view-context.png)
 
-5. Architecture background
-  - Rationale
-  - Analysis results
-  - Assumptions
+### Variability guide
 
-6. Other information
+### Architecture background
 
-7. Related view packets
+#### Rationale
+
+Each part of UI, Representation Service and Storage are designed as independent process so that they can be developed, maintained and scaled independently
+
+#### Analysis results
+#### Assumptions
 
 
-## Physical View
+## Development View
 
-1. Primary presentation
+### Primary presentation
 
-> box & line - try to use UML
+  ![Development View](uml/development-view.png)
 
-2. Element catalog
+### Element catalog
 
-> explain each box & line
+#### Elements and their properties
 
-  - Elements and their properties
-  - Relations
-  - Element interfaces
-  - Element behavior
+- Storage
+  + MongoDB
+  + MongoDB Engine
+  + Neo4j
+  + Neo4j Engine
+  + Storage API
+  + Storage Version Control
 
-3. Context diagram
+- Representation
+  + Representation Definition
+  + Representation Abstraction
+  + Storage Mapping
+  + Representation Version Control
 
-4. Variability guide
+- Service
+  + Representation Adaptor
+  + RESTful API
 
-5. Architecture background
-  - Rationale
-  - Analysis results
-  - Assumptions
+- UI
+  - Client
+  - Searching
+  - Modifying
+  - Displaying
 
-6. Other information
+- Storage Contract
 
-7. Related view packets
+- Service API Contract
+
+#### Relations
+
+- Storage, Representation and Storage Contract
+- Representation Abstraction, Service and Representation Definition
+- UI, Service and Service API Contract
+
+#### Element interfaces
+#### Element behavior
+
+### Context diagram
+
+It is the same as Logical View Context Diagram @sec:logical-view-context
+
+### Variability guide
+
+### Architecture background
+
+#### Rationale
+
+The development of the system is divided into several packages. The UI and backend Service interacts data with Service API Contract. The Service and Representation exchange data by Representation Definition. The Representation and physical Storage exchange data by Storage API Contract. These packages can be developed and tested separately. Each package can be deployed independently so that we can make the resource usage maximized and scale out different parts on demand.
+
+#### Analysis results
+
+#### Assumptions
+
+### Other information
+
+### Related view packets

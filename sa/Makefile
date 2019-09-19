@@ -1,4 +1,4 @@
-all: test_paper
+all: pdf
 
 # If you decide to go with pandoc-citeproc
 #	pandoc -s -F pandoc-crossref -F pandoc-citeproc meta.yaml --data-dir=data-dir --template=mytemplate.tex -N \
@@ -16,17 +16,19 @@ NAME=knowledge-assist
 MD_FILE=$(NAME).md
 BIB_FILE=sa.bib
 
-PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.11.3/plantuml.jar
+PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.12.0/plantuml.jar
 UMLS=logical-view.wsd \
 	process-view.wsd \
 	process-view-extract.wsd \
-	micro-services.wsd
+	development-view.wsd \
+	logical-view-context.wsd \
+	process-view-context.wsd
 
 umls: 
 	cd uml && $(PLANTUML) $(UMLS)
 
-pdf:
-	pandoc -s \
+pdf: umls
+	pandoc -s -N --toc \
 		--number-section \
 		--filter pandoc-crossref \
 		--filter pandoc-citeproc \

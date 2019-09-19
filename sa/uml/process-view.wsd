@@ -2,22 +2,22 @@
 
 actor User
 participant UI
-participant Service
+participant "Representation Service" as Representation_Service
 database Storage
 
 autonumber
 
 User -> UI: start searching
 activate UI
-UI -> Service: send request
-activate Service
-Service -> Storage: query DB
+UI -> Representation_Service: send request
+activate Representation_Service
+Representation_Service -> Storage: query DB
 activate Storage
 
-Service <- Storage: returns data
+Representation_Service <- Storage: returns data
 deactivate Storage
-UI <- Service: returns unified data
-deactivate Service
+UI <- Representation_Service: returns unified data
+deactivate Representation_Service
 User <- UI: render and display
 deactivate UI
 

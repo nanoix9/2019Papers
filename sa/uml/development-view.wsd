@@ -1,0 +1,85 @@
+@startuml
+
+' left to right direction
+
+' top to bottom direction
+
+package Service {
+    interface "RESTful API" as RESTful_API
+    component "Representation Adaptor" as Repre_Adaptor
+
+    RESTful_API --> Repre_Adaptor
+}
+
+package Representation {
+    component "Representation Abstraction" as Repre_Abs
+    component "Representation Definition" as Repre_Def
+    component "Storage Mapping" as Storage_Mapping 
+    component "Representation Version Control" as Repre_VC
+
+    Repre_Abs -> Storage_Mapping
+    Repre_Abs -up-> Repre_VC
+    Repre_Abs --> Repre_Def
+}
+
+package Storage {
+    component "MongoDB Engine" as MongoDB_Engine
+    database MongoDB 
+    component "Neo4j Engine" as Neo4j_Engine
+    database Neo4j
+
+    ' component "DB Abstraction" as DB_Abs
+    interface "Storage API" as Storage_API
+
+    component "Storage Version Control" as Storage_VC
+
+    MongoDB_Engine -down-> MongoDB
+    Neo4j_Engine -down-> Neo4j
+    Storage_API -down-> MongoDB_Engine
+    Storage_API -down-> Neo4j_Engine
+
+    Storage_API -left-> Storage_VC
+}
+
+package UI {
+    component Searching
+    component Displaying
+    component Modifying
+
+    component Client
+    component "Format Transformer" as Format_Transformer
+
+    Searching --down-> Client
+    Format_Transformer -down-> Client
+    Format_Transformer <-up- Displaying
+    Modifying --down-> Client
+}
+
+package "API Contract" as API_Contract {
+    component "Service API Contract" as Service_API_Contract
+}
+
+package "Storage Contract" as Storage_Contract {
+    component "DB Storage Contract" as DB_Storage_Contract
+}
+
+package Utility {
+    component "Base Version Control" as Base_VC
+}
+
+Repre_Adaptor ..o Repre_Abs
+
+Repre_VC -up-|> Base_VC
+Storage_VC -up-|> Base_VC
+
+' UI -[hidden]down- Service
+' Service -[hidden]down- storage
+
+Client ..o Service_API_Contract
+RESTful_API ..o Service_API_Contract
+
+Storage_Mapping .up.o DB_Storage_Contract
+Storage_API .up.o DB_Storage_Contract
+
+
+@enduml

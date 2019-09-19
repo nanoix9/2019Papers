@@ -1,0 +1,38 @@
+@startuml
+
+rectangle Users #line.dotted {
+    actor "User 1" as Us
+    actor "User 2" as Ub
+    actor "User 3" as Um
+}
+
+rectangle "Logical View" as System {
+    rectangle UI
+    cloud {
+        rectangle Service
+        database Storage
+    }
+}
+
+rectangle Extractor
+
+rectangle "Knowledge Source" #line.dotted {
+    cloud Internet
+}
+
+Users -[hidden]down- System
+
+Us -down-> UI: search
+Ub -down-> UI: browse
+Um -down-> UI: modify
+
+Us -[hidden]right- Ub
+Ub -[hidden]right- Um
+
+Internet <-- Extractor: craw & extract
+Extractor --> Service
+
+UI -right-> Service
+Service -> Storage
+
+@enduml
