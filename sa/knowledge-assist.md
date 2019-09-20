@@ -9,11 +9,6 @@ geometry:
     - margin=25mm
 ---
 
-
-# Executive Summary
-
----
-
 # Introduction
 
 ## System Overview
@@ -24,9 +19,6 @@ This system is an assisting service of knowledge extraction, aggregation, search
 
 We are living in a data explosion time. We have numerous and rapid-growing amount of data every second, which, however, makes it more difficult than before to extract useful information from it, and even more to acquire real knowledge. For example, when someone gets started to do research on a new topic (that happens all the time), first s/he need to get familiar with the basic concepts in that topic, how its position in a bigger background, and how it is related to or different from other concepts. To do this, the researcher usually collects surveys in this topic or simply go to the Wikipedia page as a quick start. However, the researcher needs to go through many articles s/he gathered, select important parts and key concepts, and form a mental representation in the brain. Based on such consideration, it would be better and faster to understand if we can create a system which helps in knowledge collecting, aggregating, and presenting in a more structured, intuitive and easier-to-understand way. This will help the researcher shorten the boarding time, and get more comprehensive catching to a new area.
 
-## Process for creating the architecture (like ADD)
-
-## Organizational context
 
 # Architectural drivers
 
@@ -192,19 +184,11 @@ Resource Utilization will be evaluated by:
 
 ![Context Diagram](uml/logical-view-context.png)
 
-### Variability guide
-
 ### Architecture background
 
 #### Rationale
 
 As modularity is at the highest priority, the Service module is introduced as an adaptor and isolation layer to keep the knowledge storage base isolated from the Extractor and UI parts. The knowledge representation stored in database and AI algorithms for knowledge extraction are decoupled so that they can change independently. 
-
-#### Analysis results
-
-
-
-#### Assumptions
 
 
 ## Process View
@@ -239,8 +223,6 @@ As modularity is at the highest priority, the Service module is introduced as an
 
 ![Process View Context Diagram](uml/process-view-context.png)
 
-### Variability guide
-
 ### Architecture background
 
 #### Rationale
@@ -248,9 +230,6 @@ As modularity is at the highest priority, the Service module is introduced as an
 Each part of UI, Representation Service and Storage are designed as independent process so that they can be developed and deployed to different physical machines or cloud computing instance thus reach resource efficiency.
 
 All data is store in Storage Nodes and other services are stateless so the system can be scaled out by increasing the running instance of services.
-
-#### Analysis results
-#### Assumptions
 
 
 ## Development View
@@ -297,14 +276,9 @@ All data is store in Storage Nodes and other services are stateless so the syste
 - Representation Abstraction, Service and Representation Definition
 - UI, Service and Service API Contract
 
-#### Element interfaces
-#### Element behavior
-
 ### Context diagram
 
 ![Development View Context Diagram](uml/development-view-context.png)
-
-### Variability guide
 
 ### Architecture background
 
@@ -312,10 +286,3 @@ All data is store in Storage Nodes and other services are stateless so the syste
 
 The development of the system is divided into several packages. The UI and backend Service interacts data with Service API Contract. The Service and Representation exchange data by Representation Definition. The Representation and physical Storage exchange data by Storage API Contract. These packages can be developed and tested separately. Each package can be deployed independently so that we can make the resource usage maximized and scale out different parts on demand.
 
-#### Analysis results
-
-#### Assumptions
-
-### Other information
-
-### Related view packets

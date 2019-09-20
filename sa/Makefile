@@ -38,7 +38,7 @@ pdf: umls
 		--metadata=reference-section-title:References \
 		--pdf-engine=xelatex \
 		--template=$(TEX_TMPL) \
-	 	-f markdown \
+	 	-f markdown-implicit_figures \
 		-o $(NAME).pdf $(NAME).md
 	# \
 	--number-section \
