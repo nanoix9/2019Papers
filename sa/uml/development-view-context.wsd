@@ -6,10 +6,10 @@ scale max 600 height
 
 ' top to bottom direction
 
-' rectangle Users #line.dotted {
-    actor "Searching User" as Us
-    actor "Modifying User" as Um
-    ' actor "User 3" as Um
+' rectangle Developers #line.dotted {
+    actor "System Developer" as SD
+    actor "Knowledge Engineer" as KE
+    actor "AI Developer" as AID
 ' }
 
 rectangle "System" as System {
@@ -21,10 +21,6 @@ rectangle "System" as System {
     '     rectangle Service
     '     database Storage
     ' }
-}
-
-rectangle "WWW" #line.dotted {
-    ' cloud Internet
 }
 
 ' Users -[hidden]right- System
@@ -47,13 +43,10 @@ rectangle "WWW" #line.dotted {
 ' UI3 -down-> Service
 ' Service -> Storage
 
-Us -> System: search
-Um -> System: modify
+SD -> System: develop \nplatform & service
+System <-right- KE: develop \nknowledge representation
+System <-right- AID: develop \nAI algorithms
 
-Us <- System: display
-
-Us -[hidden]up- Um
-
-System <- WWW: crawl&extract
+KE -[hidden]down- AID
 
 @enduml

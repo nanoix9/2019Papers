@@ -1,5 +1,6 @@
 ---
-title: A Knowledge Extraction and Presenting System
+title: An Architecture of Knowledge Assistant
+subtitle: A System for Knowledge Extraction, Searching and Displaying
 author: "Stone Fang (Student ID: 19049045)" 
 papersize: a4
 fontsize: 12pt
@@ -15,13 +16,17 @@ geometry:
 
 # Introduction
 
-## Overview
+## System Overview
 
 This system is an assisting service of knowledge extraction, aggregation, searching, and visualization . The ultimate goal of this system is to help people like to access and learn knowledge they want more efficiently. For example, a university student can use this system help their study by searching and exploring the concepts and theories relating to their study, or a researcher starting his/her research in a new area can use this system to get a quick and comprehensive understanding of the basis, methodologies, and state-of-art of the that area.  
 
-## Motivation
+## Motivation & Purpose
 
-We are living in a data explosion time. We have numerous and rapid-growing amount of data every second, which, however, makes it more difficult than before to extract useful information from it, and even more to acquire real knowledge. For example, when someone gets started to do research on a new topic (that happens all the time), first s/he need to get familiar with the basic concepts in that topic, how its position in a bigger background, and how it is related to or different from other concepts. To do this, the researcher usually collects surveys in this topic or simply go to the Wikipedia page as a quick start. However, the researcher needs to go through many articles s/he gathered, select important parts and key concepts, and form a mental representation in the brain. So, what if we can do something better? What if we can create a system which helps in knowledge collecting, aggregating, and presenting in a more structured, intuitive and easier-to-understand way? This will help the researcher shorten the boarding time, and get more comprehensive catching to a new area.
+We are living in a data explosion time. We have numerous and rapid-growing amount of data every second, which, however, makes it more difficult than before to extract useful information from it, and even more to acquire real knowledge. For example, when someone gets started to do research on a new topic (that happens all the time), first s/he need to get familiar with the basic concepts in that topic, how its position in a bigger background, and how it is related to or different from other concepts. To do this, the researcher usually collects surveys in this topic or simply go to the Wikipedia page as a quick start. However, the researcher needs to go through many articles s/he gathered, select important parts and key concepts, and form a mental representation in the brain. Based on such consideration, it would be better and faster to understand if we can create a system which helps in knowledge collecting, aggregating, and presenting in a more structured, intuitive and easier-to-understand way. This will help the researcher shorten the boarding time, and get more comprehensive catching to a new area.
+
+## Process for creating the architecture (like ADD)
+
+## Organizational context
 
 # Architectural drivers
 
@@ -78,23 +83,23 @@ The primary features of this system will be as follows:
 
 ### Quality attribute scenarios
 
-#### QAS 1: Usability
+#### QAS 1: Modularity
 
-When a user start to do searching and understanding the search result, the usage should be intuitive and requires minimal learning cost.
+The knowledge representation part, automatic knowledge extraction part, and visualization/rendering/displaying part may be responsible for different developers so they should be highly decoupled and isolated and can be changed independently.
 
-- Stimulus: A user try to use the system
-- Environment: The service is running
-- Response: return and render search result in intuitive form
-- Response measure: cost for a new user to learn the usage of the system.
+- Stimulus: different kinds of developers work on different modules
+- Environment: development time, maintenance time
+- Response: modules of the system and contract between modules
+- Response measure: degree of decoupling and dependency of all modules of the system.
 
-#### QAS 2: Modularity
+#### QAS 2: Modifiability
 
 A developer may improve or introduce a new knowledge representation or AI algorithm for knowledge extraction or visualization method because he find a new one. Therefore the system should be highly modular and decoupled so each module can be modified without affecting others.
 
-- Stimulus: better algorithms/methods are discovered and preferable to replace the new one. 
+- Stimulus: better algorithms/methods are discovered and will replace the old ones. 
 - Environment: Development time, runtime
 - Response: new methods are successfully created and integrated into the service
-- Response measure: other parts of the service are not affected and require no modification.
+- Response measure: degree of the defects or quality degrading introduced by modification.
 
 #### QAS 3: Performance - Resource Utilization
 
@@ -105,7 +110,7 @@ As the system should be running in low cost so it might make use of resources ve
 - Response: the resources required by running the service are satisfied
 - Response measure: the cost of operation of system
 
-#### QAS 4: Performance - Scalability
+#### QAS 4: Scalability
 
 Since new knowledge will be continuously added into the system's knowledge base so the system should be able to scaled.
 
@@ -119,9 +124,9 @@ Since new knowledge will be continuously added into the system's knowledge base 
 Based on our business/technical goals and the QA scenarios described above, these QAs are prioritized from highest to lowest as follows
 
 1. Modularity
-1. Scalability
-1. Resource Utilization
-1. Usability
+2. Modifiability
+3. Scalability
+4. Resource Utilization
 
 ## Evaluation criteria
 
@@ -131,20 +136,26 @@ The architecture will be evaluated based on the drivers identified in above sect
 
 Modularity will be evaluated by:
 
-- the decoupling and isolation of modules
-- the effort required on other parts of the system to modify one module 
+- the degree of decoupling and isolation of modules, higher is better
+- the overall dependencies between modules, lower is better 
+
+### Modifiability
+
+Modifiability will be evaluated by:
+
+- the impact or effort required on other components of the system to modify one module, lower is better
 
 ### Scalability
 
-Scalability will be evaluated by the effort to scale out the system in order to handle larger size of data and amount of traffic.
+Scalability will be evaluated by:
+
+- the effort to scale out the system in order to handle larger size of data and amount of traffic, lower is better
 
 ### Resource Utilization
 
-Resource Utilization will be evaluated by the resource required by the architecture given the size of data and number of requests per second.
+Resource Utilization will be evaluated by:
 
-### Usability
-
-Usability will be evaluated by the effort for a new user to learn how to use this system.
+- the resources required by the architecture given the size of data and number of requests per second, lower is better
 
 
 # Views
@@ -200,20 +211,29 @@ As modularity is at the highest priority, the Service module is introduced as an
 
 ### Primary presentation
 
-  ![Searching Process View](uml/process-view.png)
+  ![Process View](uml/process-view-activity.png)
 
 ### Element catalog
 
 #### Elements and their properties
 
-- UI: User interface for user to search, browse and modify
-- Representation service: for access of knowledge representation
-- Storage: database service for storage
+- AI Extractor Node: Nodes running AI algorithms for crawling the web and extract knowledge
+- UI/Client Node: User interface for user to search, browse and modify
+- RESTful Service Node
+- Representation service Node: searching and get definition of knowledge representation
+- Storage Node: service node with database and storage abstraction
+- Crawl web: read web data as knowledge source
+- Extract: extract knowledge from raw data with AI algorithms
+- Search: user start to search
+- User query mapping: map user query to knowledge representation and queries
+- Representation query mapping: map representation and mapping into physical storage format and query
+- Representation result mapping: map from physical storage format into knowledge representation
 
 #### Relations
 
-- UI and Representation service: UI will convert user operations to requests to Representation service
-- Representation service and storage: abstract representation will be mapped to physical storage by DB querying
+- UI/Client Node and RESTful service Node: UI will convert user operations to requests to RESTful service
+- RESTful Service Node and Representation Service Node: the former acts as an wrapping and isolation layer of the latter. 
+- Representation Service Node and Storage Node: abstract representation will be mapped to physical storage by DB querying
 
 ### Context diagram
 
@@ -225,7 +245,9 @@ As modularity is at the highest priority, the Service module is introduced as an
 
 #### Rationale
 
-Each part of UI, Representation Service and Storage are designed as independent process so that they can be developed, maintained and scaled independently
+Each part of UI, Representation Service and Storage are designed as independent process so that they can be developed and deployed to different physical machines or cloud computing instance thus reach resource efficiency.
+
+All data is store in Storage Nodes and other services are stateless so the system can be scaled out by increasing the running instance of services.
 
 #### Analysis results
 #### Assumptions
@@ -280,7 +302,7 @@ Each part of UI, Representation Service and Storage are designed as independent 
 
 ### Context diagram
 
-It is the same as Logical View Context Diagram @sec:logical-view-context
+![Development View Context Diagram](uml/development-view-context.png)
 
 ### Variability guide
 

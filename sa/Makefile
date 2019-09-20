@@ -18,11 +18,11 @@ BIB_FILE=sa.bib
 
 PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.12.0/plantuml.jar
 UMLS=logical-view.wsd \
-	process-view.wsd \
-	process-view-extract.wsd \
+	process-view-activity.wsd \
 	development-view.wsd \
 	logical-view-context.wsd \
-	process-view-context.wsd
+	process-view-context.wsd \
+	development-view-context.wsd
 
 umls: 
 	cd uml && $(PLANTUML) $(UMLS)

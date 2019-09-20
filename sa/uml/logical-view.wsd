@@ -1,15 +1,40 @@
 @startuml
 
-class "Extractor" as E 
+scale max 600 width
 
-class "Knowledge Base" as S
+class "Extractor" as E {
+    crawl()
+    parse()
+    extract()
+}
 
-class "Service" as Sv
+class "Knowledge Storage" as S {
+    read()
+    insert()
+    update()
+    delete()
+}
+
+class "Service" as Sv {
+    getRepresentationSchema()
+    searchKnowledge()
+    getRelatedKnowledge()
+    insertKnowledge()
+    updateKnowledge()
+    deleteKnowledge()
+}
 
 package "UI" as UI {
-    class Searching
-    class Displaying
-    class Modifying
+    class Searching {
+        search()
+    }
+    class Displaying {
+        render()
+        display()
+    }
+    class Modifying {
+        modify()
+    }
 
     ' Searching -[hidden]do- Displaying
     ' Displaying -[hidden]do- Modifying

@@ -1,5 +1,7 @@
 @startuml
 
+scale max 800 width
+
 ' left to right direction
 
 ' top to bottom direction
@@ -17,9 +19,10 @@ package Representation {
     component "Storage Mapping" as Storage_Mapping 
     component "Representation Version Control" as Repre_VC
 
-    Repre_Abs -> Storage_Mapping
+    Repre_Abs -left-> Storage_Mapping
     Repre_Abs -up-> Repre_VC
     Repre_Abs --> Repre_Def
+    Repre_Def -up-> Storage_Mapping
 }
 
 package Storage {
@@ -69,8 +72,8 @@ package Utility {
 
 Repre_Adaptor ..o Repre_Abs
 
-Repre_VC -up-|> Base_VC
-Storage_VC -up-|> Base_VC
+Repre_VC --up--|> Base_VC
+Storage_VC --up--|> Base_VC
 
 ' UI -[hidden]down- Service
 ' Service -[hidden]down- storage

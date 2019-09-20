@@ -1,0 +1,51 @@
+@startuml
+
+scale max 800 width
+
+fork
+|AI extractor \nNode|
+:Crawl Web;
+:Extract;
+
+fork again
+|UI/Client \nNode|
+:search;
+:send HTTP request;
+
+|AI extractor \nNode|
+
+end fork
+
+|RESTful \nService Node|
+:User Query Parsing;
+:User Query Mapping;
+
+|Representation \nService Node|
+:Read Representation \nDefinition;
+
+fork
+:;
+fork again
+|Storage Node|
+:Read Representation \nDefinition DB;
+end fork
+
+|Representation \nService Node|
+:Representation \nQuery Resolving;
+:Representation \nQuery Mapping;
+
+|Storage Node|
+:DB Retreiving;
+:Return Records;
+
+|Representation \nService Node|
+:Representation \nResult Mapping;
+
+|RESTful \nService Node|
+:User Format Mapping;
+
+|UI/Client \nNode|
+:Format Transform;
+:Render & Display;
+
+@enduml

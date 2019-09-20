@@ -1,5 +1,7 @@
 @startuml
 
+scale max 600 width
+
 actor User
 participant UI
 participant "Representation Service" as Representation_Service
