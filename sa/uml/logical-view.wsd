@@ -1,39 +1,39 @@
 @startuml
 
-scale max 600 width
+scale 2
 
 class "Extractor" as E {
-    crawl()
-    parse()
-    extract()
+    +crawl()
+    +parse()
+    +extract()
 }
 
 class "Knowledge Storage" as S {
-    read()
-    insert()
-    update()
-    delete()
+    +read()
+    +insert()
+    +update()
+    +delete()
 }
 
 class "Service" as Sv {
-    getRepresentationSchema()
-    searchKnowledge()
-    getRelatedKnowledge()
-    insertKnowledge()
-    updateKnowledge()
-    deleteKnowledge()
+    +getRepresentationSchema()
+    +searchKnowledge()
+    +getRelatedKnowledge()
+    +insertKnowledge()
+    +updateKnowledge()
+    +deleteKnowledge()
 }
 
 package "UI" as UI {
     class Searching {
-        search()
+        +search()
     }
     class Displaying {
-        render()
-        display()
+        +render()
+        +display()
     }
     class Modifying {
-        modify()
+        +modify()
     }
 
     ' Searching -[hidden]do- Displaying
@@ -41,7 +41,7 @@ package "UI" as UI {
 }
 
 E -> Sv
-Sv --> S
+Sv -> S
 
 Searching --> Sv 
 Displaying --> Sv 

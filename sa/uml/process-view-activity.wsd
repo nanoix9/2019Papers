@@ -1,6 +1,6 @@
 @startuml
 
-scale max 800 width
+scale 2
 
 fork
 |AI extractor \nNode|

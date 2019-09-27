@@ -1,12 +1,14 @@
 @startuml
 
+scale 2
+
 ' rectangle Users #line.dotted {
-    actor "User" as Us
+    actor "User" as Us  <<actor>>
     ' actor "User 2" as Ub
     ' actor "User 3" as Um
 ' }
 
-rectangle "System" as System {
+rectangle "System \nunder \nanalysis" as System {
     ' rectangle UI
     ' cloud {
         ' rectangle Service
@@ -17,8 +19,9 @@ rectangle "System" as System {
 ' rectangle Extractor
 
 ' rectangle "Knowledge Source" #line.dotted {
-    cloud WWW
+    ' cloud WWW
 ' }
+(WWW) <<external>>
 
 ' Users -[hidden]down- System
 
@@ -35,7 +38,7 @@ rectangle "System" as System {
 ' UI -right-> Service
 ' Service -> Storage
 
-Us -> System: search/modify
-System <- WWW: crawl&extract 
+Us -> System: search/\nmodify
+System <- (WWW): crawl&\nextract 
 
 @enduml

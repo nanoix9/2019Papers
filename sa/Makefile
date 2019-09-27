@@ -1,4 +1,4 @@
-all: pdf
+all: umls pdf
 
 # If you decide to go with pandoc-citeproc
 #	pandoc -s -F pandoc-crossref -F pandoc-citeproc meta.yaml --data-dir=data-dir --template=mytemplate.tex -N \
@@ -16,7 +16,7 @@ NAME=knowledge-assist
 MD_FILE=$(NAME).md
 BIB_FILE=sa.bib
 
-PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.12.0/plantuml.jar
+PLANTUML=java -jar ${HOME}/.vscode/extensions/jebbs.plantuml-2.12.1/plantuml.jar
 UMLS=logical-view.wsd \
 	process-view-activity.wsd \
 	development-view.wsd \
@@ -27,7 +27,7 @@ UMLS=logical-view.wsd \
 umls: 
 	cd uml && $(PLANTUML) $(UMLS)
 
-pdf: umls
+pdf:
 	pandoc -s -N --toc \
 		--number-section \
 		--filter pandoc-crossref \
@@ -54,8 +54,27 @@ html:
 		-f markdown -t html -o $(NAME).html $(NAME).md
 
 docx:
-	pandoc -s -F pandoc-citeproc --bibliography=$(BIB_FILE) --csl=$(STYLE) -N \
-	 	--reference-doc=$(DOC_STYLE) \
+	pandoc -s -N --toc \
+		--filter pandoc-crossref \
+		-F pandoc-citeproc \
+		--bibliography=$(BIB_FILE) \
+		--csl=$(STYLE) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
+	 	-f markdown-implicit_figures \
 	 	-f markdown -t docx -o $(NAME).docx $(NAME).md
+
+	 	# --reference-doc=$(DOC_STYLE) \
+
+
+rtf:
+	pandoc -s -N --toc \
+		--number-section \
+		--filter pandoc-crossref \
+		--filter pandoc-citeproc \
+		--bibliography=$(BIB_FILE) \
+		--csl=$(STYLE) \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+	 	-f markdown-implicit_figures \
+		-o $(NAME).rtf $(NAME).md

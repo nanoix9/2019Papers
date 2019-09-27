@@ -1,18 +1,18 @@
 @startuml
 
-scale max 600 height
+scale 2
 
 ' left to right direction
 
 ' top to bottom direction
 
 ' rectangle Developers #line.dotted {
-    actor "System Developer" as SD
-    actor "Knowledge Engineer" as KE
-    actor "AI Developer" as AID
+    actor "System Developer" as SD <<actor>>
+    actor "Knowledge Engineer" as KE <<actor>>
+    actor "AI Developer" as AID <<actor>>
 ' }
 
-rectangle "System" as System {
+rectangle "System \nunder \nanalysis" as System {
     ' rectangle "UI/Client" as UI1
     ' rectangle "UI/Client 2" as UI2
     ' rectangle "UI/Client 3" as UI3

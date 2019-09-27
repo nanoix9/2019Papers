@@ -1,6 +1,6 @@
 @startuml
 
-scale max 800 width
+scale 2
 
 ' left to right direction
 
@@ -26,10 +26,10 @@ package Representation {
 }
 
 package Storage {
-    component "MongoDB Engine" as MongoDB_Engine
-    database MongoDB 
-    component "Neo4j Engine" as Neo4j_Engine
-    database Neo4j
+    component "NoSql DB Engine" as MongoDB_Engine
+    database "NoSql DB" as MongoDB
+    component "Graph DB Engine" as Neo4j_Engine
+    database "Graph DB" as Neo4j
 
     ' component "DB Abstraction" as DB_Abs
     interface "Storage API" as Storage_API
@@ -58,6 +58,16 @@ package UI {
     Modifying --down-> Client
 }
 
+
+package Extractor {
+    component Crawler
+    component "AI algorithm" as AI
+    component "Format Adapter" as Format_Adapter
+
+    AI -up-> Crawler
+    Format_Adapter -up-> AI
+}
+
 package "API Contract" as API_Contract {
     component "Service API Contract" as Service_API_Contract
 }
@@ -70,7 +80,7 @@ package Utility {
     component "Base Version Control" as Base_VC
 }
 
-Repre_Adaptor ..o Repre_Abs
+Repre_Adaptor .up.o Repre_Abs
 
 Repre_VC --up--|> Base_VC
 Storage_VC --up--|> Base_VC
@@ -79,7 +89,8 @@ Storage_VC --up--|> Base_VC
 ' Service -[hidden]down- storage
 
 Client ..o Service_API_Contract
-RESTful_API ..o Service_API_Contract
+Format_Adapter .down.o Service_API_Contract
+RESTful_API ..up.o Service_API_Contract
 
 Storage_Mapping .up.o DB_Storage_Contract
 Storage_API .up.o DB_Storage_Contract

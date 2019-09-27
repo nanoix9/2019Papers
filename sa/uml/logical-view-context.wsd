@@ -1,18 +1,18 @@
 @startuml
 
-scale max 600 height
+scale 2
 
 ' left to right direction
 
 ' top to bottom direction
 
 ' rectangle Users #line.dotted {
-    actor "Searching User" as Us
-    actor "Modifying User" as Um
+    actor "Searching User" as Us <<actor>>
+    actor "Modifying User" as Um <<actor>>
     ' actor "User 3" as Um
 ' }
 
-rectangle "System" as System {
+rectangle "System \nunder \nanalysis" as System {
     ' rectangle "UI/Client" as UI1
     ' rectangle "UI/Client 2" as UI2
     ' rectangle "UI/Client 3" as UI3
@@ -23,9 +23,7 @@ rectangle "System" as System {
     ' }
 }
 
-rectangle "WWW" #line.dotted {
-    ' cloud Internet
-}
+(WWW) <<external>>
 
 ' Users -[hidden]right- System
 
@@ -54,6 +52,6 @@ Us <- System: display
 
 Us -[hidden]up- Um
 
-System <- WWW: crawl&extract
+System <- WWW: crawl\n&extract
 
 @enduml
