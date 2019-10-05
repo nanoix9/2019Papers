@@ -13,6 +13,7 @@ TEX_TMPL=$(STYLE_DIR)/sdm.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
 
 NAME=proposal-draft
+NAME=comp811-assignment-stone
 MD_FILE=$(NAME).md
 BIB_FILE=rm.bib
 
