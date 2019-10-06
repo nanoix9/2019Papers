@@ -128,6 +128,59 @@ Data was analysed following the widely used six-step thematic analysis [@braun:2
 
     The final step of the analysis is writing this research report.
 
+## Pilot Test
+
+A pilot test was run following the research method described above on a small dataset from Reddit and Quora.
+
+### Initial Themes with Codes
+
+The pilot dataset is coded and categorised for a primitive theme searching. The result is listed in [@Tbl:pilot], where themes might differ from the results in [@sec:result] because this is an initial result and has been refined.
+
+Table: Pilot test result {#tbl:pilot}
+
++-----------------------+--------------------------------------------------------+
+| Themes                | Codes                                                  |
++=======================+========================================================+
+| collaboration         | - Dev and Ops working together                           |
+|                       | - Developers collaborate with operations          
+|                       | - DevOps equals COLLABORATION not the toolchain
+|                       | - better working together than throwing stuff over the fence
+|                       | - collaboration keep engineers from re-inventing the wheel
+|                       | - a cultural of sharing knowledge and ideas
++-----------------------+--------------------------------------------------------+
+| team role &           | - everyone is a DevOps person in DevOps implementation
+| responsibility        | - most developers don't care about platform
+|                       | - everyone is agile if implemented properly
+|                       | - every engineer is a DevOps engineer on the DevOps team
+|                       | - having a "DevOps Team" is an anti-pattern
+|                       | - reorganize around cross functional teams
+|                       | - responsible for end-to-end delivery from inception to production
++-----------------------+--------------------------------------------------------+
+| goal & value          | - seeing all the “behind the scenes” work
+|                       | - more reactive
+|                       | - quickly, easily and repeatably move software into production infrastructure
+|                       | - Operation team were still following traditional way
+|                       | - deliver fast, high quality, fast feedback
+|                       | - DevOps improve transparency
+|                       | - DevOps adds maintainability to the development lifecycle
++-----------------------+--------------------------------------------------------+
+| concept               | - DevOps is a complete cultural change
+| & culture             | - DevOps is a more advanced version of Agile
+|                       | - DevOps is more concerned with safe & secure deployment
+|                       | - both development team and operation team follows agile
+|                       | - no "one size fits all" solution
++-----------------------+--------------------------------------------------------+
+| process               | - Infrastructure changes are part of the sprint          |
+| & automation          | - decompose it into smaller tasks for the sprint
+|                       | - repetitive work can be automated 
+|                       | - DevOps is about technical practices
+|                       | - documentation is crucial for both the teams
+|                       | - monitoring is more important for devops than agile
++-----------------------+--------------------------------------------------------+
+| tools                 | - Git, Jenkins, Docker, Puppet, Chef, Ansible
+|                       | - DevOps is strongly backed by tools
++-----------------------+--------------------------------------------------------+
+
 
 # Result {#sec:result}
 
