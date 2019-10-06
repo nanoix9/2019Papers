@@ -72,8 +72,8 @@ In this study, qualitative approach [@Creswell:2014:mixed] [@Holliday:2002:doing
 Online forums and communities are selected as the data source for this study because with these approach we can collect more data from a diverse set of practitioners from different locations around the world and lower the data acquisition cost. In practice, data are collected from three English websites and one Chinese website:
 
 - Quora[^q]: general Question and Answer (QnA) site
-- Stackexchange[^se]: QnA community focusing on DevOps and related topics
-- Reddit[^r]: a general interest-based online community
+- StackExchange[^se]: QnA community focusing on DevOps and related topics
+- Reddit[^r]: general interest-based online community
 - Zhihu[^z]: largest Chinese QnA site
 
 [^q]: [quora.com](quora.com)
@@ -134,7 +134,7 @@ A pilot test was run following the research method described above on a small da
 
 ### Initial Themes with Codes
 
-The pilot dataset is coded and categorised for a primitive theme searching. The result is listed in [@Tbl:pilot], where themes might differ from the results in [@sec:result] because this is an initial result and has been refined.
+The pilot dataset is coded and categorised for a primitive theme searching. The result is listed in [@Tbl:pilot], where themes might differ from the results in [@sec:result] because this is an initial result and has been refined. From this result, though it is preliminary, some interesting patterns can be discovered and the feasibility of this research design is tested.
 
 Table: Pilot test result {#tbl:pilot}
 
@@ -192,10 +192,10 @@ Table: data overview {#tbl:data-overview}
 
   | data source              | Number |
   |--------------------------|-------:|
-  | quora.com                | 73      |
-  | reddit.com | 44      |
-  | devops.stackexchange.com | 17      |
-  | zhihu.com | 5      |
+  | Quora                | 73      |
+  | Reddit | 44      |
+  | StackExchange | 17      |
+  | Zhihu | 5      |
 
 ## Main Findings
 
