@@ -1,4 +1,4 @@
-all: test_paper
+all: pdf
 
 # If you decide to go with pandoc-citeproc
 #	pandoc -s -F pandoc-crossref -F pandoc-citeproc meta.yaml --data-dir=data-dir --template=mytemplate.tex -N \
