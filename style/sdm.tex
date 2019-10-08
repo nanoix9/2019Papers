@@ -87,6 +87,13 @@ $if(beamerarticle)$
 \usepackage{beamerarticle} % needs to be loaded first
 $endif$
 \usepackage{fontspec}
+
+\usepackage{etoolbox}
+% \setmainfont{Linux Libertine O}
+\AtBeginEnvironment{quote}{\it\small}
+
+\renewcommand*{\thefootnote}{ [\arabic{footnote}]}
+
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$

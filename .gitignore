@@ -10,3 +10,6 @@
 #*.tex
 
 *.zip
+
+*.fdb_latexmk
+*.fls

@@ -20,8 +20,6 @@ BIB_FILE=rm.bib
 tex:
 	pandoc -s \
 		-F pandoc-crossref  \
-		--natbib ass1a-tex.yaml \
-		--metadata-file ass1a-tex.yaml \
 		--csl=$(STYLE) \
 		--template=$(TEX_TMPL) \
 		--bibliography=$(BIB_FILE) \
