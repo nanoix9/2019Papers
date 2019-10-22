@@ -19,19 +19,24 @@ BIB_FILE=rm.bib
 
 tex:
 	pandoc -s \
+		--number-section \
 		-F pandoc-crossref  \
+		--natbib \
+		-Vbiblio-style=apa \
+		--bibliography=$(BIB_FILE) \
 		--csl=$(STYLE) \
 		--template=$(TEX_TMPL) \
-		--bibliography=$(BIB_FILE) \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
 	 	-f markdown \
 		-t latex+raw_tex+tex_math_dollars+citations \
-		-o ass1a.tex \
-		ass1a.md
+		-o $(NAME).tex \
+		$(NAME).md
 	
-	#xelatex ass1a.tex
-	#bibtex ass1a
-	#xelatex ass1a.tex
-	#xelatex ass1a.tex
+	xelatex $(NAME).tex
+	# biber $(NAME)
+	# xelatex $(NAME).tex
+	# xelatex $(NAME).tex
 
 
 pdf:
@@ -47,6 +52,7 @@ pdf:
 		--template=$(TEX_TMPL) \
 	 	-f markdown \
 		-o $(NAME).pdf $(NAME).md
+	
 	# \
 	--number-section \
 	--template=$(TEX_TMPL) \
@@ -61,8 +67,12 @@ html:
 		-f markdown -t html -o $(NAME).html $(NAME).md
 
 docx:
-	pandoc -s -F pandoc-citeproc --bibliography=$(BIB_FILE) --csl=$(STYLE) -N \
-	 	--reference-doc=$(DOC_STYLE) \
+	pandoc -s \
+		--number-section \
+		--biblatex \
+		--filter pandoc-crossref \
+		-F pandoc-citeproc \
+		--bibliography=$(BIB_FILE) --csl=$(STYLE) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
 	 	-f markdown -t docx -o $(NAME).docx $(NAME).md
