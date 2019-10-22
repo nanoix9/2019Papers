@@ -9,19 +9,22 @@ all: pdf
 STYLE_DIR=../style
 STYLE=$(STYLE_DIR)/apa-aut.csl
 # DOC_STYLE=$(STYLE_DIR)/sdm.docx
-# TEX_TMPL=$(STYLE_DIR)/sdm.tex
+TEX_TMPL=$(STYLE_DIR)/sdm.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
 
 NAME=will-ai-destroy-humankind
+NAME=big-ai-project
 BIB_FILE=ai.bib
 
 pdf:
 	pandoc -s \
+		--table-of-contents \
 		--number-section \
 		--filter pandoc-crossref \
 		--filter pandoc-citeproc \
 		--bibliography=$(BIB_FILE) \
 		--csl=$(STYLE) \
+		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
 		--pdf-engine=xelatex \
