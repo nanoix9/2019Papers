@@ -16,6 +16,27 @@ NAME=will-ai-destroy-humankind
 NAME=big-ai-project
 BIB_FILE=ai.bib
 
+tex:
+	pandoc -s \
+		--number-section \
+		-F pandoc-crossref  \
+		--natbib \
+		-Vbiblio-style=apa \
+		--bibliography=$(BIB_FILE) \
+		--csl=$(STYLE) \
+		--template=$(TEX_TMPL) \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+	 	-f markdown \
+		-t latex+raw_tex+tex_math_dollars+citations \
+		-o $(NAME).tex \
+		$(NAME).md
+	
+	xelatex $(NAME).tex
+	# biber $(NAME)
+	# xelatex $(NAME).tex
+	# xelatex $(NAME).tex
+
 pdf:
 	pandoc -s \
 		--table-of-contents \
