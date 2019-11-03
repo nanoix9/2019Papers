@@ -444,6 +444,11 @@
       </else-if>
       <else-if variable="URL">
         <group delimiter=" ">
+          <choose>
+            <if type="book">
+              <text macro="publisher" suffix="."/>
+            </if>
+          </choose>
           <text term="retrieved" text-case="capitalize-first"/>
           <choose>
             <if type="post post-weblog webpage" match="any">

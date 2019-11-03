@@ -13,10 +13,6 @@ header-includes:
     - \let\vec\mathbf
     - \usepackage{amsmath}
 
-output:
-  pdf_document:
-    citation_package: natbib
-
 tblPrefix: table
 secPrefix: section
 ---
@@ -26,7 +22,7 @@ secPrefix: section
 
 # Part A: Critical Review
 
-This part is a review of recent studies on computational infant learning models and theories. The review is focused on visual physics intelligence such as object tracking and physical reasoning because it is the fundamental of human intelligence [citation_need]. First the main ideas of the studies are briefly described, and then a critical review will be conducted from cognitive science perspective.
+This part is a review of recent studies on computational infant learning models and theories. The review is focused on visual physics intelligence such as object tracking and physical reasoning because it is the fundamental of human intelligence [@aut.b2729747020190101]. First the main ideas of the studies are briefly described, and then a critical review will be conducted from cognitive science perspective.
 
 ## Review of Recent Work
 
@@ -40,7 +36,7 @@ The first part aims at answering a basic problem: evaluation. That is, how can w
 
 #### Two "infant" learning models
 
-In the second part, two "infant" learning models are proposed. They are both unsupervised/self-supervised neural network models to learn intuitive physics merely from visual presentations in first-person viewpoint. For the sake of simplification, the models are not allowed to interact with the settings, though this is not the real situation of infants or animals. The first model is a Convolution Neural Network (CNN) encoder-decoder model of resnet-18[citation] pre-trained on ImageNet[citation], and the other is a conditional Generative Adversarial Network (GAN)[citation]. The models are trained on the objective of next frame prediction, so there is no requirement for data labeling. The two models are tested on both short-term (5 frames) and long-term (35 frames) tasks. Then, the plausibility score for a frame is computed on the basis of comparison between the prediction $\hat{f}_t$ and the ground truth $f_t$. 
+In the second part, two "infant" learning models are proposed. They are both unsupervised/self-supervised neural network models to learn intuitive physics merely from visual presentations in first-person viewpoint. For the sake of simplification, the models are not allowed to interact with the settings, though this is not the real situation of infants or animals. The first model is a Convolution Neural Network (CNN) encoder-decoder model of ResNet-18 pre-trained on ImageNet, and the other is a conditional Generative Adversarial Network (GAN). The models are trained on the objective of next frame prediction, so there is no requirement for data labelling. The two models are tested on both short-term (5 frames) and long-term (35 frames) tasks. Then, the plausibility score for a frame is computed on the basis of comparison between the prediction $\hat{f}_t$ and the ground truth $f_t$. 
 
 ### Unsupervised Intuitive Physics {#sec:unsupervised}
 
@@ -97,7 +93,7 @@ In the future work, the authors are planning to build computational models more 
 
 ## Critical Discussion: Cognitive Perspective
 
-This part criticises the learning algorithms mentioned above from a cognitive perspective. In this paper, an AI algorithm is not evaluated by how well it performed on certain tasks as most AI researchers do; instead, it is criticised from the cognitive science viewpoint. To be precise, it will be evaluated on whether it provides insights into the mechanism of cognitive process. As demonstrated in the work of [@Yeap2011ACT], the mapping algorithm is examined by comparing to three characteristics of cognitive mapping: fragmented, incomplete and imprecise. Similar idea is also expressed in [@Emmanuel:2016], in which a reverse engineering approach is proposed in order to, from AI studies, gain scientific insights about underlying mechanisms of humans' psychological process, especially language acquisition.
+This part criticises the learning algorithms mentioned above from a cognitive perspective. In this paper, an AI algorithm is not evaluated by how well it performed on certain tasks as most AI researchers do; instead, it is criticised from the cognitive science viewpoint. To be precise, it will be evaluated on whether it provides insights into the mechanism of cognitive process. As demonstrated in the work of [@yeap:2011], the mapping algorithm is examined by comparing to three characteristics of cognitive mapping: fragmented, incomplete and imprecise. Similar idea is also expressed in [@Emmanuel:2016], in which a reverse engineering approach is proposed in order to, from AI studies, gain scientific insights about underlying mechanisms of humans' psychological process, especially language acquisition.
 
 ### Evidences from Cognitive Science
 
@@ -130,11 +126,11 @@ From the perspective of cognitive science, however, the biggest concern on this 
 
 \pagebreak
 
-# Part B: An Intelligent Process
+# Part B: A Cognitive Learning Model
 
-In this part, an artificial will be discussed aiming at inspiring the understanding on human infants' learning process. First, a cognitive intelligent algorithm for object segmentation and tracking will be introduced and analysed following the approach in [@Yeap2011ACT]. Second, a variety of questions will be investigated by this approach. 
+In this part, an artificial will be discussed aiming at inspiring the understanding on human infants' learning process. First, a cognitive intelligent algorithm for object segmentation and tracking will be introduced and analysed following the approach in [@yeap:2011]. Second, a variety of questions will be investigated by this approach. 
 
-## A Cognitive Learning Algorithm
+## Model Description
 
 As summarised before, human infants learning in early stage is entirely unsupervised, without explicit supervision or extrinsic reward. As a result, the proposed approach should also have these characteristics. To minimise any prior knowledge implied in the model, the input view of an infant is the only starting point, and the bias is preferred to more general hypothesis rather than specific ones.
 
@@ -142,36 +138,72 @@ As summarised before, human infants learning in early stage is entirely unsuperv
 
 The following principles form the base of the algorithm:
 
-- Association: or correlation/relativeness. It is a fundamental cognitive process initially identified by Pavlov's famous experiment of dogs on classical conditioning [@intro2psy]. Though it is mostly used to describe structured behaviour in psychology, in this paper this principle is extended to a universal extent. That is, if some things often occur simultaneously, they might also do so in the future. The more frequent their occurrence happens in the past, the more confident we assert it in the future.
+- **Association**: or correlation/relativeness. It is a fundamental cognitive process initially identified by Pavlov's famous experiment of dogs on classical conditioning [@intro2psy]. Though it is mostly used to describe structured behaviour in psychology, in this paper this principle is extended to a universal extent. That is, if some things often occur simultaneously, they might also do so in the future. The more frequent their occurrence happens in the past, the more confident we assert it in the future.
 
-- Attention: or selectiveness. Attention is a necessary condition of visual recognition [@aut.b2729747020190101]. With this cognitive mechanism, human can concentrate on a selected discrete aspect of information while ignore others [@wiki:Attention]. This is essential because it prevents the human brain from disorientation in the unmeasurable amount of sensory input.
+- **Attention**: or selectiveness. Attention is a necessary condition of visual recognition [@aut.b2729747020190101]. With this cognitive mechanism, human can concentrate on a selected discrete aspect of information while ignore others [@wiki:Attention]. This is essential because it prevents the human brain from disorientation in the unmeasurable amount of sensory input.
 
-- Abstraction: or conceptualisation. Abstraction is one of the key characteristics of human behaviour [@wiki:Abstraction]. It is the way of hiding information and thus managing complexity [@sicp:1996]. Abstraction can also be seen as the process of compression, which is an implementation of minimum description length (MDL) principle [@Henderson:2014]. 
+- **Abstraction**: or conceptualisation. Abstraction is one of the key characteristics of human behaviour [@wiki:Abstraction]. It is the way of hiding information and thus managing complexity [@sicp:1996]. Abstraction can also be seen as the process of compression, which is an implementation of minimum description length (MDL) principle [@Henderson:2014]. 
 
 The principles introduced above is quite fundamental and general in human learning behaviour. As a result, the model following these principles is expected to have minimal inductive bias.
 
-### Algorithm
+### Algorithm {#sec:algorithm}
 
-The input of the model is time sequences of raw pixel images $\vec{x} = \{x_t\}$.  
+The input of the model is time sequences of raw pixel images $\vec{x} = \{x_t\}$. For the sake of simplicity, it is assumed that there is only one object moving in the scene. This is reasonable because infants always start their learn from simple views.
 
-1. Attention: Extract changing area by simply calculate the difference between two consecutive frames $\Delta x_t = x_t - x_{t-1}$. Obviously, in common cases, the changing area is caused by moving objects. However, no prior concept of "object" or "motion" is introduced into this model; instead, only "change" is a presumption and the concepts of "object" and "motion" are learned.
+1. **Attention** 
+   
+    Extract an area which changes across frames by simply calculate the difference between two consecutive frames $\Delta x_t = x_t - x_{t-1}$. Obviously, in common cases, the changing area is caused by moving objects. However, no prior concept of "object" or "motion" is introduced into this model; instead, only "change" is a presumption and the concepts of "object" and "motion" are learned. The area having changed between frames is the attention area.
 
-2. Associative and structured Representation: Construct an representation for extracted area
+    After the changing area has been detected, match this area between the two frames by offset and comparison, resulting in the detection of the matched boundary $m_t$ in each frame.
 
-3. Abstraction: Refactor the representations to emerge new abstractions
+2. **Association**
+  
+    After the matched boundary $m_t$ has been extracted, the model will build an representation or concept by a encoding function $\Phi$: $c_m = \Phi_m(m_t)$. According to the association rule, the encoding function $\Phi$ should also give a confidence score, depending on how frequently the agent has observed the same view in the matched boundary $m_t$ in the past.
+
+3. **Abstraction**
+
+    The next step is re- calculating and structuring the representations or concepts to emerge new abstractions. In this step the agent should be able to:
+
+    - Merge similar concepts into categories to emerge abstract concepts. This is to form generalised concept from individual samples. 
+    - Decompose a concept into small pieces to shorten the encoding. Because the attention area is merely calculated by the difference between frames, it may contains several objects or a complex object decomposable into small ones. The agent cannot be aware of this fact; instead, it builds concepts autonomously from the view. Therefore, in order to merge the right concepts of objects, the model should be able to decompose a representation into small parts, each of which could be a single object or a sub-component. However, the "small part" is not created by arbitrary decomposition; instead, it should follow the association principle. That is, it must reach a minimum frequency of occurrence as the support to become a concept. 
+    - Compose several concepts to form compound concepts. With this approach the agent can emerge more complex and abstract concepts. Such composition also follows association principle: the more frequently some concepts are observed concurrently, the more likely they are associated and form a compound concept.
+
+    At this step the model will form a set of concepts $\mathcal{C} = \{c_i\}$ with corresponding encoding function $\mathcal{\Phi}=\{\Phi_{c_i}\}$ where $c_i = \Phi_{c_i}(\vec{c}, \vec{x}), \vec{c} \subset \mathcal{C}$, which form the knowledge of the agent $\mathcal{K} = \{\mathcal{C}, \mathcal{\Phi}\}$
+
+These three steps will be executed iteratively. After the agent has already accumulated some knowledge, it will apply the encoding functions onto a new observation, resulting in detected objects which it has already learned. Then more "attention" will be paid to unknown area while the known areas are more likely to be ignored.
+
+### Choice of the Form of $\Phi$
+
+In [@sec:algorithm] the algorithm is introduced without a specific form of concept encoding function $\Phi$. Rather than that, only some constraints are set. To make the model more convincing as well as more practical, the possible forms of encoding function $\Phi$ are discussed in this section. 
+
+The Bayesian Program Learning(BPL)[@Lake:2015] is the best solution that I can find so far to the encoding function. Following this method, concepts are encoded by stochastic programs, which are defined as probabilistic generative models described as statements of structured programming languages. The reason of its suitability is twofold. On one hand, it is a probabilistic model, which means it aligns essentially with the associative nature of the model; on the other hand, it is represented in the form of structured language, which means it can be composed and decomposed easily thanks to its symbolic and recursive nature, with an additional benefit of explainability.
+
+However, the stochastic programs in the generative model are in fixed structure instead of learned. This may be improved by the abstraction invention algorithm proposed in [@Henderson:2014]. In this framework, new abstractions are created from existing "background knowledge" by inverse $\beta$-reduction. This method is within a larger inductive programming scope of Compression-Based Learning (CBL), which learns by finding the minimum length to describe the input data.
 
 ## Potential Applications
 
-### Object Detection
+The proposed model can be used in a range of intelligent tasks. Because of the nature of both logic and statistics, the model is suitable for both intuitive and reasoning tasks.
+
+### Object Detection and Tracking
+
+The model can be used for object detection tasks in either image or video. By design, the model pays more attention to moving objects so it is also suitable for dynamic object tracking. The model learns a set of concepts and corresponding encoding functions, which can be directly applied to a image or video frame to detect objects of which it has the knowledge. However, this approach results in a exhaustive search in a high computational complexity of $O(S N_c)$ where $S$ is the size of image and $N_c$ is the number of concepts, which is not likely the case of what humans do more smartly. To cope with this, it is optimised by structuring all the concepts into a hierarchy, and then only running the lowest level encoding functions. If a primitive concept was not detected, then it is not necessary to run any of the compound concept containing that primitive concept. 
 
 ### Object Recognition
 
+The model can be applied in object recognition tasks. Note the model continuously executes concept refinement and abstraction, so it will consequently improve its representation on the classification of objects and become more tolerant on noise and variation. In addition, a significant characteristic of this model is that the capabilities on object recognition and detection are not separable -- to recognise an object one has to detect it first; however, to some extent, this model detects an object by recognising it. This seems paradoxical at first sight but if you think it twice it is exactly the same as humans' cognition -- humans can detect an object more easily if they are more familiar with it; on the contrary, it is more difficulty to detect an object that has never been seen. A typical example of this phenomenon is to read the characters in some language. A human can detect the symbols in a language he or she speaks effortlessly, but not so easily to detect a symbol from an unfamiliar language. Though the human can also do the detection by some basic rules such as different symbols are approximately in the equal size, or the lines and curves in one symbol are more cohesive than that in different symbols, but he or she needs to pay more attention to that symbol and spend more metal resources, merely resulting in a less confident output.
+
 ### Image Understanding and Visual Reasoning
+
+Thanks to its structured and logical nature, this model is suitable for visual understanding and reasoning tasks, for example, image captioning, physical state prediction, and so on. Through the learning process the agent can gain fundamental ability for visual intelligent tasks. To achieve better performance, the model need to be fine-tuned on specific tasks. However, this model has two advantages on visual reasoning tasks. One is that some basic concepts that the model learned are transferable because of its fundamentality and generality, thus it needs less training samples to learn any physical law. Another benefit is its symbolic and logical representation, which would be more easily to incorporate existing knowledge. This advantage can also significantly reduce the size of training data it requires, leading to one-shot or even zero-shot learning.
 
 ### Knowledge Accumulation
 
-## Discussion
+This model can accumulate knowledge continuously with long-term learning. Even without an explicit memory, this model memorises the information it has ever seen and learned in the posterior probabilities of the bayesian generative models. This may also be improved by giving a larger weight to more recent observations so that the model can mimic humans' forgetting process. If the model had a powerful learning ability, via continuous learning of knowledge from the observations of the nature, it could grasp basic common sense regarding the physical world underpinning humans' knowledge and ultimately reach humans' level of intelligence, in the meaning of cognitive processes.
 
-placeholder
+## Conclusion and Future Works
+
+To summarise this part, a cognitive learning model was proposed for visual intelligence. This model follows three principles of attention, association, and abstraction, resulting in autonomous learning without explicit supervision, external reward, or any a-priori knowledge. This model is suitable for a variety of intelligent tasks including visual object detection, tracking, recognition, reasoning, as well as accumulating knowledge in long-term learning.
+
+However, there is still some problems to be solved. First, the attention mechanism need to be refined. In this article, attention is paid to two kind of areas: one containing changes and the other containing unknown objects. However, it need more investigation whether more attention method is needed. Furthermore, if different attention methods can be unified, the model would be more simple and mathematically beautiful. Second, in terms of the association principle, it claims that the observations with frequent concurrence form a concept, but does not give a quantitative solution of the frequency threshold for creating new concepts. The threshold is a hyperparameter in this model, which need to be justified on the choice of its value. Furthermore, it would be a better solution if this hyperparameter can be eliminated. Third, the abstraction representation framework and learning algorithm need to be formalised in mathematics for rigorousness and executability.
 
 \pagebreak

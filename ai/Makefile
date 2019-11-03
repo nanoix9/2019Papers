@@ -8,6 +8,7 @@ all: pdf
 
 STYLE_DIR=../style
 STYLE=$(STYLE_DIR)/apa-aut.csl
+# STYLE=$(STYLE_DIR)/apa6.csl
 # DOC_STYLE=$(STYLE_DIR)/sdm.docx
 TEX_TMPL=$(STYLE_DIR)/sdm.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
