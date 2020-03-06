@@ -92,8 +92,6 @@ $endif$
 % \setmainfont{Linux Libertine O}
 \AtBeginEnvironment{quote}{\it\small}
 
-\renewcommand*{\thefootnote}{ [\arabic{footnote}]}
-
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$
@@ -326,6 +324,24 @@ $endif$
 $if(pagestyle)$
 \pagestyle{$pagestyle$}
 $endif$
+
+% Using fancy headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+% \fancyhead{} % clear all header fields
+$if(header)$
+\fancyhead[CO,CE]{$header$}
+$endif$
+\fancyfoot{} % clear all footer fields
+$if(footer)$
+\fancyfoot[LO,RE]{$footer$}
+$endif$
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\renewcommand*{\thefootnote}{ [\arabic{footnote}]}
+
 $for(header-includes)$
 $header-includes$
 $endfor$

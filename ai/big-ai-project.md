@@ -1,6 +1,10 @@
 ---
-title: A Computational Cognitive Model for General Purpose Autonomous Learning Machines
+title: COMP813 Big AI Project
+subtitle: A Computational Cognitive Model for General Purpose Autonomous Learning Machines
 author: "Stone Fang (Student ID: 19049045)" 
+# header: "Big AI Project"
+footer: "Stone Fang (19049045)"
+pagestyle: "empty"
 bibliography: [ai.bib]
 papersize: a4
 mainfont: Times New Roman
@@ -12,7 +16,7 @@ geometry:
 header-includes:
     - \let\vec\mathbf
     - \usepackage{amsmath}
-
+    - \let\Phi\varPhi
 tblPrefix: table
 secPrefix: section
 ---
@@ -54,7 +58,7 @@ Then, the algorithm to learn $\Phi$ consists of the following parts:
 
 1. causality principle: in a video of real physical process, the trajectory of objects are causal and smooth, that is, physically plausible; on the other hand, if the frames in a video are randomly shuffled, the trajectory should be not. Therefore, a discriminator network $\mathit{D}(\Phi)$ is incorporated that can classify between true physical ordering of frames and random shuffled ones, which results in the classification loss of $\mathcal{L}_{disc}$. 
 
-2. equivariance principle: this principle claims that if a frame $\vec{x}_t$ is applied by a transformation $g$, then the detector's output should be equivalent to be applied by the same transformation, that is, $\Phi(\mathit{g}\vec{x}_t) = \mathit{g}\Phi{\vec{x}_t}$. This is called a Siamese branch and the training loss is noted as $\mathcal{L}_{siam}$.
+2. equivariance principle: this principle claims that if a frame $\vec{x}_t$ is applied by a transformation $g$, then the detector's output should be equivalent to be applied by the same transformation, that is, $\Phi(\mathit{g}\vec{x}_t) = \mathit{g}\Phi(\vec{x}_t)$. This is called a Siamese branch and the training loss is noted as $\mathcal{L}_{siam}$.
  
 3. penalty on distribution: Because $s_t$ is modeling the distribution of the object's position, it is reasonable to expect it have a peaky shape. To encourage the sharpness of the distribution, the entropy is taken as the penalty adding to the overall loss: $\mathcal{L}_{ent} = -\sum_{v \in \Omega} s_v \log(s_v)$.
 
@@ -204,6 +208,6 @@ This model can accumulate knowledge continuously with long-term learning. Even w
 
 To summarise this part, a cognitive learning model was proposed for visual intelligence. This model follows three principles of attention, association, and abstraction, resulting in autonomous learning without explicit supervision, external reward, or any a-priori knowledge. This model is suitable for a variety of intelligent tasks including visual object detection, tracking, recognition, reasoning, as well as accumulating knowledge in long-term learning.
 
-However, there is still some problems to be solved. First, the attention mechanism need to be refined. In this article, attention is paid to two kind of areas: one containing changes and the other containing unknown objects. However, it need more investigation whether more attention method is needed. Furthermore, if different attention methods can be unified, the model would be more simple and mathematically beautiful. Second, in terms of the association principle, it claims that the observations with frequent concurrence form a concept, but does not give a quantitative solution of the frequency threshold for creating new concepts. The threshold is a hyperparameter in this model, which need to be justified on the choice of its value. Furthermore, it would be a better solution if this hyperparameter can be eliminated. Third, the abstraction representation framework and learning algorithm need to be formalised in mathematics for rigorousness and executability.
+However, there is still some problems to be solved. First, the attention mechanism need to be refined. In this article, attention is paid to two kind of areas: one containing changes and the other containing unknown objects. However, it need more investigation whether more attention method is needed. Furthermore, if different attention methods can be unified, the model would be more simple and mathematically beautiful. Second, in terms of the association principle, it claims that the observations with frequent concurrence form a concept, but does not give a quantitative solution of the frequency threshold for creating new concepts. The threshold is a hyperparameter in this model, which need to be justified on the choice of its value. Furthermore, it would be a better solution if this hyperparameter can be eliminated. Third, the abstraction representation framework and learning algorithm need to be formalised in mathematics for rigorousness and executability, and more effective implementations need further investigation for scalability on large dataset.
 
 \pagebreak
