@@ -70,7 +70,8 @@ def get_def_nouns(pt):
         #         and pt[i][1] == 'NN':
         #     ret.append(pt[i])
         # el
-        if isinstance(pt[i], nltk.tree.Tree) and pt[i].label() == 'NP':
+        if isinstance(pt[i], nltk.tree.Tree) and pt[i].label() == 'NP'\
+                and pt[i][0][0].lower() == 'the':
             # ret.append(pt[i][0] + pt[i][-1])
             ret.append(pt[i][-1])
         # print('ret', ret)
