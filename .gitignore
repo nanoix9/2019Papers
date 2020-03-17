@@ -13,3 +13,12 @@
 
 *.fdb_latexmk
 *.fls
+
+conference_*.tex
+
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
