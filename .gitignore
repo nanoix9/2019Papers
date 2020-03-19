@@ -1,10 +1,13 @@
 .DS_store
+.vscode
 ~*
 *.aux
 *.bbl
 *.blg
 *.log
 *.out
+
+*.tmp
 
 #*.pdf
 #*.tex
@@ -22,3 +25,7 @@ conference_*.tex
 *.fls
 *.log
 *.synctex.gz
+
+*.run.xml
+*.bcf
+*blx.bib

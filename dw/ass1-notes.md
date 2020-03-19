@@ -45,6 +45,12 @@ due-date: Thursday, 2 April 2020, 11:59 pm
 
 > /20 This is an important section in which the student will criticise the existing work and will present his/her own opinion about how to improve it further? This section should reflect some research insight developed by the student.
 
+hahaha tdwtd htdwt [@Nobody06].
+
+[@Nobody06] is a study. [@Ludwig1996]
+
+goog [@Ludwig1996]
+
 # Conclusion
 
 > /10 In this section student will draw conclusions on the given topic. In other words, it is a brief summary about work presented in the research report. Future issues /10 This section should discuss at least two future issues on the topic.
