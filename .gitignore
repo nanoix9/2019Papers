@@ -29,3 +29,8 @@ conference_*.tex
 *.run.xml
 *.bcf
 *blx.bib
+
+*/lab2/*.model
+*/lab2/*.pkl
+
+*.swp
