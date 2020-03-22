@@ -7,8 +7,22 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
+% \usepackage[mathletters]{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[normalem]{ulem}
+% Avoid problems with \sout in headers with hyperref
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \usepackage[style=ieee,backend=bibtex]{biblatex}
-\bibliography{ass1-tmp.bib}
+$if(bibliography)$
+$for(bibliography)$
+\bibliography{$bibliography$}
+$endfor$
+$endif$
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -17,30 +31,40 @@
 \title{$title$\\
 {\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
 should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
+% \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}}
+$if(author)$
+$for(author)$
+\author{\IEEEauthorblockN{$author.name$}
+\IEEEauthorblockA{\textit{$author.dept$} \\
+\textit{$author.org$}\\
+$author.loc$ \\
+$author.email$}}
+$sep$ \and
+$endfor$
+$endif$
 
 \maketitle
 
+$if(abstract)$
 \begin{abstract}
+
+$abstract$
+
 This document is a model and instructions for \LaTeX.
 This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
 or Math in Paper Title or Abstract.
 \end{abstract}
+$endif$
 
+$if(keywords)$
 \begin{IEEEkeywords}
-component, formatting, style, styling, insert
+$for(keywords)$$keywords$$sep$, $endfor$
 \end{IEEEkeywords}
+$endif$
 
 $body$
-
-\href{http://google.com}{google}
 
 % \bibliography{ass1}{}
 % \bibliographystyle{IEEEtran}

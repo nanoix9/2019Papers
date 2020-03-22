@@ -30,14 +30,14 @@ tex:
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
 	 	-f markdown \
-		-o $(NAME).tex $(NAME)-notes.md
+		-o $(NAME).tex $(NAME)-body.md
 	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
 		| 
-	bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
-	pdflatex $(NAME)
+	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
+	xelatex $(NAME)
 	bibtex $(NAME)
-	pdflatex $(NAME)
-	pdflatex $(NAME)
+	xelatex $(NAME)
+	xelatex $(NAME)
 	# dvipdfm $(NAME).dvi
 	
 	# \
