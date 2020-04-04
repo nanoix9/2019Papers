@@ -100,7 +100,10 @@ $endif$
 $if(linestretch)$
 \usepackage{setspace}
 $endif$
-\usepackage{amssymb,amsmath}
+% \usepackage{lmodern,bm}
+% \usepackage{unicode-math}
+\usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
@@ -325,12 +328,14 @@ $if(pagestyle)$
 \pagestyle{$pagestyle$}
 $endif$
 
+% \usepackage{ifthen}
 % Using fancy headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 % \fancyhead{} % clear all header fields
 $if(header)$
-\fancyhead[CO,CE]{$header$}
+\fancyhead[L]{$header$}
+% \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}{$header$}}
 $endif$
 \fancyfoot{} % clear all footer fields
 $if(footer)$

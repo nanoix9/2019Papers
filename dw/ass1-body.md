@@ -63,7 +63,7 @@ As a result of the big values and big challenges inside Big Data, interests from
 
 ## ~~in depth understanding of Big Data~~
 
-The main characteristics of Big Data are described as three Vs, namely Volume, Velocity and Variety [@OUSSOUS2018431; @hu2014]. First of all, the large volume of data is an essential difference between Big Data and traditional data [@hu2014]. Second, the velocity at which the data are being generated implies that the processing and analysis of datasets should be carried out at a comparable rate to the data production [@hu2014]. Third, Big Data are produced in various format including both text and multimedia from various data sources, resulting in high heterogeneity and diversity [@OUSSOUS2018431; @Pouyanfar:2018].
+The main characteristics of Big Data are described as three Vs, namely Volume, Velocity and Variety [@OUSSOUS2018431; @hu2014]. First of all, the large volume of data is an essential difference between Big Data and traditional data [@hu2014]. Second, the velocity at which the data are being generated implies that the processing and analysis of datasets should be carried out at a comparable rate to the data production [@hu2014]. Third, Big Data are produced in various format including both text and multimedia from various data sources, resulting in high heterogeneity and diversity [@OUSSOUS2018431; @Pouyanfar2018].
 
 According to a well-accepted system engineering methodology in industry, the Big Data value chain is decomposed into four consecutive stages [@hu2014]:
 
@@ -88,13 +88,30 @@ The mismatch between the requirements of Big Data and existing data management h
 
 ## ~~themes to dive in~~
 
+Given so many challenges in Big Data, this report will conduct a more deeper and detailed study on the following themes:
+
+- Scalable Big Data indexing and retrieval
+- Scalable, efficient distributed computing frameworks especially for large scale machine learning.
+- ~~Big Data visualisation~~
+- ~~specific issues for Big Data applications in different areas~~ 
+
 # Related work/literature review
 
 > /15 Related work should comprise the review of current state of knowledge relevant to the topic. Comparison and contrasting between different authors/approaches should be a clear. Page length is 1 to 2.
 
 reviews of surveys on Big Data
 
-reviews of publications on the themes
+~~reviews of publications on the themes~~
+
+## Big Data indexing
+
+While the volume of data is growing explosively and unstructured contents are gaining dramatically increasing weight in the overall data, existing data indexing strategies, mainly designed for RDBMS, do not satisfies the requirement for efficient retrieval and querying of huge amount of heterogeneous data[@gani2016; @Pouyanfar2018]. As a result, many indexing algorithms have been proposed as responses to this challenge. In general, indexing strategies can be put into two categories: non-Artificial Intelligence (NAI), Artificial Intelligence (AI), and collaborative Artificial Intelligence (CAI) approaches [@gani2016].
+
+> DHT
+
+
+
+## Big Data computing framework
 
 # Discussion/Opinion
 
