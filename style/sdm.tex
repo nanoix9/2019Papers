@@ -86,7 +86,6 @@ $endif$
 $if(beamerarticle)$
 \usepackage{beamerarticle} % needs to be loaded first
 $endif$
-\usepackage{fontspec}
 
 \usepackage{etoolbox}
 % \setmainfont{Linux Libertine O}
@@ -110,6 +109,7 @@ $endif$
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
+  \usepackage{fontspec}
 $if(mathspec)$
   \ifxetex
     \usepackage{mathspec}
@@ -332,8 +332,8 @@ $endif$
 % Using fancy headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-% \fancyhead{} % clear all header fields
 $if(header)$
+\fancyhead{} % clear all header fields
 \fancyhead[L]{$header$}
 % \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}{$header$}}
 $endif$

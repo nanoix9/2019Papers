@@ -11,6 +11,7 @@ STYLE=$(STYLE_DIR)/apa-aut.csl
 # STYLE=$(STYLE_DIR)/apa6.csl
 # DOC_STYLE=$(STYLE_DIR)/sdm.docx
 TEX_TMPL=$(STYLE_DIR)/sdm.tex
+# TEX_TMPL=$(STYLE_DIR)/times.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
 
 NAME=will-ai-destroy-humankind
@@ -22,20 +23,20 @@ all: pdf
 tex:
 	pandoc -s \
 		--number-section \
-		-F pandoc-crossref  \
-		--natbib \
-		-Vbiblio-style=apa \
 		--bibliography=$(BIB_FILE) \
 		--csl=$(STYLE) \
 		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
 	 	-f markdown \
-		-t latex+raw_tex+tex_math_dollars+citations \
 		-o $(NAME).tex \
 		$(NAME).md
 	
-	xelatex $(NAME).tex
+	# -t latex+raw_tex+tex_math_dollars+citations \
+		-F pandoc-crossref  \
+		--filter pandoc-citeproc \
+	
+	# xelatex $(NAME).tex
 	# biber $(NAME)
 	# xelatex $(NAME).tex
 	# xelatex $(NAME).tex
@@ -50,13 +51,14 @@ pdf:
 		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
-		--pdf-engine=xelatex \
+		--pdf-engine=pdflatex \
 	 	-f markdown \
-		-o $(NAME).pdf $(NAME).md
+		-o COMP825_mid_term_proposal_Fang_19049045.pdf $(NAME).md
 	# \
 		--table-of-contents \
 	--number-section \
 	--template=$(TEX_TMPL) \
+		--pdf-engine=xelatex \
 		--filter pandoc-citeproc \
 
 html:
@@ -67,10 +69,15 @@ html:
 		-f markdown -t html -o $(NAME).html $(NAME).md
 
 docx:
-	pandoc -s -F pandoc-citeproc --bibliography=$(BIB_FILE) --csl=$(STYLE) -N \
+	pandoc -s \
+		-F pandoc-citeproc \
+		--bibliography=$(BIB_FILE) \
+		--csl=$(STYLE) -N \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
-	 	-f markdown -t docx -o $(NAME).docx $(NAME).md
+	 	-f markdown \
+		-t docx \
+		-o COMP825_mid_term_proposal_Fang_19049045.docx $(NAME).md
 
 	# \
 	 	--reference-doc=$(DOC_STYLE) \
