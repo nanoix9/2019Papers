@@ -7,24 +7,27 @@ all: pdf
 # You can still use pandoc-crossref to easily reference figures with [@fig:label]
 
 STYLE_DIR=../style
-STYLE=$(STYLE_DIR)/apa-aut.csl
-# STYLE=$(STYLE_DIR)/apa6.csl
+# STYLE=$(STYLE_DIR)/apa-aut.csl
+STYLE=$(STYLE_DIR)/apa7.csl
 # DOC_STYLE=$(STYLE_DIR)/sdm.docx
 TEX_TMPL=$(STYLE_DIR)/sdm.tex
-# TEX_TMPL=$(STYLE_DIR)/times.tex
+TEX_TMPL=$(STYLE_DIR)/tex2.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
 
-NAME=will-ai-destroy-humankind
 NAME=dl-proposal
 BIB_FILE=dl.bib
 
+TEX=pdflatex
+
 all: pdf
+
+clean:
+	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
 
 tex:
 	pandoc -s \
 		--number-section \
-		--bibliography=$(BIB_FILE) \
-		--csl=$(STYLE) \
+		--biblatex \
 		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
@@ -35,11 +38,15 @@ tex:
 	# -t latex+raw_tex+tex_math_dollars+citations \
 		-F pandoc-crossref  \
 		--filter pandoc-citeproc \
-	
-	# xelatex $(NAME).tex
-	# biber $(NAME)
-	# xelatex $(NAME).tex
-	# xelatex $(NAME).tex
+
+tex2pdf:
+	$(TEX) $(NAME).tex
+	biber $(NAME)
+	$(TEX) $(NAME).tex
+	$(TEX) $(NAME).tex
+
+tp: tex tex2pdf
+	mv dl-proposal.pdf COMP825_mid_term_proposal_Fang_19049045.pdf
 
 pdf:
 	pandoc -s \

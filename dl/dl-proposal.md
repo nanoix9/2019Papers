@@ -2,12 +2,15 @@
 topic: 5. Noise removal using deep learning
 documentclass: article
 title: Self-supervised image denoising with deep neural networks
-subtitle: 
-author: "Stone Fang (Student ID: 19049045)" 
+# author: "Stone Fang (Student ID: 19049045)" 
 header: "COMP825: Deep Learning Research Proposal"
-footer: "Stone Fang (19049045)"
+# footer: "Stone Fang (19049045)"
 pagestyle: "empty"
+biblio-style: apa
+biblio-title: Reference
 bibliography: [dl.bib]
+biblatexoptions:
+    - backend=biber
 papersize: a4
 # mainfont: Times New Roman
 # mainfontoptions:
@@ -21,12 +24,10 @@ header-includes:
     - \let\Phi\varPhi
     - \fancypagestyle{plain}{\pagestyle{fancy}}
     - \usepackage{txfonts}
+    # - \usepackage{newtxtext,newtxmath}
 
-# - \usepackage{newtxtext,newtxmath}
 # - \usepackage{txfonts}
 # - \usepackage{mathptmx}
-
-biblio-style: ieee
 
 tblPrefix: table
 secPrefix: section
@@ -42,7 +43,7 @@ abstract: |
 
 Removing noise from degraded images to recover high quality ones, known as image denoising, is a fundamental task in computer vision. It has been a classic research area yet remains active nowadays [@gu2019]. It not only greatly affects user experience in practical applications, but also plays a very important role for subsequent computer vision tasks such as classification and recognition [@gu2019].
 
-A widely accepted yet simple image degradation model is $\pmb{y} = \pmb{x} + \pmb{n}$ where $\pmb{x}$ refers to the uncorrupted image, $\pmb{y}$ represents the degraded image and $\pmb{n}$ is the additive noise [@gu2019; @zhang2017]. Several kinds of noises has been widely studied, including additive white Gaussian noise (AWGN), Poison noise, and salt-and-pepper noise [@gu2019]. 
+A widely accepted yet simple image degradation model is $\boldsymbol{y} = \boldsymbol{x} + \boldsymbol{n}$ where $\boldsymbol{x}$ refers to the uncorrupted image, $\boldsymbol{y}$ represents the degraded image and $\boldsymbol{n}$ is the additive noise [@gu2019; @zhang2017]. Several kinds of noises has been widely studied, including additive white Gaussian noise (AWGN), Poison noise, and salt-and-pepper noise [@gu2019]. 
 
 The biggest challenge in image denoising is the loss of information during degradation, making this problem highly ill-posed [@lee2020meta; @gu2019]. As a result, prior knowledge is required to compensate the lost information to recover high quality image [@gu2019]. This can be the prior modelling of either the images or noise [@chen2018].
 
@@ -64,7 +65,7 @@ In recent years, deep neural networks (DNNs) have revolutionised traditional met
 
 There are several CNN-based image denoising models. RED-Net was proposed in [@mao2016] for denoising in different noise levels with a single model. It is a very deep architecture (up to 30 layers in experiment) which consists of convolutional and deconvolutional layers, with skip connections between each convolutional layer and its symmetric deconvolutional one. The skip connections helps passing gradients in back-propagation to alleviate gradient vanishing problem. <!-- This model outperforms existing state-of-art models in image denoising, and is claimed to be the first approach with good metrics working at different noise levels with a single model. --> DnCNN [@zhang2017] combines residual learning strategy and batch normalisation into feed-forward convolutional neural network to improve the final model metrics and also to accelerate the training process. DnCNN learns the residual (i.e. difference between the noisy and clean image) instead of the clean image itself. This model outperforms state-of-art methods such as BM3D, WNNM and TNRD, and can be effectively extended to more general image denosing tasks such as blind Gaussian denoising. A recent study [@Valsesia2019] introduced graph neural networks to CNN-based image denoising architecture. Because of the local nature of convolutional operation, CNN-based model is unable to exploit non-local similarity patterns which had been proven to be significant by previous model-based methods. As a response, GraphCNN was proposed by incorporating the Edge Conditioned Convolution (ECC), a graph convolutional layer, to create non-local receptive field. This method improved the metrics on average, but did not beat existing methods on some categories in their experiment.
 
-Some attempts has been made to loosen the requirement for training data. A GAN-CNN Based Blind Denoiser (GCBD) model were proposed in [@chen2018], where the author argues that in real world applications noise is not ease to obtain and is usually more complex than Gaussian noise, thus the models trained for knowing noises might significantly decrease in performance. To solve this problem, the GCBD utilise a two-stage model. First, a GAN is trained to model the noise distribution. Second, the noise sampled from previous step are paired with real images, resulting in a proper training dataset for deep CNN based denoising models. Though this method does not require noisy and clean image pairs for training, it still needs clean images. Another method named Noise2Noise [@lehtinen2018noise2noise] learns a denoising model with noisy data only, based on an basic observation that the loss function will not be affected by the change of distribution of targets as long as it remains the same expectation. This model can be trained in the absence of clean images yet achieves comparable performance, if not better, of models trained from dataset with clean targets. The capability of Noise2Noise was demonstrated by experiments with various noises and images, but they only covered synthetic noises. Another drawback of this method is that it needs different noisy observations of the same image. Going one step further, Noise2Void [@Krull_2019_CVPR] implements image denoising with only a single noisy input, and can be applied to many existing neural network architectures. In this approach, the author introduce the blind-spot network, trained by patches extracted from noisy image with the center pixel masked. Experiments were carried out on both synthetic and real noisy images, however, the results on real data were evaluated by human vision due to the absence of ground truth. A latest research [@lee2020meta] proposed a two-phase denoiser which first utilised an arbitrary pre-trained denoiser $g$ and augmented the available patches at self-supervision stage by adding random noise to the output of $g$. To gain benefit from supervised learning on large labelled datasets, a meta-learning approach was employed for fast adaptation to test inputs. <!-- The distribution of training dataset was not necessarily be identical to the test input, enabling this model to utilise large amount of available image datasets to learn general knowledge. -->
+Some attempts has been made to loosen the requirement for training data. @chen2018 proposed a GAN-CNN Based Blind Denoiser (GCBD) model, arguing that in real world applications noise is not ease to obtain and is usually more complex than Gaussian noise, thus the models trained for knowing noises might significantly decrease in performance. To solve this problem, the GCBD utilise a two-stage model. First, a GAN is trained to model the noise distribution. Second, the noise sampled from previous step are paired with real images, resulting in a proper training dataset for deep CNN based denoising models. Though this method does not require noisy and clean image pairs for training, it still needs clean images. Another method named Noise2Noise [@lehtinen2018noise2noise] learns a denoising model with noisy data only, based on an basic observation that the loss function will not be affected by the change of distribution of targets as long as it remains the same expectation. This model can be trained in the absence of clean images yet achieves comparable performance, if not better, of models trained from dataset with clean targets. The capability of Noise2Noise was demonstrated by experiments with various noises and images, but they only covered synthetic noises. Another drawback of this method is that it needs different noisy observations of the same image. Going one step further, Noise2Void [@Krull_2019_CVPR] implements image denoising with only a single noisy input, and can be applied to many existing neural network architectures. In this approach, the author introduce the blind-spot network, trained by patches extracted from noisy image with the center pixel masked. Experiments were carried out on both synthetic and real noisy images, however, the results on real data were evaluated by human vision due to the absence of ground truth. A latest research [@lee2020meta] proposed a two-phase denoiser which first utilised an arbitrary pre-trained denoiser $g$ and augmented the available patches at self-supervision stage by adding random noise to the output of $g$. To gain benefit from supervised learning on large labelled datasets, a meta-learning approach was employed for fast adaptation to test inputs. <!-- The distribution of training dataset was not necessarily be identical to the test input, enabling this model to utilise large amount of available image datasets to learn general knowledge. -->
 
 Many image datasets can be used for denoising model evaluation with synthetic noises, such as Set14 [@zeyde2010] <!--, BSD300 [@Martin01] --> and <!-- its newly extended version --> BSD500 [@bsd500]. <!-- It is worth noticing that --> Some real world data are available as benchmark. For example, Darmstadt Noise Dataset (DND) [@Plotz_2017_CVPR] contains 50 pairs of images captured by consumer cameras at different ISO values, with the low-ISO ones as ground truth.
 
