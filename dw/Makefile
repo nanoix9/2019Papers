@@ -1,5 +1,3 @@
-all: pdf
-
 # If you decide to go with pandoc-citeproc
 #	pandoc -s -F pandoc-crossref -F pandoc-citeproc meta.yaml --data-dir=data-dir --template=mytemplate.tex -N \
 #	-f markdown -t latex+raw_tex+tex_math_dollars+citations -o main.pdf main.md
@@ -20,10 +18,15 @@ NAME=ass1
 BIB_FILE=ass1.bib
 # BIB_FILE=../ai/ai.bib
 
+TEX=pdflatex
+
+all: tp
+
 tex:
 	pandoc -s \
 		--number-section \
 		--biblatex \
+		--filter pandoc-fignos \
 		--bibliography=$(BIB_FILE) \
 		--csl=$(STYLE) \
 		--template=$(TEX_TMPL) \
@@ -31,21 +34,24 @@ tex:
 		--metadata=reference-section-title:Reference \
 	 	-f markdown \
 		-o $(NAME).tex $(NAME)-body.md
-	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
-		| 
-	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
-	xelatex $(NAME)
-	bibtex $(NAME)
-	xelatex $(NAME)
-	xelatex $(NAME)
-	# dvipdfm $(NAME).dvi
-	
+
 	# \
 	--number-section \
 	--template=$(TEX_TMPL) \
 		--table-of-contents \
 		--filter pandoc-citeproc \
 		
+tex2pdf:
+	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
+		| 
+	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
+	$(TEX) $(NAME)
+	bibtex $(NAME)
+	$(TEX) $(NAME)
+	$(TEX) $(NAME)
+	# dvipdfm $(NAME).dvi
+	
+tp: tex tex2pdf
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg

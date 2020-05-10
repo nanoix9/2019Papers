@@ -6,10 +6,14 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[1]{\oldincludegraphics[width=0.5\textwidth,keepaspectratio]{#1}}
 \usepackage{textcomp}
 % \usepackage[mathletters]{ucs}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\DeclareUnicodeCharacter{0301}{\'e}
+
 \usepackage[normalem]{ulem}
 % Avoid problems with \sout in headers with hyperref
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
@@ -29,8 +33,7 @@ $endif$
 \begin{document}
 
 \title{$title$\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
+% {\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and should not be used}
 % \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
@@ -52,9 +55,6 @@ $if(abstract)$
 
 $abstract$
 
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
 \end{abstract}
 $endif$
 

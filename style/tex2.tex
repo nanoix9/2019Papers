@@ -91,6 +91,9 @@ $endif$
 % \setmainfont{Linux Libertine O}
 \AtBeginEnvironment{quote}{\it\small}
 
+\usepackage[toc,page,header]{appendix}
+\renewcommand{\appendixpagename}{\centering Appendices111}
+
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$
@@ -103,6 +106,7 @@ $endif$
 % \usepackage{unicode-math}
 \usepackage{amssymb}
 \usepackage{amsmath}
+% \usepackage{amsfonts}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
