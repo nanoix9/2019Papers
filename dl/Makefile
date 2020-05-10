@@ -29,6 +29,7 @@ tex:
 		--number-section \
 		--biblatex \
 		--template=$(TEX_TMPL) \
+		--include-after-body appendix.tex \
 		--metadata=link-citations \
 		--metadata=reference-section-title:References \
 	 	-f markdown \
