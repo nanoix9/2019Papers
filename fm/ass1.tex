@@ -1,0 +1,145 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  a4paper,
+]{article}
+
+\usepackage{etoolbox}
+% \setmainfont{Linux Libertine O}
+\AtBeginEnvironment{quote}{\it\small}
+
+\usepackage[toc,page,header]{appendix}
+\renewcommand{\appendixpagename}{\centering Appendices111}
+
+\usepackage{lmodern}
+\usepackage{setspace}
+% \usepackage{lmodern,bm}
+% \usepackage{unicode-math}
+\usepackage{amssymb}
+\usepackage{amsmath}
+% \usepackage{amsfonts}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{fontspec}
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={ENSE803 Assessment 1 Algebraic Specifications},
+  pdfauthor={Stone Fang (Student ID: 19049045)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=25mm]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+% \usepackage{ifthen}
+% Using fancy headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{ENSE803 Assessment 1 Algebraic Specifications}
+% \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}{ENSE803 Assessment 1 Algebraic Specifications}}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LO,RE]{Stone Fang (19049045)}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\renewcommand*{\thefootnote}{ [\arabic{footnote}]}
+
+\def\Q{\mathbb{Q}}
+\def\Z{\mathbb{Z}}
+\usepackage[]{biblatex}
+% redefine the booktitle macro or apacase directive to preserve the source casing for the booktitle field in the @inproceedings
+\renewbibmacro*{booktitle}{\printfield{booktitle}}
+% \DeclareFieldFormat{apacase}{%
+%   \ifboolexpr{ test {\ifentrytype{inproceedings}}
+%     and ( test {\ifcurrentfield{booktitle}}
+%           or test {\ifcurrentfield{booksubtitle}} ) }
+%     {#1}{\MakeSentenceCase*{#1}}}
+
+\title{ENSE803 Assessment 1 Algebraic Specifications}
+\author{Stone Fang (Student ID: 19049045)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\setstretch{1}
+\hypertarget{the-rational-numbers}{%
+\section{The Rational Numbers}\label{the-rational-numbers}}
+
+The set \(\mathbb{Q}\) of rational numbers is defined by
+\(\mathbb{Q}= \left\{ (p, q)~|~p, q \in \mathbb{Z}\mbox{~and~} q \neq 0 \right\}\).
+Then, for two elements \((p_1, q_1), (p_2, q_2) \in \mathbb{Q}\) we can
+have
+
+Definition of equality:
+
+\[ (p_1, q_1) = (p_2, q_2) \mbox{~if, and only if~} p_1 q_2 = p_2 q_1 \]
+
+Definition of operations
+
+\begin{itemize}
+\item
+  Addition(\(+\)):
+  \((p_1, q_1) + (p_2, q_2) = (p_1 q_2 + p_2 q_1, q_1 q_2)\)
+\item
+  Additive inverse(\(-\)): \(- (p, q) = (-p, q)\)
+\item
+  Multiplication(\(\cdot\)):
+  \((p_1, q_1) \cdot (p_2, q_2) = (p_1 p_2, q_1 q_2)\)
+\item
+  Multiplicative inverse(\(()^{-1}\)):
+  \((p, q)^{-1} = (q, p) \mbox{~if~} p \neq 0\)
+\end{itemize}
+
+A function \(\phi: \mathbb{Z}\rightarrow \mathbb{Q}\) is defined as
+\(\phi(x) = (x, 1)\). Then we can have
+
+\begin{itemize}
+\item
+  \(\phi(x+y) = (x+y, 1) = (x \cdot 1 + y \cdot 1, 1 \cdot 1) = (x, 1) + (y, 1) = \phi(x) + \phi(y)\)
+\item
+  \(\phi(-x) = (-x, 1) = -(x, 1) = -\phi(x)\)
+\item
+  \(\phi(x \cdot y) = (x \cdot y, 1) = (x \cdot y, 1 \cdot 1) = (x, 1) \cdot (y, 1) = \phi(x) \cdot \phi(y)\)
+\end{itemize}
+
+\hypertarget{isomorphic-algebras-binary-and-decimal}{%
+\section{Isomorphic Algebras: Binary and
+Decimal}\label{isomorphic-algebras-binary-and-decimal}}
+
+\printbibliography[title=Formal methods in IT]
+
+\end{document}
