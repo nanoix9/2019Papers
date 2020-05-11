@@ -50,6 +50,7 @@ tex2pdf:
 	$(TEX) $(NAME)
 	$(TEX) $(NAME)
 	# dvipdfm $(NAME).dvi
+	mv $(NAME).pdf Fang_19049045.pdf
 	
 tp: tex tex2pdf
 
