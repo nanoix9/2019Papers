@@ -25,6 +25,9 @@ conference_*.tex
 *.fls
 *.log
 *.synctex.gz
+*.nav
+*.snm
+*.toc
 
 *.run.xml
 *.bcf

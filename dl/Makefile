@@ -13,6 +13,7 @@ STYLE=$(STYLE_DIR)/apa7.csl
 TEX_TMPL=$(STYLE_DIR)/sdm.tex
 TEX_TMPL=$(STYLE_DIR)/tex2.tex
 CSS_FILE=$(STYLE_DIR)/aut.css
+BEAMER_TMPL=$(STYLE_DIR)/beamer.tex
 
 NAME=dl-proposal
 BIB_FILE=dl.bib
@@ -23,6 +24,12 @@ all: pdf
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
+
+ppt: ppt-tex
+	$(TEX) proposal-slides.tex
+
+ppt-tex:
+	pandoc -s --template=$(BEAMER_TMPL) -t beamer proposal-slides.md -o proposal-slides.tex
 
 tex:
 	pandoc -s \
