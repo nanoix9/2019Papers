@@ -1,0 +1,122 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue, anchorcolor=blue]{hyperref}
+% \usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+% \usepackage{graphicx}
+% \let\oldincludegraphics\includegraphics
+% \renewcommand{\includegraphics}[1]{\oldincludegraphics[width=0.5\textwidth,keepaspectratio]{#1}}
+% \usepackage{textcomp}
+% \usepackage[mathletters]{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpazo} % Use the Palatino font by default
+% \usepackage{kpfonts}
+% \usepackage[math]{iwona}
+
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+
+\usepackage[style=apa,backend=biber]{biblatex}
+$if(bibliography)$
+$for(bibliography)$
+\bibliography{$bibliography$}
+$endfor$
+$endif$
+
+% \usepackage{ifthen}
+% Using fancy headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+$if(header)$
+\fancyhead{} % clear all header fields
+\fancyhead[L]{$header$}
+% \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}{$header$}}
+$endif$
+\fancyfoot{} % clear all footer fields
+$if(footer)$
+\fancyfoot[LO,RE]{$footer$}
+$endif$
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\renewcommand*{\thefootnote}{ [\arabic{footnote}]}
+
+
+$if(title)$
+\title{\vspace{3.0cm}$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(subtitle)$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{$subtitle$}
+$endif$
+$if(author)$
+$for(author)$
+\author{{$author.name$} \\[0.5cm]
+% \textit{$author.dept$} \\
+% \textit{$author.org$}\\
+% $author.loc$ \\
+{\normalsize $author.email$}}
+$sep$ \and
+$endfor$
+$endif$
+\date{$date$}
+
+% \department{Department or School Name}
+
+% \title{First document}
+% \author{Hubert Farnsworth \thanks{funded by the Overleaf team}}
+% \date{February 2014}
+
+\begin{document}
+
+\setcounter{secnumdepth}{0}
+
+\begin{titlepage}
+
+\maketitle
+
+\vfill
+\vfill
+\vfill
+\vfill
+
+\begin{center}
+
+$if(assignment)$
+\large \textit{For $assignment$}\\[0.3cm]
+\large \textit{of $course$}\\
+$endif$
+
+\vfill
+
+{\normalsize {$dept$} \\[0.2cm]
+{$org$}\\[0.2cm]
+$loc$}\\[1cm]
+
+{\large \today}\\[2cm] % Date
+%\includegraphics{Logo} % University/department logo - uncomment to place it
+ 
+% \vspace{1cm}
+
+\end{center}
+
+\end{titlepage}
+
+$body$
+
+% \pagebreak
+\newpage
+
+\printbibliography
+
+\end{document}

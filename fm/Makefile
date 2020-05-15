@@ -22,7 +22,32 @@ TEX=pdflatex
 all: tp
 
 clean:
-	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
+	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg *.class
+
+q2:
+	javac Q2_IsomorphicAlgebras.java
+	java Q2_IsomorphicAlgebras
+
+q3: q3-tex q3-pdf
+	mv q3.pdf Q3_Formal_Methods_in_IT.pdf
+
+q3-tex:
+	pandoc -s \
+		--biblatex \
+		--template=q3-template.tex \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+	 	-f markdown \
+		-o q3.tex \
+		q3.md
+
+	# --number-section \
+	
+q3-pdf:
+	$(TEX) q3.tex
+	biber q3
+	$(TEX) q3.tex
+	$(TEX) q3.tex
 
 tex:
 	pandoc -s \
