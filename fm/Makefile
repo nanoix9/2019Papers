@@ -24,6 +24,9 @@ all: q1 q3
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg *.class
 
+zip:
+	zip ENSE803_A1_Fang_19049045.zip Q1_Rational_Numbers.pdf Q2_IsomorphicAlgebras.java Q3_Formal_Methods_in_IT.pdf
+
 q2:
 	javac Q2_IsomorphicAlgebras.java
 	java Q2_IsomorphicAlgebras
