@@ -75,12 +75,9 @@ class Binary {
     private static Binary _zero = new Binary("0");
     private static Binary _one = new Binary("1");
 
+    /* The bits are stored in a list with most significant bit at largest index */
     private List<Integer> value;
 
-    /**
-     * The bits are stored with most significant bits at largest index
-     * @param bits
-     */
     private Binary(List<Integer> bits) {
         value = bits;
     }
@@ -145,8 +142,15 @@ class Binary {
         return value;
     }
 
-    /* add another binary number into its own in an inplace manner 
-     * a left shift can be applied to the number to add
+    /* Add another binary number into its own in an inplace manner.
+     * A left shift can be applied to the number to add, which is utilised by multiplication.
+     * 
+     *             LSB <-----------------------> MSB
+     *    before:  [1,   0,   1,   1,   0,   0,   1]
+     *    n:                 [0,   1,   1,   0,   1,   1]
+     *              |<-shift->|
+     *              |  by 2   | 
+     *    after:   [1,   0,   1,   0,   0,   1,   0,   0,   1]
      */
     private void inplaceAdd(Binary n, int lshift) {
         int nLen = n.value.size() + lshift;
@@ -218,9 +222,9 @@ class Binary {
         Binary ret = _zero.clone();
         for (int i = 0; i < n.value.size(); i++) {
             if (n.value.get(i) == 1) {
-                System.out.printf("%d: %s + %s", i, ret, m);
+                // System.out.printf("%d: %s + %s", i, ret, m);
                 ret.inplaceAdd(m, i);
-                System.out.printf(" = %s\n", ret);
+                // System.out.printf(" = %s\n", ret);
             }
         }
         return ret;
@@ -244,8 +248,8 @@ class Binary {
 class NaturalConversion {
     /**
      * returns the Binary equivalence of Decimal number d
-     * @param d
-     * @return
+     * @param d Decimal representation
+     * @return Binary representation
      */
     public static Binary alpha(Decimal d) {
         return new Binary(d.toBinaryString());
@@ -253,8 +257,8 @@ class NaturalConversion {
 
     /**
      * returns the Decimal equivalence of Binary number b
-     * @param b
-     * @return
+     * @param b Binary representation
+     * @return Decimal representation
      */
     public static Decimal beta(Binary bin) {
         return new Decimal(new BigInteger(bin.toString(), 2));
@@ -265,33 +269,12 @@ public class Q2_IsomorphicAlgebras
 {
     private static Random random = new Random();
 
-    private static void validate(String message, Object output) {
-        System.out.printf("%s = %s\n", message, output.toString());
+    private static Decimal randomDecimal() {
+        return new Decimal(new BigInteger(10, random));
     }
 
-    private static void DataTranslationTest1() {
-        Decimal d = new Decimal("42");
-        Binary b = new Binary("1011");
-        validate("d", d);
-        validate("42 + 10", Decimal.add(d, new Decimal("10")));
-        validate("42 * 10", Decimal.mult(d, new Decimal("10")));
-
-        validate("b", b);
-        Binary bn = b;
-        for (int i = 0; i < 20; i++) {
-            bn = Binary.succ(bn);
-            // validate("next " + i, bn);
-            System.out.printf("bin %s -> dec %s\n", bn, NaturalConversion.beta(bn));
-        }
-
-        // validate("sum " + b + " " + bn, Binary.add(b, bn));
-        // validate("sum " + b + " 101b", Binary.mult(b, new Binary("101")));
-        // validate("sum " + b + " 1101b", Binary.mult(b, new Binary("1101")));
-        // validate("sum " + b + " 11111b", Binary.mult(b, new Binary("11111")));
-        // validate("mul 101b " + b, Binary.mult(new Binary("101"), b));
-        // validate("mul 1101b " + b, Binary.mult(new Binary("1101"), b));
-        // validate("mul 11111b " + b, Binary.mult(new Binary("11111"), b));
-
+    private static Binary randomBinary() {
+        return new Binary(new BigInteger(10, random).toString(2));
     }
 
     private static void validate(String leftMsg, String rightMsg, 
@@ -300,10 +283,6 @@ public class Q2_IsomorphicAlgebras
                 leftResult.equals(rightResult) ? "OK" : "FAILED!");
         System.out.printf("\tLHS: " + leftMsg + " = %s\n", leftResult);
         System.out.printf("\tRHS: " + rightMsg + " = %s\n", rightResult);
-        // System.out.println(output);
-        // System.out.println(expected);
-        // System.out.println(output.equals(expected));
-        // System.out.println(output.equals(output));
     }
 
     private static void validate(String leftMsg, String rightMsg, 
@@ -314,10 +293,6 @@ public class Q2_IsomorphicAlgebras
                 leftParam, rightParam);
         System.out.printf("\tLHS: " + leftMsg + " = %s\n", leftParam, leftResult);
         System.out.printf("\tRHS: " + rightMsg + " = %s\n", rightParam, rightResult);
-        // System.out.println(output);
-        // System.out.println(expected);
-        // System.out.println(output.equals(expected));
-        // System.out.println(output.equals(output));
     }
 
     private static void validate(String leftMsg, String rightMsg, 
@@ -328,25 +303,15 @@ public class Q2_IsomorphicAlgebras
                 leftParam1, leftParam2, rightParam1, rightParam2);
         System.out.printf("\tLHS: " + leftMsg + " = %s\n", leftParam1, leftParam2, leftResult);
         System.out.printf("\tRHS: " + rightMsg + " = %s\n", rightParam1, leftParam2, rightResult);
-        // System.out.println(output);
-        // System.out.println(expected);
-        // System.out.println(output.equals(expected));
-        // System.out.println(output.equals(output));
-    }
-
-    private static void TestTransDec2Bin(Decimal d) {
-        validate("beta(alpha(%s))", "%s", d, d, NaturalConversion.beta(NaturalConversion.alpha(d)), d);
-    }
-
-    private static void TestTransBin2Dec(Binary b) {
-        validate("alpha(beta(%s))", "%s", b, b, NaturalConversion.alpha(NaturalConversion.beta(b)), b);
     }
 
     private static void DataTranslationTest() {
         System.out.println("============== Data Translation Test ==============");
-        // TestTransDec2Bin("5453");
-        TestTransDec2Bin(randomDecimal());
-        TestTransBin2Dec(randomBinary());
+        Decimal d = randomDecimal();
+        Binary b = randomBinary();
+
+        validate("beta(alpha(%s))", "%s", d, d, NaturalConversion.beta(NaturalConversion.alpha(d)), d);
+        validate("alpha(beta(%s))", "%s", b, b, NaturalConversion.alpha(NaturalConversion.beta(b)), b);
     }
 
     private static void OperationDec2BinTest() {
@@ -367,7 +332,7 @@ public class Q2_IsomorphicAlgebras
         validate("equals(%s,%s)", "equals(alpha(%s),alpha(%s))", n, m, n, m,
                 Decimal.equals(n, m), 
                 Binary.equals(NaturalConversion.alpha(n), NaturalConversion.alpha(m)));
-        m = n;
+        m = n;  // validate the case of true
         validate("equals(%s,%s)", "equals(alpha(%s),alpha(%s))", n, m, n, m,
                 Decimal.equals(n, m), 
                 Binary.equals(NaturalConversion.alpha(n), NaturalConversion.alpha(m)));
@@ -391,27 +356,19 @@ public class Q2_IsomorphicAlgebras
         validate("equals(%s,%s)", "equals(beta(%s),beta(%s))", n, m, n, m,
                 Binary.equals(n, m),
                 Decimal.equals(NaturalConversion.beta(n), NaturalConversion.beta(m)));
-        m = n;
+        m = n;  // validate the case of true
         validate("equals(%s,%s)", "equals(beta(%s),beta(%s))", n, m, n, m,
                 Binary.equals(n, m),
                 Decimal.equals(NaturalConversion.beta(n), NaturalConversion.beta(m)));
     }
 
-    private static Decimal randomDecimal() {
-        return new Decimal(new BigInteger(10, random));
-    }
-
-    private static Binary randomBinary() {
-        return new Binary(new BigInteger(10, random).toString(2));
-    }
-
     public static void main(String[] args) {
-        boolean timeSeed = true;
-        if (timeSeed) {
-            System.out.println("Randomise by using time as the seed of random generator");
-            random.setSeed(System.currentTimeMillis());
+        boolean fixedSeed = false;
+        if (!fixedSeed) {
+            System.out.println("Default seed, the random number will change every time");
         } else {
             System.out.println("The seed of random generator is fixed");
+            random.setSeed(100);
         }
 
         DataTranslationTest();
