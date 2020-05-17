@@ -12,9 +12,22 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\usepackage{mathpazo} % Use the Palatino font by default
+% \usepackage{mathpazo} % Use the Palatino font by default
 % \usepackage{kpfonts}
 % \usepackage[math]{iwona}
+% \usepackage[utopia]{mathdesign}
+\usepackage{tgtermes}
+
+% \usepackage[lmss]{lmodern}
+% \usepackage{helvet} 
+% \usepackage{tgheros}
+% \usepackage{tgadventor}
+% \setmainfont[BoldFont=*-Black]{QTHelvetCnd}
+
+% \renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+% \renewcommand{\sfdefault}{cmss}
+% \renewcommand{\familydefault}{\sfdefault}
+% \renewcommand{\rmdefault}{\sfdefault}
 
 $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
@@ -99,9 +112,9 @@ $endif$
 
 \vfill
 
-{\normalsize {$dept$} \\[0.2cm]
-{$org$}\\[0.2cm]
-$loc$}\\[1cm]
+{\normalsize $dept$}\\[0.2cm]
+{\normalsize $org$}\\[0.2cm]
+{\normalsize $loc$}\\[1cm]
 
 {\large \today}\\[2cm] % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it

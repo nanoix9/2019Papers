@@ -44,7 +44,3 @@ A function $\phi: \Z \rightarrow \Q$ is defined as $\phi(x) = (x, 1)$. Then we c
 - $\phi(-x) = (-x, 1) = -(x, 1) = -\phi(x)$
 
 - $\phi(x \cdot y) = (x \cdot y, 1) = (x \cdot y, 1 \cdot 1) = (x, 1) \cdot (y, 1) = \phi(x) \cdot \phi(y)$
-
-# Isomorphic Algebras: Binary and Decimal
-
-# Formal methods in IT

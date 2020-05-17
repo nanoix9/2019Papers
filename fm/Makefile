@@ -19,7 +19,7 @@ BIB_FILE=dl.bib
 
 TEX=pdflatex
 
-all: tp
+all: q1 q3
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg *.class
@@ -28,10 +28,10 @@ q2:
 	javac Q2_IsomorphicAlgebras.java
 	java Q2_IsomorphicAlgebras
 
-q3: q3-tex q3-pdf
+q3: q3.pdf
 	mv q3.pdf Q3_Formal_Methods_in_IT.pdf
 
-q3-tex:
+q3.tex: q3.md q3-template.tex
 	pandoc -s \
 		--biblatex \
 		--template=q3-template.tex \
@@ -43,13 +43,13 @@ q3-tex:
 
 	# --number-section \
 	
-q3-pdf:
+q3.pdf: q3.tex
 	$(TEX) q3.tex
 	biber q3
 	$(TEX) q3.tex
 	$(TEX) q3.tex
 
-tex:
+tex: $(NAME).md $(TEX_TMPL)
 	pandoc -s \
 		--number-section \
 		--biblatex \
@@ -64,14 +64,14 @@ tex:
 		-F pandoc-crossref  \
 		--filter pandoc-citeproc \
 
-tex2pdf:
+tex2pdf: $(NAME).tex
 	$(TEX) $(NAME).tex
 	# biber $(NAME)
 	# $(TEX) $(NAME).tex
 	# $(TEX) $(NAME).tex
 
-tp: tex tex2pdf
-	# mv $(NAME).pdf ENSE803_Assignment1_Fang_19049045.pdf
+q1: tex tex2pdf
+	mv $(NAME).pdf Q1_Rational_Numbers.pdf
 
 pdf:
 	pandoc -s \
