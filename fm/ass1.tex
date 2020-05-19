@@ -26,17 +26,33 @@
   \usepackage[utf8]{inputenc}
   % \usepackage{textcomp} % provide euro and other symbols
   % \usepackage{newtxtext,newtxmath}
-  \usepackage{mathptmx}
-  \usepackage{tgtermes}
+  % \usepackage{mathptmx}
+  % \usepackage{tgtermes}
+  \usepackage{FiraSans}
   % \usepackage{tgpagella}
   % \usepackage[utopia]{mathdesign}
   % \usepackage[math]{iwona}
   % \usepackage[sfdefault,scaled=.85]{FiraSans} \usepackage{newtxsf}
-\else % if luatex or xetex
+  % \usepackage{cmbright}
+  % \usepackage{ccfonts,eulervm}  \usepackage[T1]{fontenc}
+  % \usepackage[math]{kurier}
+  % \usepackage{fourier}
+  % \usepackage{mathpazo}
+  % \usepackage{isomath}
+  \else % if luatex or xetex
+  % \usepackage{fourier}
+  % \usepackage{mathpazo}
+  % \usepackage{cmbright}
+  % \usepackage{isomath}
   \usepackage{fontspec}
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  % \setmainfont{Optima}
+  % \setsansfont{Optima}
+  % \usepackage{unicode-math}
+  % \setmathfont{Optima}
+  % \setmathfont{XITS Math}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}

@@ -18,6 +18,7 @@ NAME=ass1
 BIB_FILE=dl.bib
 
 TEX=pdflatex
+# TEX=xelatex
 
 all: q1 q3
 

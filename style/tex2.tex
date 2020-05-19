@@ -92,7 +92,9 @@ $endif$
 \AtBeginEnvironment{quote}{\it\small}
 
 \usepackage[toc,page,header]{appendix}
-\renewcommand{\appendixpagename}{\centering Appendices111}
+% \renewcommand{\appendixpagename}{\centering Appendices111}
+
+% \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue, anchorcolor=blue]{hyperref}
 
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
@@ -113,13 +115,27 @@ $endif$
   \usepackage[utf8]{inputenc}
   % \usepackage{textcomp} % provide euro and other symbols
   % \usepackage{newtxtext,newtxmath}
-  \usepackage{mathptmx}
-  \usepackage{tgtermes}
+  \usepackage{mathptmx} \usepackage{tgtermes}
+  % \usepackage{FiraSans} 
+  % \usepackage[sfdefault]{FiraSans} \usepackage{FiraMono} \renewcommand*\familydefault{\sfdefault}
   % \usepackage{tgpagella}
   % \usepackage[utopia]{mathdesign}
   % \usepackage[math]{iwona}
   % \usepackage[sfdefault,scaled=.85]{FiraSans} \usepackage{newtxsf}
+  % \usepackage{cmbright}
+  % \usepackage{ccfonts,eulervm}  \usepackage[T1]{fontenc}
+  % \usepackage[math]{kurier}
+  % \usepackage{fourier}
+  % \usepackage{mathpazo}
+  % \usepackage{isomath}
+  $if(fontpackage-pdflatex)$
+  \usepackage[$for(fontpackage-pdflatex-options)$$fontpackage-pdflatex-options$$sep$,$endfor$]{$fontpackage-pdflatex$}
+  $endif$
 \else % if luatex or xetex
+  % \usepackage{fourier}
+  % \usepackage{mathpazo}
+  % \usepackage{cmbright}
+  % \usepackage{isomath}
   \usepackage{fontspec}
 $if(mathspec)$
   \ifxetex
@@ -134,9 +150,13 @@ $endif$
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 $if(mainfont)$
   \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$else$
+  % \setmainfont{Optima}
 $endif$
 $if(sansfont)$
   \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$else$
+  % \setsansfont{Optima}
 $endif$
 $if(monofont)$
   \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
@@ -154,6 +174,10 @@ $if(mathspec)$
 $else$
   \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
 $endif$
+$else$
+  % \usepackage{unicode-math}
+  % \setmathfont{Optima}
+  % \setmathfont{XITS Math}
 $endif$
 $if(CJKmainfont)$
   \ifxetex
