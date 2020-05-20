@@ -22,6 +22,8 @@ header-includes:
     - \fancypagestyle{plain}{\pagestyle{fancy}}
     - \usepackage{txfonts}
     - \usepackage{bm}
+    - \usepackage{freetikz}
+    # - \usepackage{tikz}
     # - \usepackage{mathpazo}
     # - \usepackage{newtxtext,newtxmath}
 
@@ -44,19 +46,11 @@ Removing noise from degraded images to recover high quality ones, known as image
 
 A widely accepted yet simple image degradation model is $\bm{y} = \bm{x} + \bm{n}$ where $\bm{x}$ refers to the uncorrupted image, $\bm{y}$ represents the degraded image and $\bm{n}$ is the additive noise [@gu2019; @zhang_beyond_2017]. Several kinds of noises has been widely studied, including additive white Gaussian noise (AWGN), Poison noise, and salt-and-pepper noise [@gu2019]. 
 
-The biggest challenge in image denoising is the loss of information during degradation, making this problem highly ill-posed [@lee2020meta; @gu2019]. As a result, prior knowledge is required to compensate the lost information to recover high quality image [@gu2019]. This can be the prior modelling of either the images or noise [@chen2018].
-
-<!-- 
-Based on the information used in modelling, image denoising methods can roughly be divided into two categories [@gu2019]:
-
-- Internal: only use the noisy images
-- External: use both noisy and clean (ground truth) images
-
-The two kinds of approaches can be combined or mixed to reach better performance [@gu2019].  -->
+The biggest challenge in image denoising is the loss of information during degradation, making this problem highly ill-posed [@lee2020meta; @gu2019]. As a result, prior knowledge is required to compensate the lost information to recover high quality image [@gu2019]. This can be the prior modelling of either the images or noise [@chen2018]. Based on the information used in modelling, image denoising methods can roughly be divided into two categories [@gu2019]: a) *internal*, which only use the noisy images; b) *external*, which use both noisy and clean (ground truth) images. These two approaches can be combined or mixed to reach better performance. 
 
 A variety of models have been proposed for image prior representation, including some state-of-art ones such as non-local self-similarity-based methods BM3D or WNNM [@zhang_beyond_2017; @Valsesia2019]. The most popular and classic one is BM3D, which serves as a benchmark in image denoising [@chen2018]. However, there are some major disadvantage of these models. First, they mostly rely on human knowledge. Second, they only utilise the information of a single input image [@chen2018].
 
-In recent years, deep neural networks (DNNs) have revolutionised traditional methods and became the state-of-art technology on most tasks of computer vision [@gu2019]. In terms of image denoising, a variety of DNN models have been proposed, attracting increasing attentions attributed to its performance. Models based on Convolutional Neural Networks (CNNs) achieved significance, such as RED [@mao2016] or DnCNN [@zhang_beyond_2017]. More recent technologies are also introduced to image denoising, such as Generative Adversarial Networks (GANs) [@chen2018], Graph Neural Networks (GNNs) [@Valsesia2019], and meta-learning [@lee2020meta].
+In recent years, deep neural networks (DNNs) have revolutionised traditional methods and became the state-of-art technology on most tasks of computer vision [@gu2019]. In terms of image denoising, a variety of DNN models have been proposed, attracting increasing attentions attributed to its performance. Models based on Convolutional Neural Networks (CNNs) achieved significance, such as RED [@mao2016] or DnCNN [@zhang_beyond_2017]. More recent technologies are also introduced to image denoising, such as Generative Adversarial Networks (GANs) [@chen2018], Graph Neural Networks (GNNs) [@Valsesia2019], and meta-learning [@lee2020meta]. Self-supervision is one of these trends. It is also learning in a supervised way, that is, with input and label, but the labels are autonomously generated in the absence of human effort. In this manner, deep learning image denoiser can be trained only on noisy images, or even a single noisy input [@Krull_2019_CVPR; @lee2020meta].
 
 # Related Work 
 
@@ -80,13 +74,24 @@ This study will do experiments on some commonly used dataset for image denoising
 
 ## Neural Network Architecture
 
-Several existing studies have given us useful guidelines in choosing model architecture. First of all, CNN has been proved to be effective and successful in image denoising [@mao2016], so this study will focus on CNN-based approach. Second, residual learning and batch normalisation are great methods to improve the final model metrics [@zhang_beyond_2017], so they will be employed by this project. Thirdly, FFDNet [@zhang_ffdnet_2018] has demonstrated that the extra input of noise map can improve the flexibility and adaptation under different noise levels, so it is also taken into account. However, the noise map is trickily specified rather than learned in original FFDNet. To improve it, we will attempt to make this process more automated by means of noise modelling. Finally, graph neural network, as one of the newest technology, has been successfully introduced into image denoising recently [@Valsesia2019]. GNN has great capability of exploiting non-local features which can significantly increase the receptive field, and will be studied and experimented in this research.
+Several existing studies have given us useful guidelines in choosing model architecture. First of all, CNN has been proved to be effective and successful in image denoising [@mao2016], so this study will focus on CNN-based approach. Second, residual learning and batch normalisation are great methods to improve the final model metrics [@zhang_beyond_2017], so they will be employed by this project. Thirdly, FFDNet [@zhang_ffdnet_2018] has demonstrated that the extra input of noise map can improve the flexibility and adaptation under different noise levels, so it is also taken into account. However, the noise map is trickily specified rather than learned in original FFDNet. To make the noise level estimation more adaptive, a GAN-based noise modelling method [@chen2018] will be introduced as a solution for this part. The GAN-based model will automatically learn the noise distribution in the image and generate the noise map $\bm{M}$ accordingly, removing the human effort of specifying the noise map.
+<!-- Finally, graph neural network, as one of the newest technology, has been successfully introduced into image denoising recently [@Valsesia2019]. GNN has great capability of exploiting non-local features which can significantly increase the receptive field, and will be studied and experimented in this research. -->
 
-## Self-supervised Training
+## Self-supervised Adaption
 
-Training strategy is another important aspect of this research. This study aims to effective and practical image denoising method without dependency on large in-domain labelled training dataset. For this purpose, self-supervised approaches such as Noise2Noise [@lehtinen2018noise2noise] and Noise2Void [@Krull_2019_CVPR] are promising candidates. Moreover, meta-learning has been proved to be effective to improve the model metrics and speed up model inference [@lee2020meta], and thus will be investigated in this study. GAN-based noise modelling [@chen2018] is another measure to alleviate the lack-of-data problem, which can be introduced to the two-phase denoiser [@lee2020meta] for patch generation with more realistic noise distributions.
+Self-supervised training is another important aspect of this research. This study aims to effective and practical image denoising method without dependency on large in-domain labelled training dataset which is collected at high cost. For this purpose, self-supervised approaches such as Noise2Noise [@lehtinen2018noise2noise] and Noise2Void [@Krull_2019_CVPR] are promising candidates. However, training solely in noisy input is unlikely to beat the models trained on larger labelled in-domain dataset. meta-learning has been proved to be effective to improve the model metrics and speed up model inference [@lee2020meta], and thus will be investigated in this study. GAN-based noise modelling [@chen2018] is another measure to alleviate the lack-of-data problem, which can be introduced to the two-phase denoiser [@lee2020meta] for patch generation with more realistic noise distributions.
 
 ## Evaluation
+
+There are several measurements for image denoising evaluation, peak signal to noise ratio (PSNR) being the most popular one. Given the estimation image $E$ and ground-truth $G$ both in size of $M \times N$, PSNR is defined as [@gu2019]
+
+$$PSNR = 10 \log_{10} \left( \frac{R^2}{MSE} \right)$$
+
+where $R$ is the maximum fluctuation, and $MSE$ is mean squared error defined by
+
+$$MSE = \frac {\sum_{M, N} \left[ E(m,n) - G(m, n) \right]^2}{M \times N}$$
+
+There is another type of metrics called perceptual quality measures, of which some representatives arestructural similarity (SSIM) and feature structural similarity (FSIM). But in this project PSNR is chosen as the primary measurement because it is used in most image denoising literatures [@zhang2017; @zhang_ffdnet_2018; @Krull_2019_CVPR; @chen2018; @lee2020meta].
 
 # Timeline and Milestones
 
