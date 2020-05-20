@@ -16,20 +16,26 @@ CSS_FILE=$(STYLE_DIR)/aut.css
 BEAMER_TMPL=$(STYLE_DIR)/beamer.tex
 
 NAME=dl-proposal
+SLIDES_NAME=proposal-slides
 BIB_FILE=dl.bib
 
 TEX=pdflatex
 
-all: pdf
+all: tp
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
 
-ppt: ppt-tex
-	$(TEX) proposal-slides.tex
+sl: sl-tex sl-tex2pdf
 
-ppt-tex:
-	pandoc -s --template=$(BEAMER_TMPL) -t beamer proposal-slides.md -o proposal-slides.tex
+sl-tex2pdf:
+	$(TEX) $(SLIDES_NAME).tex
+	biber $(SLIDES_NAME)
+	$(TEX) $(SLIDES_NAME).tex
+	$(TEX) $(SLIDES_NAME).tex
+
+sl-tex:
+	pandoc -s --biblatex --template=$(BEAMER_TMPL) -t beamer $(SLIDES_NAME).md -o $(SLIDES_NAME).tex
 
 tex:
 	pandoc -s \
@@ -48,13 +54,13 @@ tex:
 		--filter pandoc-citeproc \
 
 tex2pdf:
-	$(TEX) $(NAME).tex
+	$(TEX) $(NAME).tex  # > /dev/null
 	biber $(NAME)
-	$(TEX) $(NAME).tex
-	$(TEX) $(NAME).tex
+	$(TEX) $(NAME).tex  # > /dev/null
+	$(TEX) $(NAME).tex  # > /dev/null
 
 tp: tex tex2pdf
-	mv dl-proposal.pdf COMP825_mid_term_proposal_Fang_19049045.pdf
+	mv dl-proposal.pdf COMP825_proposal_Fang_19049045.pdf
 
 pdf:
 	pandoc -s \
