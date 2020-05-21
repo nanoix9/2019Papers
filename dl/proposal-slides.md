@@ -9,8 +9,6 @@ date: 25 May 2020
 # theme: Singapore
 # theme: Rochester
 theme: metropolis
-# theme: Singapore
-# theme: Singapore
 
 # colortheme: seahorse
 
@@ -19,28 +17,89 @@ biblio-title: References
 bibliography: [dl.bib]
 biblatexoptions:
     - backend=biber
+
+toc-title: Outline
+
+bibfont: \tiny
+
+header-includes:
+    - \usepackage{bm}
+    - \metroset{sectionpage=none}
+    # - \usepackage{ptsans}
+
+    # - \def\bibfont{\small}
+
 ---
 
 # Introduction
 
-Some super quickly created demo slides
+## Introduction
 
-* Do not need anything else than markdown [@gu2019]
-    * Slides title starts with # (also starts a new slide) \pause
-    * Bullet points, newlines, empty lines: all standard markdown
-* However, can also use other stuff, e.g.:
-    * Some HTML (e.g. \<center\>) \pause
-    * When using pandoc beamer, can use latex commands (e.g. \\center, \\large, etc)\dots
+- Image denoising: a fundamental task in computer vision (CV)
+- Degradation model: $\bm{y} = \bm{x} + \bm{n}$ 
+  + $\bm{x}$: uncorrupted image, ground truth
+  + $\bm{y}$: degraded image, model input
+  + $\bm{n}$: additive noise
+- Key challenge: highly ill-posed problem: loss of information during degradation
+- General idea of solution: Prior knowledge for either
+  + Image modelling
+  + Noise modelling
+  
 
 # Literature Review
 
-\center The slide syntax is so simple that you can quickly create a handful of slides on basically any device in any editor. E.g. on your mobile on the way to the meeting where you need the slides. Right before the meeting starts you use pandoc to create the actual slides from your source.
-Usi
+## Literature Review
 
-# Methodology
+- Traditional methods: BM3D (popular benchmark), WNNM
+- RED-Net: [@mao2016]
+- DnCNN: Deep CNN model with residual learning & batch normalisation [@zhang_beyond_2017]
+- FFDNet: Noise map for noise level. Flexible to variant noise [@zhang_ffdnet_2018]
+- GCBD: GAN for noise modelling [@chen2018]
+- Self-supervised: Noise2Noise [@lehtinen2018noise2noise], Noise2Void [@Krull_2019_CVPR]
+- Meta-learning: fast inference adpation [@lee2020meta] 
 
-b
+# Methodology 
+
+## Methodology {.allowframebreaks}
+
+- Neural Network Architecture
+  - CNN-based model: suitable for image processing
+  - Residual learning and batch normalisation (DnCNN)
+  - Noise map: flexible to noise levels and variant noise (FFDNet)
+    - improvement: GAN-based noise modelling
+
+- Self-supervision
+  - Still supervised learning, i.e. with label, but autonomously generated 
+    rather than human annotated.
+  - Patch-based: learn on patches of a single input
+  - Meta-learning: learns a better prior model on large collection of data.
+
+<!-- # Methodology: Dataset & Evaluation -->
+\framebreak
+
+- Dataset:
+  - Common datasets: Set14, BSD500, DIV2K, etc
+  - Real noisy images: DND, SIDD
+
+- Evaluation: PSNR: Peak Signal to Noise Ratio
+    
+    $$PSNR = 10 \log_{10} \left( \frac{R^2}{MSE} \right)$$
+
+  + $R$ is the maximum fluctuation
+  + $MSE$ is the Mean Squared Error between model output and ground-truth
 
 # Timetable
 
-a
+## Timetable
+
+  Task                                                     | Deadline
+ ----------------------------------------------------------|-----------
+  Final decision on the topic, create research questions   | 1 week
+  Literature review	                                       | 3 weeks
+  Research proposal draft                                  | 1 week
+  Prototyping                                              | 4 weeks
+  First round of testing and analysis                      | 4 weeks
+  Model improvement                                        | 4 weeks
+  Second round of testing and analysis                     | 4 weeks
+  Write and present final results                          | 4 weeks
+

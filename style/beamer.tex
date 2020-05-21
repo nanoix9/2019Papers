@@ -69,6 +69,7 @@ $if(section-titles)$
     \usebeamerfont{subsection title}\insertsubsection\par
   \end{beamercolorbox}
 }
+$if(toc-before-section)$
 \AtBeginPart{
   \frame{\partpage}
 }
@@ -81,6 +82,7 @@ $if(section-titles)$
 \AtBeginSubsection{
   \frame{\subsectionpage}
 }
+$endif$
 $endif$
 $endif$
 $if(beamerarticle)$
@@ -254,6 +256,9 @@ $if(tables)$
 \usepackage{longtable,booktabs}
 $if(beamer)$
 \usepackage{caption}
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
 % Make caption package work with longtable
 \makeatletter
 \def\fnum@table{\tablename~\thetable}
@@ -391,6 +396,10 @@ $if(logo)$
 $endif$
 $endif$
 
+$if(bibfont)$
+  \renewcommand*{\bibfont}{$bibfont$}
+$endif$  
+
 \begin{document}
 $if(has-frontmatter)$
 \frontmatter
@@ -472,7 +481,11 @@ $endif$
 $endif$
 $if(biblatex)$
 $if(beamer)$
+$if(allowbiblioframebreaks)$
 \begin{frame}[allowframebreaks]{$biblio-title$}
+$else$
+\begin{frame}{$biblio-title$}
+$endif$
   \bibliographytrue
   \printbibliography[heading=none]
 \end{frame}

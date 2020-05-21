@@ -35,7 +35,12 @@ sl-tex2pdf:
 	$(TEX) $(SLIDES_NAME).tex
 
 sl-tex:
-	pandoc -s --biblatex --template=$(BEAMER_TMPL) -t beamer $(SLIDES_NAME).md -o $(SLIDES_NAME).tex
+	pandoc -s --biblatex \
+		--table-of-contents \
+		--slide-level=2 \
+		--template=$(BEAMER_TMPL) \
+		-t beamer $(SLIDES_NAME).md \
+		-o $(SLIDES_NAME).tex
 
 tex:
 	pandoc -s \

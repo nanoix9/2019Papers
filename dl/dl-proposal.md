@@ -21,6 +21,8 @@ header-includes:
     - \let\Phi\varPhi
     - \fancypagestyle{plain}{\pagestyle{fancy}}
     - \usepackage{txfonts}
+    # - \usepackage{ptsans}
+    # - \renewcommand*\familydefault{\sfdefault}
     - \usepackage{bm}
     - \usepackage{freetikz}
     # - \usepackage{tikz}
