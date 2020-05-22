@@ -20,11 +20,16 @@ SLIDES_NAME=proposal-slides
 BIB_FILE=dl.bib
 
 TEX=pdflatex
+# TEX=pdflatex --shell-escape
 
 all: tp
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
+
+fig:
+	inkscape --export-filename=model.pdf --export-latex model2.svg
+	sed -i -e 's/lineheight{1.25}/lineheight{1}/g' model.pdf_tex
 
 sl: sl-tex sl-tex2pdf
 

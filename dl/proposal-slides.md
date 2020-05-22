@@ -82,11 +82,22 @@ header-includes:
   - Real noisy images: DND, SIDD
 
 - Evaluation: PSNR: Peak Signal to Noise Ratio
-    
+
     $$PSNR = 10 \log_{10} \left( \frac{R^2}{MSE} \right)$$
 
   + $R$ is the maximum fluctuation
   + $MSE$ is the Mean Squared Error between model output and ground-truth
+
+\framebreak
+
+\begin{figure}[htbp]
+\newcommand{\gan}{A \\text that}
+  \centering
+  \fontsize{7}{7}\selectfont
+  \def\svgwidth{\columnwidth}
+    \resizebox{\textwidth}{!}{\input{model.pdf_tex}}
+  \caption{Overall architecture of image denoising model}
+\end{figure}
 
 # Timetable
 

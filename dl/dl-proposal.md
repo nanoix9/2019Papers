@@ -28,6 +28,7 @@ header-includes:
     # - \usepackage{tikz}
     # - \usepackage{mathpazo}
     # - \usepackage{newtxtext,newtxmath}
+    # - \usepackage{svg}
 
 # - \usepackage{txfonts}
 # - \usepackage{mathptmx}
@@ -68,7 +69,16 @@ Many image datasets can be used for denoising model evaluation with synthetic no
 
 <!-- > (research design, research methods, modelling and algorithms, etc.) -->
 
-This research will be conducted based on several state-of-art approaches and experiments. In addition to the improvement on model architecture, this study will also focus on self-supervised training to minimise the dependency on in-domain training data. The datasets and evaluations used for this study will also be described.
+This research will be conducted based on several state-of-art approaches and experiments. In addition to the improvement on model architecture, this study will also focus on self-supervised training to minimise the dependency on in-domain training data. The overall architecture is shown in Fig \ref{fig:overall}. The datasets and evaluations used for this study will also be described.
+
+
+\begin{figure}[htbp]
+  \label{fig:overall}
+  \fontsize{10}{11}\selectfont
+  \centering
+  \input{model.pdf_tex}
+  \caption{Overall architecture of image denoising model}
+\end{figure}
 
 ## Dataset
 

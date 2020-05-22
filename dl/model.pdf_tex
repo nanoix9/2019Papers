@@ -1,0 +1,88 @@
+%% Creator: Inkscape 1.0 (4035a4f, 2020-05-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'model.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{467.22276306bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.43074031)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{model.pdf}}%
+    \put(0.04135662,0.15142903){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Input\\\(\bm{X}\)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{model.pdf}}%
+    \put(0.1871372,0.17272087){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Patch\\Extraction\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{model.pdf}}%
+    \put(0.19385347,0.36763457){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}GAN-based\\noise\\estimator\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{model.pdf}}%
+    \put(0.34635032,0.36894446){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Noise\\map\\\(\bm{M}\)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{model.pdf}}%
+    \put(0.34635032,0.18974938){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Image\\Patch\\\(\bm{X}_i\)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{model.pdf}}%
+    \put(0.43463797,0.24774283){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Input\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{model.pdf}}%
+    \put(0.62084465,0.24453237){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{model.pdf}}%
+    \put(0.54700407,0.27132077){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Conv\\+BN\\+ReLU.\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{model.pdf}}%
+    \put(0.69278466,0.27263066){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Conv\\+BN\\+ReLU\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{model.pdf}}%
+    \put(0.77976242,0.24774283){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}+\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{model.pdf}}%
+    \put(0.62084465,0.33763571){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}skip connection\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{model.pdf}}%
+    \put(0.88393552,0.24643294){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Output\\\(\tilde{\bm{Y}}_i\)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{model.pdf}}%
+    \put(0.88650798,0.12065514){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Label\\\(\bm{Y}_i\)\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{model.pdf}}%
+    \put(0.31044293,0.01681514){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1}\smash{\begin{tabular}[t]{l}Meta-learning (Reptile)\end{tabular}}}}%
+    \put(0.88563677,0.18177202){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1}\smash{\begin{tabular}[t]{l}Back-\\propogation\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{model.pdf}}%
+    \put(0.45599417,0.40838349){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1}\smash{\begin{tabular}[t]{l}Denoiser\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
