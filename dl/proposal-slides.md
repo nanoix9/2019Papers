@@ -1,5 +1,5 @@
 ---
-title: Self-supervised image denoising with deep neural networks
+title: Self-supervised Image Denoising with Deep Neural Networks
 author: "Stone Fang (Student ID: 19049045)" 
 date: 25 May 2020
 
@@ -62,6 +62,8 @@ header-includes:
 
 ## Methodology {.allowframebreaks}
 
+  \framesubtitle{subtitle}
+  
 - Neural Network Architecture
   - CNN-based model: suitable for image processing
   - Residual learning and batch normalisation (DnCNN)
@@ -73,6 +75,17 @@ header-includes:
     rather than human annotated.
   - Patch-based: learn on patches of a single input
   - Meta-learning: learns a better prior model on large collection of data.
+
+\framebreak
+
+\begin{figure}[htbp]
+\newcommand{\gan}{A \\text that}
+  \centering
+  \fontsize{7}{7}\selectfont
+  \def\svgwidth{\columnwidth}
+    \resizebox{\textwidth}{!}{\input{model.pdf_tex}}
+  \caption{Overall architecture of image denoising model}
+\end{figure}
 
 <!-- # Methodology: Dataset & Evaluation -->
 \framebreak
@@ -87,17 +100,6 @@ header-includes:
 
   + $R$ is the maximum fluctuation
   + $MSE$ is the Mean Squared Error between model output and ground-truth
-
-\framebreak
-
-\begin{figure}[htbp]
-\newcommand{\gan}{A \\text that}
-  \centering
-  \fontsize{7}{7}\selectfont
-  \def\svgwidth{\columnwidth}
-    \resizebox{\textwidth}{!}{\input{model.pdf_tex}}
-  \caption{Overall architecture of image denoising model}
-\end{figure}
 
 # Timetable
 
