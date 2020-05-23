@@ -1,0 +1,5 @@
+-- This script creates star-schema for NatureFresh DW
+-- The script should create all dimension and fact tables table in DW 
+-- 
+-- if any table with same name already exists, the table should be droped. 
+-- It also applies all primary and foreign keys on the right attributes.
