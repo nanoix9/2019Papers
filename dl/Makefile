@@ -19,6 +19,7 @@ NAME=dl-proposal
 SLIDES_NAME=proposal-slides
 BIB_FILE=dl.bib
 
+TEX=xelatex
 TEX=pdflatex
 # TEX=pdflatex --shell-escape
 
@@ -32,6 +33,7 @@ fig:
 	sed -i -e 's/lineheight{1.25}/lineheight{1}/g' model.pdf_tex
 
 sl: sl-tex sl-tex2pdf
+	mv $(SLIDES_NAME).pdf COMP825_slides_Stone_Fang_19049045.pdf
 
 sl-tex2pdf:
 	$(TEX) $(SLIDES_NAME).tex
@@ -44,8 +46,11 @@ sl-tex:
 		--table-of-contents \
 		--slide-level=2 \
 		--template=$(BEAMER_TMPL) \
+		-f markdown+raw_attribute \
 		-t beamer $(SLIDES_NAME).md \
 		-o $(SLIDES_NAME).tex
+	# sed -i -e 's/[\][{]/{/g' $(SLIDES_NAME).tex 
+	# sed -i -e 's/[\][}]/}/g' $(SLIDES_NAME).tex
 
 tex:
 	pandoc -s \

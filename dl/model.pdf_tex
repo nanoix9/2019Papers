@@ -68,7 +68,7 @@
     \put(0,0){\includegraphics[width=\unitlength,page=7]{model.pdf}}%
     \put(0.62084465,0.24453237){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}...\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=8]{model.pdf}}%
-    \put(0.54700407,0.27132077){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Conv\\+BN\\+ReLU.\end{tabular}}}}%
+    \put(0.54700407,0.27132077){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Conv\\+BN\\+ReLU\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=9]{model.pdf}}%
     \put(0.69278466,0.27263066){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1}\smash{\begin{tabular}[t]{c}Conv\\+BN\\+ReLU\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=10]{model.pdf}}%

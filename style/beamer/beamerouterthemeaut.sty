@@ -1,0 +1,31 @@
+\mode<presentation>
+
+% Frame title
+\defbeamertemplate*{frametitle}{aut}[1][]
+{
+% \vskip1cm%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
+  \begin{tikzpicture}
+%   \useasboundingbox[fill=red](0,0) rectangle(\the\paperwidth,1.2);
+%   \fill[orange] (0,0) rectangle(2,1.1);
+  \fill[fg] (0,0) rectangle(\the\paperwidth, .1);
+   \ifx\insertframesubtitle\@empty%
+      {\node[anchor=west, fg, font=\Large] at (0.5,0.55){\insertframetitle};}
+      \else%
+      {\node[anchor=west, fg, font=\large] at (0.5,0.75){\insertframetitle};%
+       \node[anchor=west, fg, font=\small] at (0.5,0.35){\insertframesubtitle};}%
+      \fi
+  \end{tikzpicture}
+  \end{beamercolorbox}
+}
+
+% \defbeamertemplate*{headline}{aut}
+% {
+%     \vskip1.2cm%
+%     \begin{tikzpicture}
+%         % \fill[blue!50!cyan!80] (0,0) rectangle(\the\paperwidth, .1);
+%         \fill[blue] (0,0) rectangle(\the\paperwidth, .1);
+%     \end{tikzpicture}
+% }
+
+\mode<all>

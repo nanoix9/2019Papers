@@ -1,0 +1,46 @@
+\mode<presentation>
+
+\setbeamertemplate{background}{
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+%   \fill[color=brown] (0, 8) rectangle (\the\paperwidth, 7.15);
+%   \fill[color=orange] (0,0) rectangle(2.95,1.9);
+%   \fill[color=blue!50!cyan!80] (3.05,0) rectangle(\the\paperwidth,1.9);
+  \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+  \ifnum\thepage=1\relax%
+    % \useasboundingbox (0, \the\paperheight-1.2) rectangle(\the\paperwidth,\the\paperheight);
+    \fill[fg] (0, \the\paperheight-1.25cm) rectangle(\the\paperwidth, \the\paperheight-1.15cm);
+    \node[anchor=west, fg, font=\scriptsize] at (0.5,\the\paperheight-1.25cm + 0.5cm){AUT UNIVERSITY};
+  \fi
+  \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{aut}[1][]
+{ 
+    % \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{title page header} 
+    %   \begin{tikzpicture}
+    %   %   \useasboundingbox[fill=red](0,0) rectangle(\the\paperwidth,1.2);
+    %   %   \fill[orange] (0,0) rectangle(2,1.1);
+    %     \fill[blue!50!cyan!80] (0,0) rectangle(\the\paperwidth, .1);
+    %     \node[anchor=west, blue!50!cyan!80, font=\Large] at (0.5,0.61){AUT};
+    %   \end{tikzpicture}
+    % \end{beamercolorbox}
+
+    \vskip2.5cm%
+    \begin{beamercolorbox}[wd=11.2cm,leftskip=1cm,sep=8pt,#1]{title page header}
+      \usebeamerfont{title} \centering \textbf{\Large \inserttitle}\par%
+    \end{beamercolorbox}%
+    \vskip1.45cm%
+    \begin{beamercolorbox}[wd=12cm,leftskip=3cm,#1]{author}
+      \usebeamerfont{author}\centering {\small \insertauthor}%
+    \end{beamercolorbox}
+     \vskip0.2cm%
+    \begin{beamercolorbox}[wd=12cm,leftskip=3cm,#1]{date}
+      \usebeamerfont{author}\centering {\small \insertdate}%
+    \end{beamercolorbox}
+  \vfill
+}
+
+\mode
+<all>
