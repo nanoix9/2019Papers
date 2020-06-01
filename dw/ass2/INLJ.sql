@@ -42,6 +42,8 @@ DECLARE
     TYPE quantity_t IS TABLE OF TRANSACTIONS.QUANTITY%TYPE;
     quantity_var quantity_t;
 
+    date_id_var CHAR(8);
+
     -- field types and variables from master table
     -- TYPE product_name_t IS TABLE OF MASTERDATA.PRODUCT_NAME%TYPE;
     -- product_name_var product_name_t;
@@ -136,21 +138,36 @@ BEGIN
                         AND CUSTOMER_NAME = customer_name_var(i)
                 );
 
+            date_id_var := TO_CHAR(t_date_var(i), 'YYYYMMDD');
             INSERT INTO DateDim (date_id, day, day_of_week, week, month, quarter, year)
-            SELECT TO_CHAR(t_date_var(i), 'YYYYMMDD'),
+            SELECT date_id_var,
                    EXTRACT(DAY FROM t_date_var(i)),
-                   1, --EXTRACT(DAY FROM t_date_var(i)),
+                   TO_CHAR(t_date_var(i), 'D'),
                    TO_CHAR(t_date_var(i), 'WW'),
                    EXTRACT(MONTH FROM t_date_var(i)),
-                   1, --EXTRACT(MONTH FROM t_date_var(i)) / 4,
+                   TO_CHAR(t_date_var(i), 'Q'),
                    EXTRACT(YEAR FROM t_date_var(i))
             FROM dual
             WHERE NOT EXISTS (
                     SELECT * 
                     FROM DateDim 
-                    WHERE DATE_ID = TO_CHAR(t_date_var(i), 'YYYYMMDD') 
+                    WHERE DATE_ID = date_id_var 
                 );
 
+            INSERT INTO Sales (sales_id, 
+                               product_id, 
+                               customer_id, 
+                               store_id, 
+                               date_id, 
+                               quantity, 
+                               amount)
+            VALUES (trans_id_var(i),
+                    product_id_var(i),
+                    customer_id_var(i),
+                    store_id_var(i),
+                    date_id_var,
+                    quantity_var(i),
+                    quantity_var(i) * md_var.PRICE);
         END LOOP;
         
 
