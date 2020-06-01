@@ -370,7 +370,8 @@ $endif$
 $if(header)$
 \fancyhead{} % clear all header fields
 \fancyhead[L]{$header$}
-% \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}{$header$}}
+% \fancyhead[CO,CE]{\ifthenelse{\value{page}=1}{first page}
+% {$header$}}
 $endif$
 \fancyfoot{} % clear all footer fields
 $if(footer)$
