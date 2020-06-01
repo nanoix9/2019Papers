@@ -62,15 +62,17 @@ CREATE TABLE DateDim (
 --------------------------------------------------------
 
 CREATE TABLE Sales (
-    sales_id      NUMBER(8)    NOT NULL, 
+    sales_id      NUMBER(8)     NOT NULL, 
     product_id    VARCHAR2(6)   NOT NULL, 
-    customer_id   VARCHAR2(4)   NOT NULL, 
+    supplier_id   VARCHAR2(6)   NOT NULL, 
+    customer_id   VARCHAR2(4)   NOT NULL,
     store_id      VARCHAR2(4)   NOT NULL, 
     date_id       VARCHAR2(8)   NOT NULL,
     quantity      NUMBER(3,0)   NOT NULL,
     amount        NUMBER(8,2)   NOT NULL,
     -- CONSTRAINT SALES_PK PRIMARY KEY (product_id, customer_id, store_id, date_id) 
     CONSTRAINT product_fk  FOREIGN KEY (product_id)  REFERENCES Product  (product_id),
+    CONSTRAINT supplier_fk FOREIGN KEY (supplier_id) REFERENCES Supplier (supplier_id),
     CONSTRAINT customer_fk FOREIGN KEY (customer_id) REFERENCES Customer (customer_id),
     CONSTRAINT store_fk    FOREIGN KEY (store_id)    REFERENCES Store    (store_id),
     CONSTRAINT date_fk     FOREIGN KEY (date_id)     REFERENCES DateDim  (date_id)

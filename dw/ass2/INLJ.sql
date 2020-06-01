@@ -7,7 +7,7 @@
 -- SELECT count(*) FROM TEST2;
 
 DECLARE
-    bulk_size PLS_INTEGER := 5;
+    bulk_size PLS_INTEGER := 50;
     
     CURSOR ds_cursor 
     IS 
@@ -56,7 +56,7 @@ DECLARE
     md_var MASTERDATA%ROWTYPE;
 BEGIN
     OPEN ds_cursor;
-    FOR i IN 1 .. 3       -- uncomment this line for testing with small amount of data
+    -- FOR i IN 1 .. 3       -- uncomment this line for testing with small amount of data
     LOOP
         -- FETCH ds_cursor BULK COLLECT INTO trans_bulk LIMIT bulk_size;
         -- FETCH ds_cursor BULK COLLECT INTO trans_bulk LIMIT bulk_size;
@@ -155,7 +155,8 @@ BEGIN
                 );
 
             INSERT INTO Sales (sales_id, 
-                               product_id, 
+                               product_id,
+                               supplier_id,
                                customer_id, 
                                store_id, 
                                date_id, 
@@ -163,6 +164,7 @@ BEGIN
                                amount)
             VALUES (trans_id_var(i),
                     product_id_var(i),
+                    md_var.SUPPLIER_ID,
                     customer_id_var(i),
                     store_id_var(i),
                     date_id_var,
