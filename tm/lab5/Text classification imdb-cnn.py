@@ -36,6 +36,49 @@ hidden_dims = 250
 epochs = 2
 '''
 
+# Parameter tuning
+
+# Epoch 1/2
+# 25000/25000 [==============================] - 21s 833us/step - loss: 0.6130 - accuracy: 0.7035 - val_loss: 0.4708 - val_accuracy: 0.8056
+# Epoch 2/2
+# 25000/25000 [==============================] - 20s 812us/step - loss: 0.4762 - accuracy: 0.8094 - val_loss: 0.4230 - val_accuracy: 0.8296
+# max_features = 5000
+# maxlen = 400
+# batch_size = 32
+# embedding_dims = 50
+# filters = 25
+# kernel_size = 3
+# hidden_dims = 250
+# epochs = 2
+
+# Epoch 1/2
+# 25000/25000 [==============================] - 74s 3ms/step - loss: 0.5686 - accuracy: 0.7342 - val_loss: 0.5026 - val_accuracy: 0.8118
+# Epoch 2/2
+# 25000/25000 [==============================] - 72s 3ms/step - loss: 0.4819 - accuracy: 0.8161 - val_loss: 0.4400 - val_accuracy: 0.8413
+# max_features = 5000
+# maxlen = 400
+# batch_size = 32
+# embedding_dims = 50
+# filters = 250
+# kernel_size = 3
+# hidden_dims = 250
+# epochs = 2
+
+# Best accuracy archived: 85.89%
+# Epoch 1/2
+# 25000/25000 [==============================] - 67s 3ms/step - loss: 0.5496 - accuracy: 0.7384 - val_loss: 0.4080 - val_accuracy: 0.8372
+# Epoch 2/2
+# 25000/25000 [==============================] - 68s 3ms/step - loss: 0.6776 - accuracy: 0.7964 - val_loss: 0.3827 - val_accuracy: 0.8589
+max_features = 5000
+maxlen = 400
+batch_size = 32
+embedding_dims = 80
+filters = 150
+kernel_size = 3
+hidden_dims = 150
+epochs = 2
+
+
 
 print('Loading data...')
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
