@@ -118,16 +118,6 @@ BEGIN
                         AND SUPPLIER_NAME = md_var.SUPPLIER_NAME
                 );
 
-            INSERT INTO Store (store_id, store_name)
-            SELECT store_id_var(i), store_name_var(i)
-            FROM dual
-            WHERE NOT EXISTS (
-                    SELECT * 
-                    FROM Store 
-                    WHERE STORE_ID = store_id_var(i) 
-                        AND STORE_NAME = store_name_var(i)
-                );
-
             INSERT INTO Customer (customer_id, customer_name)
             SELECT customer_id_var(i), customer_name_var(i)
             FROM dual
@@ -136,6 +126,16 @@ BEGIN
                     FROM customer 
                     WHERE CUSTOMER_ID = customer_id_var(i) 
                         AND CUSTOMER_NAME = customer_name_var(i)
+                );
+
+            INSERT INTO Store (store_id, store_name)
+            SELECT store_id_var(i), store_name_var(i)
+            FROM dual
+            WHERE NOT EXISTS (
+                    SELECT * 
+                    FROM Store 
+                    WHERE STORE_ID = store_id_var(i) 
+                        AND STORE_NAME = store_name_var(i)
                 );
 
             date_id_var := TO_CHAR(t_date_var(i), 'YYYYMMDD');

@@ -11,6 +11,13 @@ SELECT count(*) FROM Sales WHERE ROWNUM < 100;
 select SUPPLIER_ID, WM_CONCAT(DISTINCT SUPPLIER_NAME) FROM MASTERDATA group by SUPPLIER_ID;
 select SUPPLIER_ID, COUNT(DISTINCT SUPPLIER_NAME) FROM MASTERDATA group by SUPPLIER_ID;
 
+select product_name, sum(quantity * price) ts
+from TRANSACTIONS t
+join MASTERDATA m
+on t.product_id = m.product_id
+where extract(month from t_date) = 12
+group by product_name
+order by ts desc;
 
 SELECT * FROM dual;
 

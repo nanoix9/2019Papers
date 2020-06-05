@@ -6,6 +6,8 @@
 *.blg
 *.log
 *.out
+*.lof
+*-e
 
 *.tmp
 

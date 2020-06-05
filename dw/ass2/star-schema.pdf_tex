@@ -1,0 +1,138 @@
+%% Creator: Inkscape 1.0 (4035a4f, 2020-05-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'star-schema.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf\_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{496.5bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.55287009)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{star-schema.pdf}}%
+    \put(0.51359517,0.43353474){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Sales\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{star-schema.pdf}}%
+    \put(0.44712991,0.39274924){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{sales\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{star-schema.pdf}}%
+    \put(0.40181269,0.39274924){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{star-schema.pdf}}%
+    \put(0.44712991,0.35045317){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}product\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{star-schema.pdf}}%
+    \put(0.40181269,0.35045317){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{star-schema.pdf}}%
+    \put(0.44712991,0.31117825){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}supplier\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{star-schema.pdf}}%
+    \put(0.40181269,0.31117825){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{star-schema.pdf}}%
+    \put(0.44712991,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}customer\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{star-schema.pdf}}%
+    \put(0.40181269,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{star-schema.pdf}}%
+    \put(0.44712991,0.2326284){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}store\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{star-schema.pdf}}%
+    \put(0.40181269,0.2326284){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{star-schema.pdf}}%
+    \put(0.44712991,0.19335347){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}date\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{star-schema.pdf}}%
+    \put(0.40181269,0.19335347){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{star-schema.pdf}}%
+    \put(0.44712991,0.15407855){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}quantity\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{star-schema.pdf}}%
+    \put(0.44712991,0.11480363){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}amount\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{star-schema.pdf}}%
+    \put(0.87613293,0.31268882){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Date\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{star-schema.pdf}}%
+    \put(0.80966767,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{date\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{star-schema.pdf}}%
+    \put(0.76435045,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{star-schema.pdf}}%
+    \put(0.80966767,0.22960725){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}day\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{star-schema.pdf}}%
+    \put(0.80966767,0.19033233){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}day\_of\_week\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{star-schema.pdf}}%
+    \put(0.80966767,0.1510574){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}week\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{star-schema.pdf}}%
+    \put(0.80966767,0.11178248){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}month\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{star-schema.pdf}}%
+    \put(0.80966767,0.07250755){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}quarter\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{star-schema.pdf}}%
+    \put(0.80966767,0.03323263){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}year\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{star-schema.pdf}}%
+    \put(0.12084592,0.10120846){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Store\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{star-schema.pdf}}%
+    \put(0.05438066,0.06042296){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{store\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{star-schema.pdf}}%
+    \put(0.00906344,0.06042296){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{star-schema.pdf}}%
+    \put(0.05438066,0.01812689){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}store\_name\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=29]{star-schema.pdf}}%
+    \put(0.12084592,0.52416918){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Supplier\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=30]{star-schema.pdf}}%
+    \put(0.05438066,0.48338369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{supplier\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=31]{star-schema.pdf}}%
+    \put(0.00906344,0.48338369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=32]{star-schema.pdf}}%
+    \put(0.05438066,0.44108761){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}supplier\_name\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=33]{star-schema.pdf}}%
+    \put(0.12084592,0.31268882){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Customer\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=34]{star-schema.pdf}}%
+    \put(0.05438066,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{customer\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=35]{star-schema.pdf}}%
+    \put(0.00906344,0.27190332){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=36]{star-schema.pdf}}%
+    \put(0.05438066,0.22960725){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}customer\_name\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=37]{star-schema.pdf}}%
+    \put(0.87613293,0.52416918){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Product\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=38]{star-schema.pdf}}%
+    \put(0.80966767,0.48338369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{product\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=39]{star-schema.pdf}}%
+    \put(0.76435045,0.48338369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=40]{star-schema.pdf}}%
+    \put(0.80966767,0.44108761){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}product\_name\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=41]{star-schema.pdf}}%
+  \end{picture}%
+\endgroup%

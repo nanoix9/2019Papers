@@ -9,9 +9,9 @@
 DROP TABLE Sales;
 
 DROP TABLE Product;
-DROP TABLE Store;
 DROP TABLE Supplier;
 DROP TABLE Customer;
+DROP TABLE Store;
 DROP TABLE DateDim;
 
   
@@ -20,12 +20,6 @@ CREATE TABLE Product (
     product_name    VARCHAR2(30) NOT NULL, 
     -- PRICE           NUMBER(5,2)  NOT NULL,
     CONSTRAINT product_pk PRIMARY KEY (product_id));
-
-
-CREATE TABLE Store (
-    store_id         VARCHAR2(4)   NOT NULL, 
-    store_name       VARCHAR2(20)  NOT NULL,
-    CONSTRAINT store_pk PRIMARY KEY (store_id));
 
 
 CREATE TABLE Supplier (
@@ -38,6 +32,12 @@ CREATE TABLE Customer (
     customer_id      VARCHAR2(4)    NOT NULL, 
     customer_name    VARCHAR2(30)   NOT NULL, 
     CONSTRAINT customer_pk PRIMARY KEY (customer_id));
+
+
+CREATE TABLE Store (
+    store_id         VARCHAR2(4)   NOT NULL, 
+    store_name       VARCHAR2(20)  NOT NULL,
+    CONSTRAINT store_pk PRIMARY KEY (store_id));
 
 
 CREATE TABLE DateDim (
@@ -55,6 +55,9 @@ CREATE TABLE DateDim (
     CONSTRAINT month_range       CHECK (month        BETWEEN 1 AND 12),
     CONSTRAINT quater_range      CHECK (quarter      BETWEEN 1 AND 4)
     );
+
+-- TODO: more index?
+CREATE UNIQUE INDEX "DATE_PK" ON DateDim ("date_id");
 
 
 --------------------------------------------------------
