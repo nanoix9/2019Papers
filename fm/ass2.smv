@@ -1,0 +1,23 @@
+MODULE drink_selection
+VAR
+    selected: {none, kiwi_cola, bolt_energy, water};
+ASSIGN
+    init(selected) := none;
+    next(selected) := none;
+MODULE main
+
+VAR
+  pushed : boolean;
+  ds: drink_selection; 
+
+ASSIGN
+   init(pushed) := FALSE;
+   next(pushed) :=
+   case
+      !pushed : {TRUE,FALSE};
+       pushed : FALSE;
+   esac;
+
+
+LTLSPEC G (pushed -> X(!pushed))
+LTLSPEC G (ds.selected = none)
