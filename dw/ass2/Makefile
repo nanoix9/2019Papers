@@ -20,6 +20,7 @@ BIB_FILE=ass1.bib
 
 TEX=pdflatex
 DRAW=/Applications/draw.io.app/Contents/MacOS/draw.io
+FIG_FILES=star-schema alternative-price-attr
 
 all: tp
 
@@ -34,6 +35,8 @@ tex:
 		--metadata=reference-section-title:Reference \
 	 	-f markdown \
 		-o $(NAME).tex $(NAME).md
+	# sed -i -e 's/\\begin{verbatim}//g' $(NAME).tex
+	# sed -i -e 's/\\end{verbatim}//g' $(NAME).tex
 
 	# \
 	--number-section \
@@ -59,9 +62,11 @@ clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
 
 svg:
-	$(DRAW) -x -f svg -o star-schema.svg star-schema.drawio 
-	inkscape --export-filename=star-schema.pdf --export-latex star-schema.svg
-	sed -i -e 's/_/\\_/g' star-schema.pdf_tex
+	for f in $(FIG_FILES); do \
+		$(DRAW) -x -f svg -o $${f}.svg $${f}.drawio; \
+		inkscape --export-filename=$${f}.pdf --export-latex $${f}.svg; \
+		sed -i -e 's/_/\\_/g' $${f}.pdf_tex; \
+	done
 
 png:
 	$(DRAW) -x -f png -o star-schema.png star-schema.drawio 

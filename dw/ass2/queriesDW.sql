@@ -117,28 +117,25 @@ SELECT * FROM TABLE(top_in_months(3, 12, 2019, 3));
 -- by StoreID and then ProductID.
 -- STOREID PRODUCTID SUM(STORE_TOTAL) 
 
+DROP MATERIALIZED VIEW StoreAnalysis;
 CREATE MATERIALIZED VIEW StoreAnalysis
 ENABLE QUERY REWRITE
 AS
-SELECT store_id, product_id, SUM(amount)
-FROM Sales
-ORDER BY store_id, product_id;
+    SELECT store_id, product_id, SUM(amount) AS total_sales
+    FROM Sales
+    GROUP BY store_id, product_id
+    ORDER BY store_id, product_id;
 
-CREATE OR REPLACE
-FUNCTION foo()
-RETURN T_TABLE_COLL
-IS
-    top_products T_TABLE_COLL;
-begin
-    SELECT T_TABLE (product_id, amount)
-    INTO top_products
-    FROM Sales 
-    WHERE date_id = '20190505';
-    return(top_products);
-end;
+-- a sample query to inspect the content of materialised view just created
+SELECT * FROM StoreAnalysis WHERE ROWNUM <= 5;
 
 -- Q5 Think about what information can be retrieved from the materialised view
 -- created in Q4 using ROLLUP or CUBE concepts and provide some useful information
 -- of your choice for management.
 
 
+SELECT store_name, product_name, SUM(total_sales)
+FROM StoreAnalysis a, Store s, Product p
+WHERE a.store_id = s.store_id AND a.product_id = p.product_id
+    AND a.store_id < 'S-3' AND a.product_id < 'P-1003'
+GROUP BY ROLLUP(store_name, product_name);

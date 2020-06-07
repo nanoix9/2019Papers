@@ -1,0 +1,92 @@
+%% Creator: Inkscape 1.0 (4035a4f, 2020-05-01), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'alternative-price-attr.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf\_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf\_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{459bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.30718954)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{alternative-price-attr.pdf}}%
+    \put(0.13071895,0.19444444){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Sales\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{alternative-price-attr.pdf}}%
+    \put(0.05882353,0.1503268){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{sales\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{alternative-price-attr.pdf}}%
+    \put(0.00980392,0.1503268){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{alternative-price-attr.pdf}}%
+    \put(0.05882353,0.10457516){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{alternative-price-attr.pdf}}%
+    \put(0.05882353,0.0620915){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}selling\_item\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{alternative-price-attr.pdf}}%
+    \put(0.00980392,0.0620915){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{alternative-price-attr.pdf}}%
+    \put(0.05882353,0.01960784){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}...\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{alternative-price-attr.pdf}}%
+    \put(0.50653595,0.27614379){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}SellingItem\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{alternative-price-attr.pdf}}%
+    \put(0.43464052,0.23202614){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{selling\_item\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{alternative-price-attr.pdf}}%
+    \put(0.38562092,0.23202614){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{alternative-price-attr.pdf}}%
+    \put(0.43464052,0.18627451){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}product\_id\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{alternative-price-attr.pdf}}%
+    \put(0.38562092,0.18627451){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}FK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{alternative-price-attr.pdf}}%
+    \put(0.43464052,0.14379085){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}price\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{alternative-price-attr.pdf}}%
+    \put(0.86601307,0.14542484){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Product\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{alternative-price-attr.pdf}}%
+    \put(0.79411765,0.10130719){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{product\_id}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{alternative-price-attr.pdf}}%
+    \put(0.74509804,0.10130719){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}PK\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{alternative-price-attr.pdf}}%
+    \put(0.79411765,0.05555556){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}product\_name\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{alternative-price-attr.pdf}}%
+  \end{picture}%
+\endgroup%

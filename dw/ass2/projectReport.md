@@ -14,7 +14,7 @@ pagestyle: "empty"
 # biblatexoptions:
     # - backend=biber
 papersize: a4
-fontsize: 12pt
+# fontsize: 12pt
 linestretch: 1.25
 geometry:
     - margin=25mm
@@ -28,6 +28,32 @@ header-includes:
     # - \renewcommand{\sfdefault}{phv}
     # - \renewcommand{\sfdefault}{pag}
     # - \renewcommand{\familydefault}{ppl}
+    # - |
+    #     ```{=latex}
+    #         \makeatletter
+    #         \patchcmd{\@verbatim}
+    #             {\verbatim@font}
+    #             {\verbatim@font\small}
+    #             {}{}
+    #         \makeatother
+    #     ```
+    - |
+        ```{=latex}
+            \usepackage{tcolorbox}
+
+            \newcommand{\sqloutputbegin}{
+                \hspace{0.5cm}
+                \begin{minipage}[c]{0.93\linewidth} 
+                \centering
+                \begin{tcolorbox}[colback=gray!8, colframe=white,
+                    boxrule=0pt, coltitle=black,
+                    colbacktitle=gray!15, title={SQL Output}]
+                \centering
+                \small}
+            \newcommand{\sqloutputend}{
+                \end{tcolorbox} 
+                \end{minipage}}
+        ```
 
 # fontfamily: ptsans
 # fontfamily: txfonts
@@ -61,7 +87,7 @@ fontfamily: mathpazo
 
 ---
 
-# Project overview
+# Project Overview
 
 The goal of this project is to create a Data Warehouse (DW) for the sales analysis of NatureFresh, 
 one of the largest fresh food market chains in New Zealand. Analysis of sales 
@@ -134,7 +160,7 @@ on sales before that change will be incorrect. Therefore, in this project price
 information is kept in *Sales* table. Since the amount of money in sales
 is a more frequent used number, we add to fact table an *amount* filed which 
 is calculated by $\mathit{quantity}\times \mathit{price}$. 
-In section \ref{discussion} further discussions will be provided on this issue.
+In section \ref{price-attribute} further discussions will be provided on this issue.
 
 ## Dimensions
 
@@ -151,7 +177,7 @@ are calculated, including *year*, *quarter*, *month*, *week*, *day*, *day_of_wee
 In fact, it can be extended to more fields such as *is_public_holiday*, if some
 analysis on holiday is in demand.
 
-# INLJ algorithm
+# INLJ Algorithm
 
 Index Nested Loop Join (INLJ) is a table joining algorithm that can be used for
 stream data joining. Nested Loop Join takes an outer loop and an inner loop, each
@@ -183,20 +209,30 @@ for these queries are referred to file *queriesDW.sql*.
 
 > Determine the top 5 products in Dec 2019 in terms of total sales
 
-Result:
+\sqloutputbegin
 
-PRODUCT_NAME TOTAL_SALES RANK 
------------- ----------- ----
+    PRODUCT_NAME                   TOTAL_SALES       RANK
+    ------------------------------ ----------- ----------
+    Bouillon cubes                     1759.58          1
+    Kiwis                              1757.75          2
+    Mac and cheese                        1632          3
+    Relish                             1574.18          4
+    Pears                              1396.53          5
+
+\sqloutputend
 
 ## 
 <!-- Store producing highest sales -->
 
 > Determine which store produced highest sales in the whole year?
 
-Result:
+\sqloutputbegin
 
-STORE_NAME TOTAL_SALES RANK 
----------- ---------------- ----
+    STORE_NAME           TOTAL_SALES       RANK
+    -------------------- ----------- ----------
+    Manukau                 82873.81          1
+
+\sqloutputend
 
 ## 
 <!-- Top 3 products for three consecutive months -->
@@ -204,10 +240,21 @@ STORE_NAME TOTAL_SALES RANK
 > Determine the top 3 products for a month (say, Dec 2019), and 
 for the 2 months before that, in terms of total sales.
 
-Result:
+\sqloutputbegin
 
-PRODUCT_NAME SUM(TOTAL_SALES) RANK 
-------------- ---------------- ----
+    PRODUCT_NAME                   TOTAL_SALES       RANK      MONTH       YEAR
+    ------------------------------ ----------- ---------- ---------- ----------
+    Bouillon cubes                     1759.58          1         12       2019
+    Kiwis                              1757.75          2         12       2019
+    Mac and cheese                        1632          3         12       2019
+    Onions                             2296.74          1         11       2019
+    Relish                             1751.91          2         11       2019
+    Broccoli                           1514.52          3         11       2019
+    Paprika                             1692.6          1         10       2019
+    Pizza / Pizza Rolls                   1505          2         10       2019
+    Oregano                             1476.8          3         10       2019
+
+\sqloutputend
 
 ## 
 <!-- Product-wise materialised view -->
@@ -216,10 +263,26 @@ PRODUCT_NAME SUM(TOTAL_SALES) RANK
 the product-wise sales analysis for each store. The results should be ordered 
 by StoreID and then ProductID.
 
-Result:
+<!-- STOREID PRODUCTID SUM(STORE_TOTAL) 
+-------- ---------- ---------------- -->
 
-STOREID PRODUCTID SUM(STORE_TOTAL) 
--------- ---------- ----------------
+\sqloutputbegin
+
+    STOR PRODUC TOTAL_SALES
+    ---- ------ -----------
+    S-1  P-1001       540.9
+    S-1  P-1002       164.4
+    S-1  P-1003      448.76
+    S-1  P-1004       250.2
+    S-1  P-1005     1318.68
+
+\sqloutputend
+
+The output from Oracle SQL Developer doesn't show the complete names of columns,
+which I assume is a feature on materilised view to save display areas.
+It's only a sample query for inspection of the materialised view which has been 
+just created. The content is correct, so the output was just copied and 
+pasted here without any manual editing.
 
 ## 
 <!-- Further analysis on materialised view -->
@@ -232,8 +295,44 @@ STOREID PRODUCTID SUM(STORE_TOTAL)
 
 # Discussion
 
-x
+## Price Attribute
 
-# Summary of what was learnt
+In this design, the price information is beared in the *amount* field of 
+fact table because of the fact that prices of products are subject to change.
+However, changes of prices are way less frequent than transactions, so there will
+be much redundant storage for price information. An alternative design is to
+add an extra dimension *SellingItem* which is simply a combination of *Product*
+and *price*. When price changes, a new "selling item" will be created with 
+the same *product_id* and the new *price*. This method is show in 
+Figure \ref{fig:alter-price}. The benefit is reducing the required storage
+for price by normalisation. However, this alternative design ends up with an 
+architecture other than star-schema.
 
-x
+\begin{figure}[htbp]
+  \centering
+  % \sffamily
+  { %\fontfamily{phv}\selectfont
+  \fontsize{9}{10}\selectfont
+  % \fontsize{7}{7}\selectfont
+  %\def\svgwidth{0.9\columnwidth}
+    \resizebox{0.9\textwidth}{!}{\input{alternative-price-attr.pdf_tex}}
+  }
+  \caption{Alternative Design for Price Attribute}
+  \label{fig:alter-price}
+\end{figure}
+
+
+# Summary of Learning Outcomes
+
+
+## DW Development Lifecycle
+
+
+
+## DW Schema
+
+## INTJ & ETL
+
+## DW Query & Analysis
+
+## SQL & Oracle Developer
