@@ -1,0 +1,69 @@
+vendingmachine.txt
+
+MODULE button
+MODULE main
+
+VAR
+  button1pushed : boolean;
+  button2pushed : boolean;
+  button3pushed : boolean;
+  kiwicola : 0..3;
+  boltenergy : 0..3;
+  clearwater : 0..3;
+  maintenance : boolean;
+  paymentSuccessful : boolean;
+
+IVAR
+  error : boolean;
+
+ASSIGN
+   ---------------------------
+   init(maintenance) := FALSE;
+   next(maintenance) :=
+   case
+	error : TRUE;
+	(kiwicola=0)&(boltenergy=0)&(clearwater=0) : TRUE
+	TRUE : maintenance;
+   esac;
+   ---------------------------
+   init(button1pushed) := FALSE;
+   next(button1pushed) :=
+   case
+	!maintenance&!button1pushed : {TRUE, FALSE};
+		      button1pushed : FALSE;
+			       TRUE : button1pushed;
+   ---------------------------
+   init(button2pushed) := FALSE;
+   next(button2pushed) :=
+   case
+	!maintenance&!button2pushed : {TRUE, FALSE};
+		      button2pushed : FALSE;
+			       TRUE : button2pushed;
+   ---------------------------
+   init(button3pushed) := FALSE;
+   next(button3pushed) :=
+   case
+	!maintenance&!button3pushed : {TRUE, FALSE};
+		      button3pushed : FALSE;
+			       TRUE : button3pushed;
+   init(kiwicola) := 3;
+   next(kiwicola) := 
+   case
+	!maintenance&button1pushed&paymentSuccessful&(kiwicola>0) : kiwicola - 1;
+				                             TRUE : kiwicola;
+   esac;
+   ---------------------------
+   init(boltenergy) := 3;
+   next(boltenergy) := 
+   case
+	!maintenance&button2pushed&paymentSuccessful&(boltenergy>0) : boltenergy - 1;
+				                               TRUE : boltenergy;
+   esac;
+   ---------------------------
+   init(clearwater) := 3;
+   next(clearwater) := 
+   case
+	!maintenance&button3pushed&paymentSuccessful&(clearwater>0) : clearwater - 1;
+				                               TRUE : clearwater;
+   esac;
+   ---------------------------
