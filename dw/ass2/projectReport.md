@@ -1,8 +1,10 @@
 ---
 documentclass: article
 title: |
-    COMP810 Data Warehousing and Big Data \
-    Assessment 2 Data Warehousing Project
+    ```{=latex}
+        \textbf{COMP810 Data Warehousing and Big Data \\
+        Assessment 2 Data Warehousing Project}
+    ```
 subtitle: "Building and Analysing a DW for NatureFresh Stores in NZ"
 author: "Stone Fang (Student ID: 19049045)" 
 header: "COMP810 Data Warehousing and Big Data Assessment 2"
@@ -41,13 +43,13 @@ header-includes:
         ```{=latex}
             \usepackage{tcolorbox}
 
-            \newcommand{\sqloutputbegin}{
+            \newcommand{\sqloutputbegin}[1][SQL Output]{
                 \hspace{0.5cm}
                 \begin{minipage}[c]{0.93\linewidth} 
                 \centering
                 \begin{tcolorbox}[colback=gray!8, colframe=white,
                     boxrule=0pt, coltitle=black,
-                    colbacktitle=gray!15, title={SQL Output}]
+                    colbacktitle=gray!15, title={#1}]
                 \centering
                 \small}
             \newcommand{\sqloutputend}{
@@ -121,7 +123,8 @@ in file *createDW.sql*.
 \begin{figure}[htbp]
   \centering
   % \sffamily
-  { %\fontfamily{phv}\selectfont
+  {
+  %\fontfamily{phv}\selectfont
   \fontsize{9}{10}\selectfont
   % \fontsize{7}{7}\selectfont
   \def\svgwidth{0.9\columnwidth}
@@ -188,7 +191,7 @@ loop up, thus greatly reduce the time complexity. For example, if the index is
 implemented by B-tree, then complexity of lookup is a logarithm of $M$ 
 instead of linear which is the case of the inner loop.
 
-This algorithm is implemented in PL/SQL. First a bulk (50 rows as in this project) 
+This algorithm is implemented in PL/SQL. First, a bulk (50 rows in this project) 
 of transactions are read into memory. 
 Then all rows in the bulk are read one after another, and retrieve 
 the information for current row from master data by *product_id*. 
@@ -266,7 +269,7 @@ by StoreID and then ProductID.
 <!-- STOREID PRODUCTID SUM(STORE_TOTAL) 
 -------- ---------- ---------------- -->
 
-\sqloutputbegin
+\sqloutputbegin[SQL Output\footnotemark]
 
     STOR PRODUC TOTAL_SALES
     ---- ------ -----------
@@ -278,11 +281,13 @@ by StoreID and then ProductID.
 
 \sqloutputend
 
+\footnotetext{
 The output from Oracle SQL Developer doesn't show the complete names of columns,
 which I assume is a feature on materilised view to save display areas.
 It's only a sample query for inspection of the materialised view which has been 
 just created. The content is correct, so the output was just copied and 
 pasted here without any manual editing.
+}
 
 ## 
 <!-- Further analysis on materialised view -->
@@ -311,11 +316,12 @@ architecture other than star-schema.
 \begin{figure}[htbp]
   \centering
   % \sffamily
-  { %\fontfamily{phv}\selectfont
-  \fontsize{9}{10}\selectfont
+  {
+  %\fontfamily{phv}\selectfont
+  \fontsize{10}{11}\selectfont
   % \fontsize{7}{7}\selectfont
-  %\def\svgwidth{0.9\columnwidth}
-    \resizebox{0.9\textwidth}{!}{\input{alternative-price-attr.pdf_tex}}
+  %\def\svgwidth{0.9\textwidth}
+    \resizebox{0.85\textwidth}{!}{\input{alternative-price-attr.pdf_tex}}
   }
   \caption{Alternative Design for Price Attribute}
   \label{fig:alter-price}
@@ -327,12 +333,67 @@ architecture other than star-schema.
 
 ## DW Development Lifecycle
 
-
+The first and foremost thing I learned is how to develop a DW through the 
+whole lifecycle. It involves requirement analysis, schema design, data ETL,
+and querying. We need to divide this complex task into different stages,
+and also be able to combine them together back into a complete and running
+DW project. 
 
 ## DW Schema
 
-## INTJ & ETL
+The DW is usually modelled as data cube which consists of dimensions and measurements. 
+In terms of physical model, dimensions are mapped to dimension tables and
+measurements are mapped to fact tables.
+There are two major schema for DW design, star-schema and snowflake schema.
+In this project we use star-schema, which is more efficient for querying 
+because it has less table joints for a query. However, the disadvantage is
+the lack of normalisation. 
+Most dimensions are simple, containing only one 
+attributed of "name". However, the *Date* dimension is trickier. 
+
+## INLJ & ETL
+
+INLJ is suitable for joining stream data with batch data in near real-time.
 
 ## DW Query & Analysis
 
+Analysis on DW should be translated to SQL queries. It's usually required 
+to do table join so the query would be a bit complicated even for a simple analysis.
+
+**Top K retrieval** is a type of common analysis, which finds the most or
+least measurements with corresponding dimension values. For example, it's useful
+for decision-making in business operation
+to know the products with K highest or lowest sales. This can be done by 
+either `ORDER BY` or `RANK()` operations in Oracle SQL Developer. More than that,
+the analytics are usually done with roll-up/drill-down/slice/dice operations.
+For instance, it's common to aggregate the data of each day to month level (roll-up),
+or retrieve data of a certain month (slice) or a month range (dice). 
+For this purpose, the `WHERE` and `GROUP BY` clause are used, sometimes
+with `PARTITION BY` operation for advanced query.
+
+**Dynamic query** is an important way to improve flexibility and query reuse. 
+Dynamic query is constructed in runtime with parameters substituted by
+real values assigned to them. Next time if we want to do similar analysis, we
+just need to change the parameter rather than manually editing the query statement.
+To implement a dynamic query is basically to create a PL/SQL table function with 
+the query wrapped inside it. It's called "table function" because it returns
+collections of objects that minic tables. However, the details are somewhat complicated.
+What I learned from developing a dynamic query includes:
+
+- Create types of expected table for return type declaration in function
+    by `CREATE TYPE`. 
+- In side the function, create a parameterised cursor for data fetching.
+    The parameters are about the target month, so the query can be used
+    to select data of any specified month.
+- Use `FOR LOOP` and `IF THEN ELSE` to iteractively fetch data from database,
+    and convert the retrieved data into the type matching the function declaration.
+- Use `PIPELINED` and `PIPE ROW` together to return the fetched records in 
+    an convenient way. Without this approach we would have to create a local
+    collection, append records to it and return it after all data has been retrieved,
+    but with `PIPELINED` we can simply "pipe" out each record immediately after
+    it's retrieved without the needs for local collection.
+    
+
 ## SQL & Oracle Developer
+
+In this project a lot of SQL knowledge has been learned. Other than basic

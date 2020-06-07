@@ -76,7 +76,6 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={COMP810 Data Warehousing and Big Data Assessment 2 Data Warehousing Project},
   pdfauthor={Stone Fang (Student ID: 19049045)},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
@@ -120,13 +119,13 @@
 \fancypagestyle{plain}{\pagestyle{fancy}}
     \usepackage{tcolorbox}
 
-    \newcommand{\sqloutputbegin}{
+    \newcommand{\sqloutputbegin}[1][SQL Output]{
         \hspace{0.5cm}
         \begin{minipage}[c]{0.93\linewidth} 
         \centering
         \begin{tcolorbox}[colback=gray!8, colframe=white,
             boxrule=0pt, coltitle=black,
-            colbacktitle=gray!15, title={SQL Output}]
+            colbacktitle=gray!15, title={#1}]
         \centering
         \small}
     \newcommand{\sqloutputend}{
@@ -142,8 +141,8 @@
 %     {#1}{\MakeSentenceCase*{#1}}}
 \addbibresource{ass1.bib}
 
-\title{COMP810 Data Warehousing and Big Data\\
-Assessment 2 Data Warehousing Project}
+\title{    \textbf{COMP810 Data Warehousing and Big Data \\
+    Assessment 2 Data Warehousing Project}}
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
@@ -206,7 +205,8 @@ According to the original data, the DW will consist of one fact table
 \begin{figure}[htbp]
   \centering
   % \sffamily
-  { %\fontfamily{phv}\selectfont
+  {
+  %\fontfamily{phv}\selectfont
   \fontsize{9}{10}\selectfont
   % \fontsize{7}{7}\selectfont
   \def\svgwidth{0.9\columnwidth}
@@ -373,7 +373,7 @@ product-wise sales analysis for each store. The results should be
 ordered by StoreID and then ProductID.
 \end{quote}
 
-\sqloutputbegin
+\sqloutputbegin[SQL Output\footnotemark]
 
 \begin{verbatim}
 STOR PRODUC TOTAL_SALES
@@ -387,11 +387,13 @@ S-1  P-1005     1318.68
 
 \sqloutputend
 
-The output from Oracle SQL Developer doesn't show the complete names of
-columns, which I assume is a feature on materilised view to save display
-areas. It's only a sample query for inspection of the materialised view
-which has been just created. The content is correct, so the output was
-just copied and pasted here without any manual editing.
+\footnotetext{
+The output from Oracle SQL Developer doesn't show the complete names of columns,
+which I assume is a feature on materilised view to save display areas.
+It's only a sample query for inspection of the materialised view which has been 
+just created. The content is correct, so the output was just copied and 
+pasted here without any manual editing.
+}
 
 \hypertarget{section-4}{%
 \subsection{}\label{section-4}}
@@ -425,11 +427,12 @@ design ends up with an architecture other than star-schema.
 \begin{figure}[htbp]
   \centering
   % \sffamily
-  { %\fontfamily{phv}\selectfont
-  \fontsize{9}{10}\selectfont
+  {
+  %\fontfamily{phv}\selectfont
+  \fontsize{10}{11}\selectfont
   % \fontsize{7}{7}\selectfont
-  %\def\svgwidth{0.9\columnwidth}
-    \resizebox{0.9\textwidth}{!}{\input{alternative-price-attr.pdf_tex}}
+  %\def\svgwidth{0.9\textwidth}
+    \resizebox{0.85\textwidth}{!}{\input{alternative-price-attr.pdf_tex}}
   }
   \caption{Alternative Design for Price Attribute}
   \label{fig:alter-price}
@@ -442,17 +445,87 @@ Outcomes}\label{summary-of-learning-outcomes}}
 \hypertarget{dw-development-lifecycle}{%
 \subsection{DW Development Lifecycle}\label{dw-development-lifecycle}}
 
+The first and foremost thing I learned is how to develop a DW through
+the whole lifecycle. It involves requirement analysis, schema design,
+data ETL, and querying. We need to divide this complex task into
+different stages, and also be able to combine them together back into a
+complete and running DW project.
+
 \hypertarget{dw-schema}{%
 \subsection{DW Schema}\label{dw-schema}}
 
-\hypertarget{intj-etl}{%
-\subsection{INTJ \& ETL}\label{intj-etl}}
+The DW is usually modelled as data cube which consists of dimensions and
+measurements. In terms of physical model, dimensions are mapped to
+dimension tables and measurements are mapped to fact tables. There are
+two major schema for DW design, star-schema and snowflake schema. In
+this project we use star-schema, which is more efficient for querying
+because it has less table joints for a query. However, the disadvantage
+is the lack of normalisation. Most dimensions are simple, containing
+only one attributed of ``name''. However, the \emph{Date} dimension is
+trickier.
+
+\hypertarget{inlj-etl}{%
+\subsection{INLJ \& ETL}\label{inlj-etl}}
+
+INLJ is suitable for joining stream data with batch data in near
+real-time.
 
 \hypertarget{dw-query-analysis}{%
 \subsection{DW Query \& Analysis}\label{dw-query-analysis}}
 
+Analysis on DW should be translated to SQL queries. It's usually
+required to do table join so the query would be a bit complicated even
+for a simple analysis.
+
+\textbf{Top K retrieval} is a type of common analysis, which finds the
+most or least measurements with corresponding dimension values. For
+example, it's useful for decision-making in business operation to know
+the products with K highest or lowest sales. This can be done by either
+\texttt{ORDER\ BY} or \texttt{RANK()} operations in Oracle SQL
+Developer. More than that, the analytics are usually done with
+roll-up/drill-down/slice/dice operations. For instance, it's common to
+aggregate the data of each day to month level (roll-up), or retrieve
+data of a certain month (slice) or a month range (dice). For this
+purpose, the \texttt{WHERE} and \texttt{GROUP\ BY} clause are used,
+sometimes with \texttt{PARTITION\ BY} operation for advanced query.
+
+\textbf{Dynamic query} is an important way to improve flexibility and
+query reuse. Dynamic query is constructed in runtime with parameters
+substituted by real values assigned to them. Next time if we want to do
+similar analysis, we just need to change the parameter rather than
+manually editing the query statement. To implement a dynamic query is
+basically to create a PL/SQL table function with the query wrapped
+inside it. It's called ``table function'' because it returns collections
+of objects that minic tables. However, the details are somewhat
+complicated. What I learned from developing a dynamic query includes:
+
+\begin{itemize}
+\tightlist
+\item
+  Create types of expected table for return type declaration in function
+  by \texttt{CREATE\ TYPE}.
+\item
+  In side the function, create a parameterised cursor for data fetching.
+  The parameters are about the target month, so the query can be used to
+  select data of any specified month.
+\item
+  Use \texttt{FOR\ LOOP} and \texttt{IF\ THEN\ ELSE} to iteractively
+  fetch data from database, and convert the retrieved data into the type
+  matching the function declaration.
+\item
+  Use \texttt{PIPELINED} and \texttt{PIPE\ ROW} together to return the
+  fetched records in an convenient way. Without this approach we would
+  have to create a local collection, append records to it and return it
+  after all data has been retrieved, but with \texttt{PIPELINED} we can
+  simply ``pipe'' out each record immediately after it's retrieved
+  without the needs for local collection.
+\end{itemize}
+
 \hypertarget{sql-oracle-developer}{%
 \subsection{SQL \& Oracle Developer}\label{sql-oracle-developer}}
+
+In this project a lot of SQL knowledge has been learned. Other than
+basic
 
 \printbibliography
 

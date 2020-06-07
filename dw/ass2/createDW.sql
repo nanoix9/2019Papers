@@ -57,7 +57,9 @@ CREATE TABLE DateDim (
     );
 
 -- TODO: more index?
-CREATE UNIQUE INDEX "DATE_PK" ON DateDim ("date_id");
+CREATE UNIQUE INDEX "DATE_YEAR" ON DateDim ("year");
+CREATE UNIQUE INDEX "DATE_MONTH" ON DateDim ("month");
+CREATE UNIQUE INDEX "PRODUCT_NAME" ON PRODUCT ("year");
 
 
 --------------------------------------------------------
