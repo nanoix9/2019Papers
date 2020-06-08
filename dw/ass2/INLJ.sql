@@ -1,11 +1,3 @@
-
--- drop table TEST2;
-
--- CREATE TABLE "TEST2" (tid NUMBER(8), "txt1" VARCHAR2(100));
-
--- SELECT "txt1" FROM TEST2;
--- SELECT count(*) FROM TEST2;
-
 DECLARE
     bulk_size PLS_INTEGER := 50;
     

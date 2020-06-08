@@ -117,6 +117,7 @@
 \renewcommand*{\thefootnote}{ [\arabic{footnote}]}
 
 \fancypagestyle{plain}{\pagestyle{fancy}}
+\usepackage[noabbrev]{cleveref}
     \usepackage{tcolorbox}
 
     \newcommand{\sqloutputbegin}[1][SQL Output]{
@@ -198,8 +199,8 @@ All the operations above are implemented in SQL.
 
 According to the original data, the DW will consist of one fact table
 \emph{Sales} and five dimension tables \emph{Product}, \emph{Supplier},
-\emph{Customer}, \emph{Store}, and \emph{Date}, as shown in Figure
-\ref{fig:overall}. The SQL code to create all tables are in file
+\emph{Customer}, \emph{Store}, and \emph{Date}, as shown in
+\cref{fig:overall}. The SQL code to create all tables are in file
 \emph{createDW.sql}.
 
 \begin{figure}[htbp]
@@ -248,27 +249,26 @@ change will be incorrect. Therefore, in this project price information
 is kept in \emph{Sales} table. Since the amount of money in sales is a
 more frequent used number, we add to fact table an \emph{amount} filed
 which is calculated by \(\mathit{quantity}\times \mathit{price}\). In
-section \ref{price-attribute} further discussions will be provided on
-this issue.
+\cref{price-attribute} further discussions will be provided on this
+issue.
 
 \hypertarget{dimensions}{%
 \subsection{Dimensions}\label{dimensions}}
 
-Details of dimension tables can be referred to Figure \ref{fig:overall}.
-Most dimensions are as simple as ``ID+name'', while the \emph{Date}
-dimension is relatively complicated. First of all, unlike other
-dimensions, there is no existing ID for \emph{Date}. In this project, a
-string in format of ``YYYYMMDD'' is chosen as the ID for \emph{Date},
-rather than an auto-incremental column. The advantage is such ID is more
-readable and intuitive, and thus more convenient for partitioning if
-required in the future. On the other hand, it would need more storage
-space, which, however, is not a big issue providing the cost storage is
-quite low nowadays. Second, \emph{Date} dimension contains more
-information other than names. In this project, common properties are
-calculated, including \emph{year}, \emph{quarter}, \emph{month},
-\emph{week}, \emph{day}, \emph{day\_of\_week}. In fact, it can be
-extended to more fields such as \emph{is\_public\_holiday}, if some
-analysis on holiday is in demand.
+Details of dimension tables can be referred to \cref{fig:overall}. Most
+dimensions are as simple as ``ID+name'', while the \emph{Date} dimension
+is relatively complicated. First of all, unlike other dimensions, there
+is no existing ID for \emph{Date}. In this project, a string in format
+of ``YYYYMMDD'' is chosen as the ID for \emph{Date}, rather than an
+auto-incremental column. The advantage is such ID is more readable and
+intuitive, and thus more convenient for partitioning if required in the
+future. On the other hand, it would need more storage space, which,
+however, is not a big issue providing the cost storage is quite low
+nowadays. Second, \emph{Date} dimension contains more information other
+than names. In this project, common properties are calculated, including
+\emph{year}, \emph{quarter}, \emph{month}, \emph{week}, \emph{day},
+\emph{day\_of\_week}. In fact, it can be extended to more fields such as
+\emph{is\_public\_holiday}, if some analysis on holiday is in demand.
 
 \hypertarget{inlj-algorithm}{%
 \section{INLJ Algorithm}\label{inlj-algorithm}}
@@ -283,10 +283,10 @@ greatly reduce the time complexity. For example, if the index is
 implemented by B-tree, then complexity of lookup is a logarithm of \(M\)
 instead of linear which is the case of the inner loop.
 
-This algorithm is implemented in PL/SQL. First a bulk (50 rows as in
-this project) of transactions are read into memory. Then all rows in the
-bulk are read one after another, and retrieve the information for
-current row from master data by \emph{product\_id}. Then all properties
+This algorithm is implemented in PL/SQL. First, a bulk (50 rows in this
+project) of transactions are read into memory. Then all rows in the bulk
+are read one after another, and retrieve the information for current row
+from master data by \emph{product\_id}. Then all properties
 corresponding to current row are transformed to fit the star schema and
 then load into the fact and dimension tables. Please refer to file
 \emph{INLJ.sql} for the complete implementation.
@@ -420,9 +420,9 @@ information. An alternative design is to add an extra dimension
 \emph{SellingItem} which is simply a combination of \emph{Product} and
 \emph{price}. When price changes, a new ``selling item'' will be created
 with the same \emph{product\_id} and the new \emph{price}. This method
-is show in Figure \ref{fig:alter-price}. The benefit is reducing the
-required storage for price by normalisation. However, this alternative
-design ends up with an architecture other than star-schema.
+is show in \cref{fig:alter-price}. The benefit is reducing the required
+storage for price by normalisation. However, this alternative design
+ends up with an architecture other than star-schema.
 
 \begin{figure}[htbp]
   \centering
@@ -441,6 +441,10 @@ design ends up with an architecture other than star-schema.
 \hypertarget{summary-of-learning-outcomes}{%
 \section{Summary of Learning
 Outcomes}\label{summary-of-learning-outcomes}}
+
+It is a great way to learn from developing a complete DW project. The
+main outcomes learned from this project includes DW design, ETL process,
+DW queries, and Oracle PL/SQL and SQL features.
 
 \hypertarget{dw-development-lifecycle}{%
 \subsection{DW Development Lifecycle}\label{dw-development-lifecycle}}
@@ -468,7 +472,38 @@ trickier.
 \subsection{INLJ \& ETL}\label{inlj-etl}}
 
 INLJ is suitable for joining stream data with batch data in near
-real-time.
+real-time. The key idea of INLJ of two tables is looping on the first
+table and looking up on the second table through an index. Apparently,
+index cannot be build on the stream data, so we can only create index on
+the batch data table and loop on the stream data. It is an effective way
+to avoid exhaustive search on the batch table.
+
+To implement INLJ in PL/SQL, ``cursor'' is an important tool. A cursor
+fetches data from the output of a query, and can be traversed by a for
+loop. Cursors can fetch data row by row or in bulk. The difference
+between the two manner is performance. Each time when a cursor fetches
+data, there will be context switching between PL/SQL engine and SQL
+engine, which incurs overhead decreasing the overall performance.
+Therefore, fetching the data bulk by bulk (e.g.~50 rows at one time) can
+significantly increase the executing performance. To access the data
+from a cursor we need to declare variables to hold that data. We can
+either declare a variable in type of the whole row or multiple variables
+each one for a certain field.
+
+Before insert values into dimension tables, it is necessary to check
+whether that value already exists in the table or not. There are
+multiple ways to check the existance of one row before insertion. In
+this project a \texttt{WHERE\ NOT\ EXISTS} clause is used along with
+\texttt{INSERT\ INTO\ ...\ SELECT\ ...} statement to achieve this
+purpose, but the trick here is the use of a dummy table \texttt{dual}.
+The reason is as follows. The \texttt{INSERT\ INTO\ ...\ SELECT}
+statement will select rows from a table and insert into the target
+table, but here the data to insert actually comes from PL/SQL variables.
+Therefore, the dummy table \texttt{dual} is put in the \texttt{FROM}
+clause, but the columns in \texttt{SELECT} clause are actually the
+variables. With this approach we can make use of
+\texttt{INSERT\ INTO\ ...\ SELECT} statement to check the existance of a
+row before inserting it.
 
 \hypertarget{dw-query-analysis}{%
 \subsection{DW Query \& Analysis}\label{dw-query-analysis}}
@@ -520,12 +555,6 @@ complicated. What I learned from developing a dynamic query includes:
   simply ``pipe'' out each record immediately after it's retrieved
   without the needs for local collection.
 \end{itemize}
-
-\hypertarget{sql-oracle-developer}{%
-\subsection{SQL \& Oracle Developer}\label{sql-oracle-developer}}
-
-In this project a lot of SQL knowledge has been learned. Other than
-basic
 
 \printbibliography
 

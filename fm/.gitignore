@@ -8,3 +8,6 @@ q3.pdf
 *.zip
 
 ref
+
+*output.txt
+output*.txt

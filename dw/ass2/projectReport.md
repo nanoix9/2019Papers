@@ -39,6 +39,7 @@ header-includes:
     #             {}{}
     #         \makeatother
     #     ```
+    - \usepackage[noabbrev]{cleveref}
     - |
         ```{=latex}
             \usepackage{tcolorbox}
@@ -117,7 +118,7 @@ All the operations above are implemented in SQL.
 
 According to the original data, the DW will consist of one fact table *Sales* 
 and five dimension tables *Product*, *Supplier*, *Customer*, *Store*, and *Date*,
-as shown in Figure \ref{fig:overall}. The SQL code to create all tables are
+as shown in \cref{fig:overall}. The SQL code to create all tables are
 in file *createDW.sql*.
 
 \begin{figure}[htbp]
@@ -163,11 +164,11 @@ on sales before that change will be incorrect. Therefore, in this project price
 information is kept in *Sales* table. Since the amount of money in sales
 is a more frequent used number, we add to fact table an *amount* filed which 
 is calculated by $\mathit{quantity}\times \mathit{price}$. 
-In section \ref{price-attribute} further discussions will be provided on this issue.
+In \cref{price-attribute} further discussions will be provided on this issue.
 
 ## Dimensions
 
-Details of dimension tables can be referred to Figure \ref{fig:overall}. 
+Details of dimension tables can be referred to \cref{fig:overall}. 
 Most dimensions are as simple as "ID+name", while the *Date* dimension is relatively
 complicated. First of all, unlike other dimensions, there is no existing ID for *Date*.
 In this project, a string in format of "YYYYMMDD" is chosen as the ID for *Date*, 
@@ -309,7 +310,7 @@ be much redundant storage for price information. An alternative design is to
 add an extra dimension *SellingItem* which is simply a combination of *Product*
 and *price*. When price changes, a new "selling item" will be created with 
 the same *product_id* and the new *price*. This method is show in 
-Figure \ref{fig:alter-price}. The benefit is reducing the required storage
+\cref{fig:alter-price}. The benefit is reducing the required storage
 for price by normalisation. However, this alternative design ends up with an 
 architecture other than star-schema.
 
@@ -330,6 +331,9 @@ architecture other than star-schema.
 
 # Summary of Learning Outcomes
 
+It is a great way to learn from developing a complete DW project. The main
+outcomes learned from this project includes DW design, ETL process, 
+DW queries, and Oracle PL/SQL and SQL features.
 
 ## DW Development Lifecycle
 
@@ -354,6 +358,34 @@ attributed of "name". However, the *Date* dimension is trickier.
 ## INLJ & ETL
 
 INLJ is suitable for joining stream data with batch data in near real-time.
+The key idea of INLJ of two tables is looping on the first table and looking up
+on the second table through an index. Apparently, index cannot be build on
+the stream data, so we can only create index on the batch data table 
+and loop on the stream data. It is an effective way to avoid exhaustive search
+on the batch table.
+
+To implement INLJ in PL/SQL, "cursor" is an important tool. A cursor fetches data
+from the output of a query, and can be traversed by a for loop. 
+Cursors can fetch data row by row or in bulk. The difference between the two
+manner is performance. Each time when a cursor fetches data, there will be 
+context switching between PL/SQL engine and SQL engine, which incurs overhead
+decreasing the overall performance. Therefore, fetching the data bulk by bulk
+(e.g. 50 rows at one time) can significantly increase the executing performance.
+To access the data from a cursor we need to declare variables to hold that data. 
+We can either declare a variable in type of the whole row or multiple variables 
+each one for a certain field. 
+
+Before insert values into dimension tables, it is necessary to check whether that 
+value already exists in the table or not. There are multiple ways to check
+the existance of one row before insertion. In this project a `WHERE NOT EXISTS`
+clause is used along with `INSERT INTO ... SELECT ...` statement to achieve 
+this purpose, but the trick here is the use of a dummy table `dual`. 
+The reason is as follows. The `INSERT INTO ... SELECT` statement will select
+rows from a table and insert into the target table, but here the data to insert
+actually comes from PL/SQL variables. Therefore, the dummy table `dual` is
+put in the `FROM` clause, but the columns in `SELECT` clause are actually the
+variables. With this approach we can make use of `INSERT INTO ... SELECT` statement
+to check the existance of a row before inserting it.
 
 ## DW Query & Analysis
 
@@ -393,7 +425,3 @@ What I learned from developing a dynamic query includes:
     but with `PIPELINED` we can simply "pipe" out each record immediately after
     it's retrieved without the needs for local collection.
     
-
-## SQL & Oracle Developer
-
-In this project a lot of SQL knowledge has been learned. Other than basic
