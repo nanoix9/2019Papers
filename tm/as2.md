@@ -1,5 +1,5 @@
 ---
-title: Popular topics analysis
+title: Popular Topic Mining from Blogs
 subtitle: xxx
 author: 
     - name: "Stone Fang (Student ID: 19049045)"

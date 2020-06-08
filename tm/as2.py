@@ -7,6 +7,7 @@ from glob import glob
 from tqdm import tqdm
 import pickle
 
+import itertools
 from collections import namedtuple
 import pandas as pd
 from xml.etree import ElementTree
@@ -14,8 +15,10 @@ from xml.etree.ElementTree import ParseError
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+import nltk
+
 ################################################################################
-# Codes for data reading &
+#              Codes for data reading & transformation                         #
 ################################################################################
 
 Record = namedtuple('Record', ['meta', 'posts'])
@@ -104,6 +107,15 @@ def read_blogs_xml(path):
     return dataset
 
 def show_summary(dataset):
+    '''This function describes the summary of dataset or human inspection.
+    It's not necessary for the mining process.
+
+    Parameters
+    --------------
+    dataset : list of Record
+        The blog dataset 
+    '''
+
     df = pd.DataFrame([d.meta for d in dataset])
     df['blog_count'] = [len(d.posts) for d in dataset]
     # print(df)
@@ -117,8 +129,54 @@ def show_summary(dataset):
     print('{} possible values for zodiac: {}'.format(
             len(df.zodiac.unique()), ', '.join(sorted(df.zodiac.unique()))))
 
+################################################################################
+#              Codes for topic mining                         #
+################################################################################
+
+def tokenise(dataset):
+    '''
+    consider all the blogs from one person as a document
+
+    Returns
+    ---------
+    docs: list of list of list
+        a list of documents, each of which is a list of sentences,
+        each of which is a list of words.
+    '''
+
+    print('tokenising the text dataset...')
+    docs = []
+    for rec in dataset:
+        doc = []
+        for post in rec.posts:
+            # print(post)
+            for sent in nltk.sent_tokenize(post.text):
+                doc.append(nltk.word_tokenize(sent))
+            # print(doc)
+        docs.append(doc)
+        # print(doc)
+        # return(docs)
+    return docs
+
+def flatten2d(list2d):
+    return itertools.chain.from_iterable(list2d)
+
+def flatten3d(list3d):
+    return itertools.chain.from_iterable(flatten2d(list3d))
+
+def count_word(dataset):
+    docs = tokenise(dataset)
+
+    print('counting word frequencies...')
+    tf = nltk.FreqDist(flatten3d(docs))
+    print(tf.most_common(50))
+
 def main():
-    read_blogs('blogs')
+    # read_blogs('blogs')
+    # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
+    dataset = read_blogs('.', cache_file='blogs-10.pkl')
+    
+    count_word(dataset)
     return
 
 if __name__ == '__main__':
