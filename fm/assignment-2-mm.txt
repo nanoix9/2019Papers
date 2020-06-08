@@ -1,69 +1,133 @@
-vendingmachine.txt
+-- vendingmachine.txt
 
-MODULE button
-MODULE main
-
+MODULE button(maintenance, selected)
 VAR
-  button1pushed : boolean;
-  button2pushed : boolean;
-  button3pushed : boolean;
-  kiwicola : 0..3;
-  boltenergy : 0..3;
-  clearwater : 0..3;
-  maintenance : boolean;
-  paymentSuccessful : boolean;
-
-IVAR
-  error : boolean;
+    pushed : boolean;
 
 ASSIGN
-   ---------------------------
-   init(maintenance) := FALSE;
-   next(maintenance) :=
-   case
-	error : TRUE;
-	(kiwicola=0)&(boltenergy=0)&(clearwater=0) : TRUE
-	TRUE : maintenance;
-   esac;
-   ---------------------------
-   init(button1pushed) := FALSE;
-   next(button1pushed) :=
-   case
-	!maintenance&!button1pushed : {TRUE, FALSE};
-		      button1pushed : FALSE;
-			       TRUE : button1pushed;
-   ---------------------------
-   init(button2pushed) := FALSE;
-   next(button2pushed) :=
-   case
-	!maintenance&!button2pushed : {TRUE, FALSE};
-		      button2pushed : FALSE;
-			       TRUE : button2pushed;
-   ---------------------------
-   init(button3pushed) := FALSE;
-   next(button3pushed) :=
-   case
-	!maintenance&!button3pushed : {TRUE, FALSE};
-		      button3pushed : FALSE;
-			       TRUE : button3pushed;
-   init(kiwicola) := 3;
-   next(kiwicola) := 
-   case
-	!maintenance&button1pushed&paymentSuccessful&(kiwicola>0) : kiwicola - 1;
-				                             TRUE : kiwicola;
-   esac;
-   ---------------------------
-   init(boltenergy) := 3;
-   next(boltenergy) := 
-   case
-	!maintenance&button2pushed&paymentSuccessful&(boltenergy>0) : boltenergy - 1;
-				                               TRUE : boltenergy;
-   esac;
-   ---------------------------
-   init(clearwater) := 3;
-   next(clearwater) := 
-   case
-	!maintenance&button3pushed&paymentSuccessful&(clearwater>0) : clearwater - 1;
-				                               TRUE : clearwater;
-   esac;
-   ---------------------------
+    init(pushed) := FALSE;
+    next(pushed) :=
+    case
+                   maintenance : FALSE;    -- never let button be pushed in maintenance mode
+              selected != none : FALSE;    -- let button not pushed if something has already been selected
+        !maintenance & !pushed : {TRUE, FALSE};
+                        pushed : FALSE;
+                          TRUE : pushed;
+    esac;
+
+LTLSPEC G (pushed -> X(!pushed))
+LTLSPEC G (selected != none -> X(!pushed))
+LTLSPEC G (maintenance -> X(!pushed))              -- once entered maintenance mode,
+LTLSPEC G (maintenance & !pushed -> G(!pushed))    -- button will never be pushed
+
+
+--------------------------------------------------------------------------------
+
+MODULE product(maintenance, selected, paymentSuccessful, pro_type, n)
+VAR
+    amount : 0..n;
+
+ASSIGN
+    init(amount) := n;
+    next(amount) := 
+    case
+                                maintenance : amount;
+                                 amount = 0 : 0;
+    selected = pro_type & paymentSuccessful : amount - 1;
+                                       TRUE : amount;
+    esac;
+
+
+--------------------------------------------------------------------------------
+
+MODULE vending_machine
+
+VAR
+    maintenance : boolean;
+    paymentSuccessful : boolean;
+    button1 : button(maintenance, selected);
+    button2 : button(maintenance, selected);
+    button3 : button(maintenance, selected);
+    selected: {none, kiwicola, boltenergy, clearwater};
+    pro_kiwicola   : product(maintenance, selected, paymentSuccessful, kiwicola,   3);
+    pro_boltenergy : product(maintenance, selected, paymentSuccessful, boltenergy, 3);
+    pro_clearwater : product(maintenance, selected, paymentSuccessful, clearwater, 3);
+    
+IVAR
+    error : boolean;
+
+ASSIGN
+    ---------------------------
+    init(maintenance) := FALSE;
+    next(maintenance) :=
+    case
+                                                                             error  : TRUE;
+    (pro_kiwicola.amount=0) & (pro_boltenergy.amount=0) & (pro_clearwater.amount=0) : TRUE;
+                                                                               TRUE : maintenance;
+    esac;
+    ---------------------------
+    init(paymentSuccessful) := FALSE;
+    next(paymentSuccessful) :=
+    case
+    TRUE: FALSE;
+    esac;
+    ---------------------------
+    init(selected) := none;
+    next(selected) := 
+    case
+                                       selected != none : selected;    -- holds selection if already selected
+     button1.pushed & !button2.pushed & !button3.pushed : kiwicola;    -- make selection if and only if
+    !button1.pushed &  button2.pushed & !button3.pushed : boltenergy;  --   one button is pushed
+    !button1.pushed & !button2.pushed &  button3.pushed : clearwater;  --
+                                                   TRUE : selected;
+    esac;
+    ---------------------------
+    -- init(button1) := FALSE;
+    -- next(button1) :=
+    -- case
+     --     !maintenance&!button1pushed : {TRUE, FALSE};
+     --                         button1pushed : FALSE;
+     --                                      TRUE : button1pushed;
+    -- esac;
+    -- ---------------------------
+    -- init(button2pushed) := FALSE;
+    -- next(button2pushed) :=
+    -- case
+     -- !maintenance&!button2pushed : {TRUE, FALSE};
+     --              button2pushed : FALSE;
+     --                     TRUE : button2pushed;
+    -- esac;
+    -- ---------------------------
+    -- init(button3pushed) := FALSE;
+    -- next(button3pushed) :=
+    -- case
+     -- !maintenance&!button3pushed : {TRUE, FALSE};
+     --              button3pushed : FALSE;
+     --                     TRUE : button3pushed;
+    -- esac;
+
+    -- init(kiwicola) := 3;
+    -- next(kiwicola) := 
+    -- case
+    --  !maintenance & button1.pushed & paymentSuccessful & (kiwicola>0) : kiwicola - 1;
+    --                                                         TRUE : kiwicola;
+    -- esac;
+    -- ---------------------------
+    -- init(boltenergy) := 3;
+    -- next(boltenergy) := 
+    -- case
+    --  !maintenance&button2.pushed&paymentSuccessful&(boltenergy>0) : boltenergy - 1;
+    --                                                           TRUE : boltenergy;
+    -- esac;
+    -- ---------------------------
+    -- init(clearwater) := 3;
+    -- next(clearwater) := 
+    -- case
+    --  !maintenance&button3.pushed&paymentSuccessful&(clearwater>0) : clearwater - 1;
+    --                                                           TRUE : clearwater;
+    -- esac;
+    ---------------------------
+
+MODULE main
+VAR
+    vm: vending_machine;
