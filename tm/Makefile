@@ -15,10 +15,12 @@ TEX_TMPL=ass1-tmpl.tex
 
 # NAME=will-ai-destroy-humankind
 NAME=ass1
+NAME2=as2
 BIB_FILE=ass1.bib
 # BIB_FILE=../ai/ai.bib
 
 TEX=pdflatex
+TEX=pdflatex -shell-escape
 
 all: tex
 
@@ -59,6 +61,38 @@ tex2pdf:
 	# dvipdfm $(NAME).dvi
 	
 tp: tex tex2pdf
+
+
+tex-2:
+	pandoc -s \
+		--number-section \
+		--biblatex \
+		--filter pandoc-fignos \
+		--template=$(TEX_TMPL) \
+		--include-after-body appendix.tex \
+		--metadata=link-citations \
+		--metadata=reference-section-title:Reference \
+	 	-f markdown+raw_attribute \
+		-t latex \
+		-o $(NAME2).tex $(NAME2).md
+
+	# \
+	--number-section \
+	--template=$(TEX_TMPL) \
+		--table-of-contents \
+		--filter pandoc-citeproc \
+		
+tex2pdf-2:
+	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
+		| 
+	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
+	# $(TEX) $(NAME2)
+	# bibtex $(NAME2)
+	$(TEX) $(NAME2)
+	$(TEX) $(NAME2)
+	# dvipdfm $(NAME).dvi
+	
+as2: tex-2 tex2pdf-2
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
