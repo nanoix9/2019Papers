@@ -10,12 +10,14 @@ import pickle
 import itertools
 from collections import namedtuple
 import pandas as pd
-from xml.etree import ElementTree
-from xml.etree.ElementTree import ParseError
+# from xml.etree import ElementTree
+# from xml.etree.ElementTree import ParseError
 from bs4 import BeautifulSoup
-from datetime import datetime
+# from datetime import datetime
 
 import nltk
+from nltk.corpus import stopwords
+sw = stopwords.words("english")
 
 ################################################################################
 #              Codes for data reading & transformation                         #
@@ -63,7 +65,7 @@ def read_blog_file(fpath):
             except ValueError:
                 print('Warning: invalid date {} in file {}' \
                         .format(c.text, fpath))
-                date = datetime.fromtimestamp(0)
+                # date = datetime.fromtimestamp(0)
             state = 'post'
         else:
             text = c.text.strip()
@@ -95,8 +97,8 @@ def read_blogs(path, force=False, cache_file='blogs.pkl'):
 def read_blogs_xml(path):
     print('reading all data files from directory {} ...'.format(path))
     dataset = []
-    for fpath in tqdm(glob(os.path.join(path, '*'))):
-    # for fpath in list(glob(os.path.join(path, '*')))[:10]:
+    # for fpath in tqdm(glob(os.path.join(path, '*'))):
+    for fpath in list(glob(os.path.join(path, '*')))[:3]:
         # print(fpath)
         fname = os.path.basename(fpath)
         meta_data = parse_meta_data(fname)
@@ -151,7 +153,7 @@ def tokenise(dataset):
         for post in rec.posts:
             # print(post)
             for sent in nltk.sent_tokenize(post.text):
-                doc.append(nltk.word_tokenize(sent))
+                doc.append([w.lower() for w in nltk.word_tokenize(sent)])
             # print(doc)
         docs.append(doc)
         # print(doc)
@@ -164,17 +166,39 @@ def flatten2d(list2d):
 def flatten3d(list3d):
     return itertools.chain.from_iterable(flatten2d(list3d))
 
+def map2d(f, docs):
+    for doc in docs:
+        yield [f(sent) for sent in doc]
+
+def map3d(f, docs):
+    for doc in docs:
+        yield [[f(word) for word in sent] for sent in doc]
+    
+def get_things(docs):
+    things = filter(lambda wp: wp[1] == 'NN', flatten3d(docs))
+    tf = nltk.FreqDist(things)
+    print(tf.most_common(50))
+
+#TODO: remove stop words
 def count_word(dataset):
     docs = tokenise(dataset)
 
+    print('POS tagging...')
+    tagged_docs = list(map2d(lambda s: nltk.pos_tag(s), docs))
+    print(tagged_docs[0][0])
+    # print(sorted(set(p for w, p in flatten3d(tagged_docs))))
+
+    things = get_things(tagged_docs)
+
     print('counting word frequencies...')
-    tf = nltk.FreqDist(flatten3d(docs))
+    tf = nltk.FreqDist(flatten3d(tagged_docs))
     print(tf.most_common(50))
 
 def main():
     # read_blogs('blogs')
     # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
-    dataset = read_blogs('.', cache_file='blogs-10.pkl')
+    # dataset = read_blogs('.', cache_file='blogs-10.pkl')
+    dataset = read_blogs('.', cache_file='blogs-3.pkl')
     
     count_word(dataset)
     return
