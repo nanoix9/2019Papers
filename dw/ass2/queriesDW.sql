@@ -1,5 +1,8 @@
 -- Q1 Determine the top 5 products in Dec 2019 in terms of total sales
 -- PRODUCT_NAME TOTAL_SALES RANK 
+--
+-- The idea is to calculate the sales per product in Dec 2019, then
+-- rank the sales in descending order, and finally get top 5.
 
 WITH s AS (
     SELECT product_id, sum(amount) AS total_sales 
@@ -23,6 +26,8 @@ WHERE rank <= 5;
 
 -- Q2 Determine which store produced highest sales in the whole year?
 -- STORE_NAME TOTAL_SALES RANK 
+--
+-- Same idea to Q1.
 
 WITH s AS (
     SELECT store_id, sum(amount) AS total_sales 
@@ -48,6 +53,13 @@ WHERE ROWNUM = 1;
 -- Q3 Determine the top 3 products for a month (say, Dec 2019), and 
 -- for the 2 months before that, in terms of total sales.
 -- PRODUCT_NAME SUM(TOTAL_SALES) RANK 
+--
+-- The basic idea is to create a PL/SQL function that returns a collection
+-- mimicing a table. To do this, first we need declare the types for that 
+-- collection, and then use a cursor to retrieve the data of one month inside
+-- the function. Since the cursor is parameterised, it can be reused to 
+-- query the data for any month. With this approach we can do the analysis
+-- for any consecutive months.
 
 DROP TYPE T_TABLE_COLL;
 DROP TYPE T_TABLE;
@@ -132,10 +144,29 @@ SELECT * FROM StoreAnalysis WHERE ROWNUM <= 5;
 -- Q5 Think about what information can be retrieved from the materialised view
 -- created in Q4 using ROLLUP or CUBE concepts and provide some useful information
 -- of your choice for management.
+-- 
+-- Following is a query for the data of total sales of each store, as well as
+-- the product with highest sales in each store. `ROLLUP` is used here
+-- to calculate the summation and product-wised sales simultaneously.
 
-
-SELECT store_name, product_name, SUM(total_sales)
-FROM StoreAnalysis a, Store s, Product p
-WHERE a.store_id = s.store_id AND a.product_id = p.product_id
-    AND a.store_id < 'S-3' AND a.product_id < 'P-1003'
-GROUP BY ROLLUP(store_name, product_name);
+WITH sa AS (
+    SELECT store_id,
+           product_id, 
+           SUM(total_sales) AS total_sales,
+           RANK() OVER (
+                PARTITION BY store_id
+                ORDER BY SUM(total_sales) DESC) AS rank
+    FROM StoreAnalysis
+    GROUP BY ROLLUP(store_id, product_id)
+)
+SELECT store_name, 
+       product_name, 
+       total_sales, 
+       (CASE WHEN rank = 1 THEN NULL ELSE rank - 1 END) AS rank
+FROM sa
+LEFT JOIN Store s
+ON sa.store_id = s.store_id
+LEFT JOIN Product p
+ON sa.product_id = p.product_id
+WHERE rank <= 2
+ORDER BY store_name, total_sales DESC;

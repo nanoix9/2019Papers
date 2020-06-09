@@ -14,11 +14,13 @@ DROP TABLE Customer;
 DROP TABLE Store;
 DROP TABLE DateDim;
 
-  
+--------------------------------------------------------------------------------
+-- DDL for Dimension Tables
+--------------------------------------------------------------------------------
+
 CREATE TABLE Product (
     product_id      VARCHAR2(6)  NOT NULL,
     product_name    VARCHAR2(30) NOT NULL, 
-    -- PRICE           NUMBER(5,2)  NOT NULL,
     CONSTRAINT product_pk PRIMARY KEY (product_id));
 
 
@@ -56,14 +58,16 @@ CREATE TABLE DateDim (
     CONSTRAINT quater_range      CHECK (quarter      BETWEEN 1 AND 4)
     );
 
--- TODO: more index?
-CREATE UNIQUE INDEX "DATE_YEAR" ON DateDim ("year");
-CREATE UNIQUE INDEX "DATE_MONTH" ON DateDim ("month");
-CREATE UNIQUE INDEX "PRODUCT_NAME" ON PRODUCT ("year");
-
+-- Create indexes on all level
+-- Indexes on primary key will be created automatically
+CREATE INDEX Product_product_name_i   ON Product  (product_name);
+CREATE INDEX Supplier_supplier_name_i ON Supplier (supplier_name);
+CREATE INDEX Customer_customer_name_i ON Customer (customer_name);
+CREATE INDEX Store_store_name_i       ON Store    (store_name);
+CREATE INDEX Date_multi_i             ON DateDim  (year, quarter, month, week, day, day_of_week);
 
 --------------------------------------------------------
---  DDL for Table Sales
+--  DDL for Fact Table: Sales
 --------------------------------------------------------
 
 CREATE TABLE Sales (
@@ -75,7 +79,7 @@ CREATE TABLE Sales (
     date_id       VARCHAR2(8)   NOT NULL,
     quantity      NUMBER(3,0)   NOT NULL,
     amount        NUMBER(8,2)   NOT NULL,
-    -- CONSTRAINT SALES_PK PRIMARY KEY (product_id, customer_id, store_id, date_id) 
+    CONSTRAINT SALES_PK    PRIMARY KEY (sales_id), 
     CONSTRAINT product_fk  FOREIGN KEY (product_id)  REFERENCES Product  (product_id),
     CONSTRAINT supplier_fk FOREIGN KEY (supplier_id) REFERENCES Supplier (supplier_id),
     CONSTRAINT customer_fk FOREIGN KEY (customer_id) REFERENCES Customer (customer_id),
@@ -83,8 +87,12 @@ CREATE TABLE Sales (
     CONSTRAINT date_fk     FOREIGN KEY (date_id)     REFERENCES DateDim  (date_id)
     );
 
+
 --------------------------------------------------------------------------------
--- show info of tables just created
+-- The following is just showing informations of tables just created.
+-- Not mandatory for code execution.
+--------------------------------------------------------------------------------
+-- describe tables
 DESC Product;
 DESC Store;
 DESC Supplier;
@@ -92,7 +100,6 @@ DESC Customer;
 DESC DateDim;
 DESC Sales;
 
---------------------------------------------------------------------------------
 -- Show constraints of all tables. 
 -- The table names are all in uppercase in the `user_constraints` table.
 SELECT * FROM user_constraints WHERE table_name = 'SALES';

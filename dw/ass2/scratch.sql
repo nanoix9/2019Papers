@@ -22,6 +22,75 @@ order by ts desc;
 SELECT * FROM dual;
 
 
+-- Q1 Determine the top 5 products in Dec 2019 in terms of total sales
+-- PRODUCT_NAME TOTAL_SALES RANK 
+select product_name, sum(quantity*price) as TOTAL_SALES,
+    rank() over (order by sum(quantity*price) desc) as rank
+from TRANSACTIONS t, MASTERDATA m
+where t.product_id = m.product_id
+    and t_date >= to_date('01/12/19','DD/MM/RR')
+    and t_date <= to_date('31/12/19','DD/MM/RR')
+group by product_name;
+
+-- Q2 Determine which store produced highest sales in the whole year?
+-- STORE_NAME TOTAL_SALES RANK 
+
+select store_name, sum(quantity*price) as TOTAL_SALES,
+    rank() over (order by sum(quantity*price) desc) as rank
+from TRANSACTIONS t, MASTERDATA m
+where t.product_id = m.product_id
+    and t_date >= to_date('01/01/19','DD/MM/RR')
+    and t_date <= to_date('31/12/19','DD/MM/RR')
+group by store_name;
+
+
+-- Q3 Determine the top 3 products for a month (say, Dec 2019), and 
+-- for the 2 months before that, in terms of total sales.
+-- PRODUCT_NAME SUM(TOTAL_SALES) RANK 
+with s as (
+select product_name, sum(quantity*price) as TOTAL_SALES,
+    rank() over (
+        partition by extract(month from t_date)
+        order by sum(quantity*price) desc) as rank,
+    extract(month from t_date) as month,
+    extract(year from t_date)
+from TRANSACTIONS t, MASTERDATA m
+where t.product_id = m.product_id
+    and t_date >= to_date('01/10/19','DD/MM/RR')
+    and t_date <= to_date('31/12/19','DD/MM/RR')
+group by product_name, extract(month from t_date), extract(year from t_date)
+) select * from s where rank <= 3 order by month desc, rank;
+
+-- Q5 Think about what information can be retrieved from the materialised view
+-- created in Q4 using ROLLUP or CUBE concepts and provide some useful information
+-- of your choice for management.
+-- 
+-- Following is a query for the data of total sales of each store, as well as
+-- the product with highest sales in each store. `ROLLUP` is used here
+-- to calculate the summation and product-wised sales simultaneously.
+
+-- drop materialized view mv;
+-- create materialized view mv as 
+-- select store_name, product_name, sum(quantity*price) as sales
+-- from TRANSACTIONS t, MASTERDATA m
+-- where t.product_id = m.product_id
+-- group by store_name, product_name
+-- ORDER BY store_name, product_name;
+
+select * from(
+select store_name, product_name, 
+    sum(quantity*price) as total_sales,
+    rank() over (partition by store_name order by sum(quantity*price) desc) as rank
+from TRANSACTIONS t, MASTERDATA m
+where t.product_id = m.product_id 
+group by rollup(store_name, product_name)
+) where rank <= 2;
+
+
+
+
+
+
 -- 1167	
 SELECT t.*, m.*, quantity * price FROM TRANSACTIONS t INNER JOIN MASTERDATA m ON t.product_id = m. product_id WHERE t.product_id='P-1086' and customer_id='C-19' and	store_id='S-2' and t_date=DATE'2019-07-08'; --	8	96.32
 -- 1168	

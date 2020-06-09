@@ -97,26 +97,27 @@ one of the largest fresh food market chains in New Zealand. Analysis of sales
 and customer shopping behaviours can give NatureFresh in-depth insight of the market,
 so they can improve their selling strategies accordingly.
 
-The original available data are customer transactions and product information.
-The transaction data contains records of customer buying, including who (customer)
-bought what (product), when (date), where(store) and how many was bought (quantity).
+The original available data are customer transactions and master data of product information.
+The transaction data contains customer shopping records, including who (customer)
+bought what (product) at when (date), where(store) and how many was bought (quantity).
 The product data contains information for each product, including supplier and price.
 
-However, the format of original data doesn't fit into the requirement of OLAP,
+However, the format of original data doesn't fit the requirement of OLAP,
 so first we need transform the data into other formats for better querying.
 
 The major content of this project contains:
 
-- Design and implement the star-schema for sales DW, i.e. fact & dimension tables
-- Fill DW by ETL process. Specifically, do Index Nested Loop Join (INLJ) on
+- Design and implementation of the star-schema for sales DW, that is,
+    fact and dimension tables.
+- Filling DW by ETL process. Specifically, do Index Nested Loop Join (INLJ) on
     transactions and master data, transform and load data into fact & dimension tables.
-- Execute queries on DW
+- Analysis on DW by SQL queries.
 
-All the operations above are implemented in SQL.
+All the operations above are implemented in SQL & PL/SQl.
 
 # Schema for DW
 
-According to the original data, the DW will consist of one fact table *Sales* 
+According to the fields in original data, the DW will consist of one fact table *Sales* 
 and five dimension tables *Product*, *Supplier*, *Customer*, *Store*, and *Date*,
 as shown in \cref{fig:overall}. The SQL code to create all tables are
 in file *createDW.sql*.
@@ -169,7 +170,7 @@ In \cref{price-attribute} further discussions will be provided on this issue.
 ## Dimensions
 
 Details of dimension tables can be referred to \cref{fig:overall}. 
-Most dimensions are as simple as "ID+name", while the *Date* dimension is relatively
+Most dimensions are as simple as "ID"+"name", while the *Date* dimension is relatively
 complicated. First of all, unlike other dimensions, there is no existing ID for *Date*.
 In this project, a string in format of "YYYYMMDD" is chosen as the ID for *Date*, 
 rather than an auto-incremental column. The advantage is such ID is more readable
@@ -181,29 +182,35 @@ are calculated, including *year*, *quarter*, *month*, *week*, *day*, *day_of_wee
 In fact, it can be extended to more fields such as *is_public_holiday*, if some
 analysis on holiday is in demand.
 
+In Oracle SQL Developer, index will be created automatically on primary key column.
+However, we rarely retrieve data only by primary keys because primary key 
+is usually an ID which is not readable to humans. There for, 
+indexes will be created on all levels of attributes in dimension tables 
+for fast retrieval.
+
 # INLJ Algorithm
 
 Index Nested Loop Join (INLJ) is a table joining algorithm that can be used for
 stream data joining. Nested Loop Join takes an outer loop and an inner loop, each
-for one table, and output the rows that matches the conditions, so the time complexity
+on one table, and output the rows that matches the conditions, so the time complexity
 is $O(N M)$ where $N$ and $M$ are the number of rows of two tables.
-. However, INLJ only keep the outer loop and replace the inner loop with an index-based
-loop up, thus greatly reduce the time complexity. For example, if the index is
-implemented by B-tree, then complexity of lookup is a logarithm of $M$ 
+However, INLJ only keep the outer loop and replace the inner loop with an index-based
+look-up, thus greatly reduce the time complexity. For example, if the index is
+implemented by a B-tree, then complexity of look-up is $O(\log M)$ 
 instead of linear which is the case of the inner loop.
 
 This algorithm is implemented in PL/SQL. First, a bulk (50 rows in this project) 
 of transactions are read into memory. 
-Then all rows in the bulk are read one after another, and retrieve 
-the information for current row from master data by *product_id*. 
+Then all rows in the bulk are read sequentially, and retrieve 
+the information for current row from master data by *product_id* . 
 Then all properties corresponding to current row are transformed to fit the 
 star schema and then load into the fact and dimension tables. Please refer to
 file *INLJ.sql* for the complete implementation.
 
 # OLAP Queries Results
 
-This section summarise the results of required analysis. The SQL statements
-for these queries are referred to file *queriesDW.sql*.
+This section summarises the methods and results of required analysis. The SQL statements
+of these queries are referred to file *queriesDW.sql*.
 
 \let\oldsubsection\thesubsection
 \renewcommand*{\thesubsection}{Question~\arabic{subsection}}
@@ -211,9 +218,9 @@ for these queries are referred to file *queriesDW.sql*.
 ## 
 <!-- Top 5 products in Dec 2019 -->
 
-> Determine the top 5 products in Dec 2019 in terms of total sales
+> **Question**: Determine the top 5 products in Dec 2019 in terms of total sales
 
-\sqloutputbegin
+<!-- \sqloutputbegin
 
     PRODUCT_NAME                   TOTAL_SALES       RANK
     ------------------------------ ----------- ----------
@@ -223,28 +230,58 @@ for these queries are referred to file *queriesDW.sql*.
     Relish                             1574.18          4
     Pears                              1396.53          5
 
-\sqloutputend
+\sqloutputend -->
+
+<!-- ![Q1 Output](./img/q1.png){ width=250px } -->
+The basic idea is to calculate the sales per product in Dec 2019, then rank the sales in descending order, and finally get first 5 ranks.
+The output of query is shown as \cref{fig:q1-output}.
+
+\begin{figure}
+    \centering
+    \scalebox{.7}{\includegraphics{./img/q1.png}}
+    \caption{Query 1 Output\label{fig:q1-output}}
+\end{figure}
 
 ## 
 <!-- Store producing highest sales -->
 
-> Determine which store produced highest sales in the whole year?
+> **Question**: Determine which store produced highest sales in the whole year?
 
-\sqloutputbegin
+<!-- \sqloutputbegin
 
     STORE_NAME           TOTAL_SALES       RANK
     -------------------- ----------- ----------
     Manukau                 82873.81          1
 
-\sqloutputend
+\sqloutputend -->
+
+<!-- ![Q2 Output](./img/q2.png){ width=250px } -->
+
+The method is similar to previous question. 
+The output of query is shown as \cref{fig:q2-output}.
+
+\begin{figure}
+    \centering
+    \scalebox{.7}{\includegraphics{./img/q2.png}}
+    \caption{Query 2 Output\label{fig:q2-output}}
+\end{figure}
 
 ## 
 <!-- Top 3 products for three consecutive months -->
 
-> Determine the top 3 products for a month (say, Dec 2019), and 
+> **Question**: Determine the top 3 products for a month (say, Dec 2019), and 
 for the 2 months before that, in terms of total sales.
 
-\sqloutputbegin
+The basic idea is to create a PL/SQL function that returns a collection
+mimicking a table. To do this, first we need declare the types for that 
+collection as the return type of the function, and then use a cursor 
+inside the function to retrieve the data of one month. Since the cursor
+is parameterised, it can be reused to 
+query the data for any month. With this approach we can do the analysis
+for any consecutive months.
+The output of query is shown as \cref{fig:q3-output}.
+
+<!-- \sqloutputbegin
 
     PRODUCT_NAME                   TOTAL_SALES       RANK      MONTH       YEAR
     ------------------------------ ----------- ---------- ---------- ----------
@@ -258,19 +295,27 @@ for the 2 months before that, in terms of total sales.
     Pizza / Pizza Rolls                   1505          2         10       2019
     Oregano                             1476.8          3         10       2019
 
-\sqloutputend
+\sqloutputend -->
+
+<!-- ![Q3 Output](./img/q3.png){ width=250px } -->
+
+\begin{figure}
+    \centering
+    \scalebox{.7}{\includegraphics{./img/q3.png}}
+    \caption{Query 3 Output\label{fig:q3-output}}
+\end{figure}
 
 ## 
 <!-- Product-wise materialised view -->
 
-> Create a materialised view called “STOREANALYSIS” that presents 
+> **Question**: Create a materialised view called “STOREANALYSIS” that presents 
 the product-wise sales analysis for each store. The results should be ordered 
 by StoreID and then ProductID.
 
 <!-- STOREID PRODUCTID SUM(STORE_TOTAL) 
 -------- ---------- ---------------- -->
 
-\sqloutputbegin[SQL Output\footnotemark]
+<!-- \sqloutputbegin[SQL Output\footnotemark]
 
     STOR PRODUC TOTAL_SALES
     ---- ------ -----------
@@ -280,22 +325,47 @@ by StoreID and then ProductID.
     S-1  P-1004       250.2
     S-1  P-1005     1318.68
 
-\sqloutputend
+\sqloutputend -->
 
-\footnotetext{
+<!-- \footnotetext{
 The output from Oracle SQL Developer doesn't show the complete names of columns,
 which I assume is a feature on materilised view to save display areas.
 It's only a sample query for inspection of the materialised view which has been 
 just created. The content is correct, so the output was just copied and 
 pasted here without any manual editing.
-}
+} -->
+
+<!-- ![Q4 Output](./img/q4.png){ width=250px } -->
+The query is a creation statement so the output is insignificant. 
+A sample of rows from the materialised view is shown in \cref{fig:q4-output}.
+
+\begin{figure}
+    \centering
+    \scalebox{.7}{\includegraphics{./img/q4.png}}
+    \caption{Query 4 Output\label{fig:q4-output}}
+\end{figure}
 
 ## 
 <!-- Further analysis on materialised view -->
 
-> Think about what information can be retrieved from the materialised view
+> **Question**: Think about what information can be retrieved from the materialised view
 > created in Q4 using ROLLUP or CUBE concepts and provide some useful information
 > of your choice for management.
+
+<!-- ![Q5 Output](./img/q5.png){ width=250px } -->
+
+
+To answer this question, a query will be created to calculate 
+the overall and store-wise sales, as well as
+the product with highest sales in each store. `ROLLUP` is used
+to calculate the summation and product-wised sales simultaneously.
+The output of query is shown as \cref{fig:q5-output}.
+
+\begin{figure}
+    \centering
+    \scalebox{.7}{\includegraphics{./img/q5.png}}
+    \caption{Query 5 Output\label{fig:q5-output}}
+\end{figure}
 
 \renewcommand*{\thesubsection}{\oldsubsection}
 
@@ -354,6 +424,11 @@ because it has less table joints for a query. However, the disadvantage is
 the lack of normalisation. 
 Most dimensions are simple, containing only one 
 attributed of "name". However, the *Date* dimension is trickier. 
+Decisions have been made on the choice of primary key of *date*, and 
+what attributes should be included in this dimension. Furthermore, 
+constraints are applied to all fields to make all values valid. For example,
+*day_of_week* field is restricted to numbers between 1 and 7, so an
+invalid value such as 8 can never been inserted into the table.
 
 ## INLJ & ETL
 
@@ -362,23 +437,23 @@ The key idea of INLJ of two tables is looping on the first table and looking up
 on the second table through an index. Apparently, index cannot be build on
 the stream data, so we can only create index on the batch data table 
 and loop on the stream data. It is an effective way to avoid exhaustive search
-on the batch table.
+on the batch data table.
 
 To implement INLJ in PL/SQL, "cursor" is an important tool. A cursor fetches data
-from the output of a query, and can be traversed by a for loop. 
+from the output of a query, and can be traversed by a for-loop. 
 Cursors can fetch data row by row or in bulk. The difference between the two
 manner is performance. Each time when a cursor fetches data, there will be 
 context switching between PL/SQL engine and SQL engine, which incurs overhead
 decreasing the overall performance. Therefore, fetching the data bulk by bulk
-(e.g. 50 rows at one time) can significantly increase the executing performance.
+(e.g. 50 rows at one time) can significantly increase the execution performance.
 To access the data from a cursor we need to declare variables to hold that data. 
-We can either declare a variable in type of the whole row or multiple variables 
-each one for a certain field. 
+We can either declare a single variable in type of the whole row or multiple variables 
+each one for a specific field. 
 
-Before insert values into dimension tables, it is necessary to check whether that 
+Before inserting values into dimension tables, it is necessary to check whether that 
 value already exists in the table or not. There are multiple ways to check
 the existance of one row before insertion. In this project a `WHERE NOT EXISTS`
-clause is used along with `INSERT INTO ... SELECT ...` statement to achieve 
+clause is used along with `INSERT INTO ... SELECT ...` statement for 
 this purpose, but the trick here is the use of a dummy table `dual`. 
 The reason is as follows. The `INSERT INTO ... SELECT` statement will select
 rows from a table and insert into the target table, but here the data to insert
@@ -389,8 +464,8 @@ to check the existance of a row before inserting it.
 
 ## DW Query & Analysis
 
-Analysis on DW should be translated to SQL queries. It's usually required 
-to do table join so the query would be a bit complicated even for a simple analysis.
+Analysis on DW should be implemented by SQL queries. It usually involves 
+ table joining so the query would be a bit complicated even for a simple analysis.
 
 **Top K retrieval** is a type of common analysis, which finds the most or
 least measurements with corresponding dimension values. For example, it's useful

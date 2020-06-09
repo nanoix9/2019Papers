@@ -70,3 +70,14 @@ svg:
 
 png:
 	$(DRAW) -x -f png -o star-schema.png star-schema.drawio 
+
+zip:
+	zip Fang_19049045.zip createDW.sql INLJ.sql queriesDW.sql \
+		projectReport.pdf readMe.txt
+
+
+docx:
+	pandoc -s -N \
+		--metadata=link-citations \
+		--metadata=reference-section-title:References \
+	 	-f markdown -t docx -o $(NAME).docx $(NAME).md
