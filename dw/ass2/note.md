@@ -237,3 +237,101 @@ Whangaparaora        Mac and cheese                      2320.5          2
                                                       717674.19          1
 
 21 rows selected. 
+
+
+
+
+
+
+
+
+
+------- queryDW result -----------------
+PRODUCT_NAME                   TOTAL_SALES       RANK
+------------------------------ ----------- ----------
+Bouillon cubes                     1759.58          1
+Kiwis                              1757.75          2
+Mac and cheese                        1632          3
+Relish                             1574.18          4
+Pears                              1396.53          5
+
+
+STORE_NAME           TOTAL_SALES       RANK
+-------------------- ----------- ----------
+Manukau                 82873.81          1
+
+
+Type T_TABLE_COLL dropped.
+
+
+Type T_TABLE dropped.
+
+
+Type T_TABLE compiled
+
+
+Type T_TABLE_COLL compiled
+
+
+Function TOP_IN_MONTHS compiled
+
+
+PRODUCT_NAME                   TOTAL_SALES       RANK      MONTH       YEAR
+------------------------------ ----------- ---------- ---------- ----------
+Bouillon cubes                     1759.58          1         12       2019
+Kiwis                              1757.75          2         12       2019
+Mac and cheese                        1632          3         12       2019
+Onions                             2296.74          1         11       2019
+Relish                             1751.91          2         11       2019
+Broccoli                           1514.52          3         11       2019
+Paprika                             1692.6          1         10       2019
+Pizza / Pizza Rolls                   1505          2         10       2019
+Oregano                             1476.8          3         10       2019
+
+9 rows selected. 
+
+
+Materialized view STOREANALYSIS dropped.
+
+
+Materialized view STOREANALYSIS created.
+
+
+STOR PRODUC TOTAL_SALES
+---- ------ -----------
+S-1  P-1001       540.9
+S-1  P-1002       164.4
+S-1  P-1003      448.76
+S-1  P-1004       250.2
+S-1  P-1005     1318.68
+
+
+STORE_NAME           PRODUCT_NAME                   TOTAL_SALES       RANK
+-------------------- ------------------------------ ----------- ----------
+Albany                                                 80560.02           
+Albany               Soups                              2328.48          1
+East Auckland                                          78219.92           
+East Auckland        Oregano                               2080          1
+Henderson                                               42562.6           
+Henderson            Burritos                           1713.66          1
+Manukau                                                82873.81           
+Manukau              Corn                                  2442          1
+Massey                                                 74629.76           
+Massey               Bouillon cubes                     2031.68          1
+Queen St.                                              40450.26           
+
+STORE_NAME           PRODUCT_NAME                   TOTAL_SALES       RANK
+-------------------- ------------------------------ ----------- ----------
+Queen St.            Corn                               1318.68          1
+St. james                                              78686.72           
+St. james            Celery                             2201.76          1
+West Auckland                                          76360.63           
+West Auckland        Celery                                2502          1
+Westgate                                               82771.26           
+Westgate             Melon                               2946.9          1
+Whangaparaora                                          80559.21           
+Whangaparaora        Mac and cheese                      2320.5          1
+                                                      717674.19           
+
+21 rows selected. 
+

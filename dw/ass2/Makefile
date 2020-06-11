@@ -15,7 +15,6 @@ CSS_FILE=$(STYLE_DIR)/pubcss-ieee.css
 
 # NAME=will-ai-destroy-humankind
 NAME=projectReport
-BIB_FILE=ass1.bib
 # BIB_FILE=../ai/ai.bib
 
 TEX=pdflatex
@@ -29,7 +28,6 @@ tex:
 		--number-section \
 		--biblatex \
 		--filter pandoc-fignos \
-		--bibliography=$(BIB_FILE) \
 		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
@@ -49,12 +47,12 @@ tex2pdf:
 	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
 		| 
 	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
-	# $(TEX) $(NAME)
-	# bibtex $(NAME)
+	$(TEX) $(NAME)
+	bibtex $(NAME)
 	$(TEX) $(NAME)
 	$(TEX) $(NAME)
 	# dvipdfm $(NAME).dvi
-	# mv $(NAME).pdf Fang_19049045.pdf
+	mv $(NAME).pdf Fang_19049045_assessment_2_projectReport.pdf
 	
 tp: tex tex2pdf
 
@@ -73,7 +71,8 @@ png:
 
 zip:
 	zip Fang_19049045.zip createDW.sql INLJ.sql queriesDW.sql \
-		projectReport.pdf readMe.txt
+		readMe.txt
+		# projectReport.pdf 
 
 
 docx:
