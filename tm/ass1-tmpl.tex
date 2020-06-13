@@ -123,7 +123,12 @@ $body$
 
 \onecolumn
 
-\appendix
+$if(appendix)$
+\appendix $if(appendix-title)$[$appendix-title$]$endif$
+
+\input{$appendix$}
+
+$endif$
 
 % \lipsum[1-50]
 

@@ -69,7 +69,6 @@ tex-2:
 		--biblatex \
 		--filter pandoc-fignos \
 		--template=$(TEX_TMPL) \
-		--include-after-body appendix.tex \
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
 	 	-f markdown+raw_attribute \
@@ -77,6 +76,7 @@ tex-2:
 		-o $(NAME2).tex $(NAME2).md
 
 	# \
+		--include-after-body appendix.tex \
 	--number-section \
 	--template=$(TEX_TMPL) \
 		--table-of-contents \

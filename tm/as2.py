@@ -8,7 +8,7 @@ from tqdm import tqdm
 import pickle
 
 import itertools
-from collections import namedtuple
+from collections import namedtuple, Counter
 import pandas as pd
 # from xml.etree import ElementTree
 # from xml.etree.ElementTree import ParseError
@@ -17,7 +17,66 @@ from bs4 import BeautifulSoup
 
 import nltk
 from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+_DEBUG = True
+
 sw = stopwords.words("english")
+
+# tqdm = lambda x, *args, **kwds: x
+
+################################################################################
+#                        Utility functions                                     #
+################################################################################
+
+def len2d(iter2d):
+    return sum(len(d) for d in iter2d)
+
+def list2d(iter2d):
+    return [[x for x in inner] for inner in iter2d]
+
+def flatten2d(list2d):
+    return itertools.chain.from_iterable(list2d)
+
+def flatten3d(list3d):
+    return itertools.chain.from_iterable(flatten2d(list3d))
+
+def mapbar(f, seq, desc):
+    for e in tqdm(seq, desc):
+        yield f(e)
+
+def map2d(f, docs):
+    with tqdm(total=len2d(docs)) as pbar:
+        def _helper(sent):
+            pbar.update(1)
+            return f(sent)
+
+        for doc in docs:
+            yield map(_helper, doc)
+
+def map3d(f, docs):
+    with tqdm(total=len2d(docs)) as pbar:
+        def _helper(sent):
+            pbar.update(1)
+            return [f(word) for word in sent]
+
+        for doc in docs:
+            yield map(_helper, doc)
+    
+def foreach3d(f, docs):
+    with tqdm(total=len2d(docs)) as pbar:
+        for doc in docs:
+            for sent in doc:
+                for word in sent:
+                    f(word)
+                pbar.update(1)
+
+def foreach2d(f, docs):
+    with tqdm(total=len2d(docs)) as pbar:
+        for doc in docs:
+            for sent in doc:
+                f(sent)
+                pbar.update(1)
 
 ################################################################################
 #              Codes for data reading & transformation                         #
@@ -79,7 +138,7 @@ def read_blog_file(fpath):
     return posts
     
 def read_blogs(path, force=False, cache_file='blogs.pkl'):
-    if not force and os.path.exists(cache_file):
+    if not force and cache_file is not None and os.path.exists(cache_file):
         print('load dataset from cached pickle file ' + cache_file)
         with open(cache_file, 'rb') as f:
             dataset = pickle.load(f)
@@ -88,17 +147,24 @@ def read_blogs(path, force=False, cache_file='blogs.pkl'):
     dataset = read_blogs_xml(path)
 
     # save to pickle file for fast loading next time
-    with open(cache_file, 'wb') as f:
-        print('save dataset to pickle file ' + cache_file)
-        pickle.dump(dataset, f)
+    if cache_file is not None:
+        with open(cache_file, 'wb') as f:
+            print('save dataset to pickle file ' + cache_file)
+            pickle.dump(dataset, f)
 
     return dataset
 
 def read_blogs_xml(path):
     print('reading all data files from directory {} ...'.format(path))
     dataset = []
-    # for fpath in tqdm(glob(os.path.join(path, '*'))):
-    for fpath in list(glob(os.path.join(path, '*')))[:3]:
+
+    if _DEBUG: 
+        files = [os.path.join(path, fname) for fname in ['3998465.male.17.indUnk.Gemini.xml',
+            '3949642.male.25.indUnk.Leo.xml', '3924311.male.27.HumanResources.Gemini.xml']]
+        # for fpath in list(glob(os.path.join(path, '*')))[:3]:
+    else:
+        files = glob(os.path.join(path, '*'))
+    for fpath in  tqdm(files):
         # print(fpath)
         fname = os.path.basename(fpath)
         meta_data = parse_meta_data(fname)
@@ -148,59 +214,106 @@ def tokenise(dataset):
 
     print('tokenising the text dataset...')
     docs = []
-    for rec in dataset:
-        doc = []
-        for post in rec.posts:
-            # print(post)
-            for sent in nltk.sent_tokenize(post.text):
-                doc.append([w.lower() for w in nltk.word_tokenize(sent)])
+    vocab = set()
+    with tqdm(total=sum(len(rec.posts) for rec in dataset)) as pbar:
+        for rec in dataset:
+            doc = []
+            for post in rec.posts:
+                # print(post)
+                for sent_str in nltk.sent_tokenize(post.text):
+                    sent = [w.lower() for w in nltk.word_tokenize(sent_str)]
+                    doc.append(sent)
+                    vocab.update(sent)
+                pbar.update(1)
+                # print(doc)
+            docs.append(doc)
             # print(doc)
-        docs.append(doc)
-        # print(doc)
-        # return(docs)
-    return docs
+            # return(docs)
+    return sorted(vocab), docs
 
-def flatten2d(list2d):
-    return itertools.chain.from_iterable(list2d)
-
-def flatten3d(list3d):
-    return itertools.chain.from_iterable(flatten2d(list3d))
-
-def map2d(f, docs):
-    for doc in docs:
-        yield [f(sent) for sent in doc]
-
-def map3d(f, docs):
-    for doc in docs:
-        yield [[f(word) for word in sent] for sent in doc]
-    
-def get_things(docs):
+def get_things(docs, n=5):
     things = filter(lambda wp: wp[1] == 'NN', flatten3d(docs))
     tf = nltk.FreqDist(things)
-    print(tf.most_common(50))
+    # print(tf.most_common(50))
+    return tf.most_common(n)
 
-#TODO: remove stop words
-def count_word(dataset):
-    docs = tokenise(dataset)
+# def calc_tfidf(docs):
+
+#TODO: expand beyond sentence boundary?
+def get_surroundings(words, docs, n=2):
+    '''expand the topic to be 2 verb/noun before and 2 verb/noun after the topic
+    '''
+
+    print('get surrounding {} nouns/verbs for words {}'.format(n, words))
+
+    sur = {w: Counter() for w in words}
+
+    target_pos_tags = ('NN', 'NNS', 'VB', 'VBP', 'VBD', 'VBN')
+
+    def _helper(sent):
+        # print(sent)
+        for w in words:
+            try:
+                idx = sent.index(w)
+            except ValueError:
+                continue
+
+            print('found: {} at {} in {}'.format(w, idx, sent))
+            after = 0
+            for (wi, pi) in sent[(idx+1):]:
+                if pi in target_pos_tags:
+                    sur[w][(wi, pi)] += 1
+                    after += 1
+                    print('add after: ' + str((wi, pi)))
+                if after == n:
+                    break
+
+            before = 0
+            for (wi, pi) in reversed(sent[:idx]):
+                if pi in target_pos_tags:
+                    sur[w][(wi, pi)] += 1
+                    before += 1
+                    print('add before: ' + str((wi, pi)))
+                if before == n:
+                    break
+
+    foreach2d(_helper, docs)
+    return sur
+
+#TODO: remove stop words.
+def mine_topic_by_freq(dataset):
+    vocab, docs = tokenise(dataset)
+    print('Size of vocabulary: {}'.format(len(vocab)))
+    print(vocab[:100])
 
     print('POS tagging...')
-    tagged_docs = list(map2d(lambda s: nltk.pos_tag(s), docs))
-    print(tagged_docs[0][0])
+    tagged_docs = list2d(map2d(lambda s: nltk.pos_tag(s), docs))
+    # print(tagged_docs[0][0])
+    # print(tagged_docs[0][1])
+    # print(tagged_docs[0][2])
     # print(sorted(set(p for w, p in flatten3d(tagged_docs))))
 
     things = get_things(tagged_docs)
+    print('things: ', things)
 
-    print('counting word frequencies...')
-    tf = nltk.FreqDist(flatten3d(tagged_docs))
-    print(tf.most_common(50))
+    # print('counting word frequencies...')
+    # tf = nltk.FreqDist(flatten3d(tagged_docs))
+    # print(tf.most_common(50))
+
+    thing_words = [(w, pos) for ((w, pos), c) in things]
+    keywords = get_surroundings(thing_words, tagged_docs, n=2)
+    print(keywords)
+
 
 def main():
-    # read_blogs('blogs')
-    # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
-    # dataset = read_blogs('.', cache_file='blogs-10.pkl')
-    dataset = read_blogs('.', cache_file='blogs-3.pkl')
-    
-    count_word(dataset)
+    if _DEBUG:
+        # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
+        # dataset = read_blogs('.', cache_file='blogs-10.pkl')
+        dataset = read_blogs('blogs', cache_file=None)
+    else:
+        dataset = read_blogs('blogs')
+
+    mine_topic_by_freq(dataset)
     return
 
 if __name__ == '__main__':
