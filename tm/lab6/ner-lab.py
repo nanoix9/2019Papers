@@ -25,7 +25,7 @@ def get_continuous_chunks(text):
 
     return continuous_chunk
 
-txt = "Jacinda Ardern is the Prime Minister of New Zealand but Roenzo isn't."
+# txt = "Jacinda Ardern is the Prime Minister of New Zealand but Roenzo isn't."
 
 with open('./data/article.txt') as f:
     txt = f.read()
