@@ -63,7 +63,7 @@ tex2pdf:
 tp: tex tex2pdf
 
 
-tex-2:
+tex-2: as2-py
 	pandoc -s \
 		--number-section \
 		--biblatex \
@@ -142,3 +142,9 @@ docx:
 	# \
 	 	--reference-doc=$(DOC_STYLE) \
 
+as2-py:
+	head -n 2 as2.py > as2.py.tmp
+	grep -v -E '^\s*#[^#]' as2.py | sed -e 's/\(\s*\)##/\1#/' >> as2.py.tmp
+
+as2-run: as2-py
+	python as2.py.tmp

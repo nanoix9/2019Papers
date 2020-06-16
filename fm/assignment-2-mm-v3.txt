@@ -8,17 +8,18 @@ ASSIGN
     init(pushed) := FALSE;
     next(pushed) :=
     case
-           mode = vm_maintenance : FALSE;    -- never let button be pushed in maintenance mode
+           mode = maintenance : FALSE;    -- never let button be pushed in maintenance mode
              selected != none : FALSE;    -- let button not pushed if something has already been selected
-        mode = vm_idle & !pushed : {TRUE, FALSE};
+        mode = idle & !pushed : {TRUE, FALSE};
                        pushed : FALSE;
                          TRUE : pushed;
     esac;
 
 LTLSPEC G (pushed -> X !pushed)
-LTLSPEC G (mode != vm_idle & mode != vm_selecting -> X !pushed)  -- don't allow pushing if not in idle or selecting mode
-LTLSPEC G (mode = vm_maintenance -> X !pushed)              -- once entered maintenance mode,
-LTLSPEC G (mode = vm_maintenance & !pushed -> G !pushed)    --   button will never be pushed
+LTLSPEC G (mode != idle & mode != selecting -> X !pushed)  -- don't allow pushing if not in idle or selecting mode
+LTLSPEC G (selected != none -> X !pushed)  -- let button not be pushed if something has already been selected
+LTLSPEC G (mode = maintenance -> X !pushed)              -- once entered maintenance mode,
+LTLSPEC G (mode = maintenance & !pushed -> G !pushed)    --   button will never be pushed
 
 
 --------------------------------------------------------------------------------
@@ -32,7 +33,7 @@ ASSIGN
     init(amount) := n;
     next(amount) := 
     case
-                            -- mode = vm_maintenance : amount;
+                            -- mode = maintenance : amount;
                          amount = 0 : 0;
     selected = pro_type & dispensed : amount - 1;
                                TRUE : amount;
@@ -41,8 +42,10 @@ ASSIGN
     init(prev_amount) := n;
     next(prev_amount) := amount;
 
+-- extra specs, can be commented out before submitting as they're not required by the assignment
 LTLSPEC G (amount = prev_amount | amount = prev_amount - 1)  -- the amount is either equal to the value in previous step, or one less than it
-LTLSPEC G (dispensed -> X amount = prev_amount - 1)   -- onec dispense has been triggered, decrease the amount
+LTLSPEC G (dispensed & selected = pro_type -> X amount = prev_amount - 1)   -- onec dispense has been triggered, decrease the amount
+LTLSPEC G (selected != pro_type -> X amount = prev_amount)   -- if other products selected, don't decrease the amount
 
 --------------------------------------------------------------------------------
 -- Drink Selection Interface Component	
@@ -59,14 +62,14 @@ ASSIGN
     init(selected) := none;
     next(selected) := 
     case
-                                                       mode = vm_maintenance : none;
-                                           mode = vm_cancelled | mode = vm_done : none;        -- retain selection until cancelled or dispensed.
+                                                       mode = maintenance : none;
+                                           mode = cancelled | mode = done : none;        -- retain selection until cancelled or dispensed.
                                                          selected != none : selected;    -- holds selection if already selected
         -- only allow changing selection in idle mode
-        mode = vm_idle &  button1.pushed & !button2.pushed & !button3.pushed : kiwicola;    -- make selection if and only if
-        mode = vm_idle & !button1.pushed &  button2.pushed & !button3.pushed : boltenergy;  --   one button is pushed
-        mode = vm_idle & !button1.pushed & !button2.pushed &  button3.pushed : clearwater;  --
-                                                       TRUE : none;
+        mode = idle &  button1.pushed & !button2.pushed & !button3.pushed : kiwicola;    -- make selection if and only if
+        mode = idle & !button1.pushed &  button2.pushed & !button3.pushed : boltenergy;  --   one button is pushed
+        mode = idle & !button1.pushed & !button2.pushed &  button3.pushed : clearwater;  --
+                                                                     TRUE : none;
     esac;
 
 --------------------------------------------------------------------------------
@@ -75,19 +78,19 @@ ASSIGN
 MODULE efpos_payment(mode, ds, dd)
 VAR
     payment_status : {idle, verifying, successful, cancelled};
-    pin: {pin_idle, correct, incorrect};
+    pin: {idle, correct, incorrect};
 
 ASSIGN
     ---------------------------
     init(payment_status) := idle;
     next(payment_status) :=
     case
-                                         mode = vm_maintenance : idle;
-                                             mode != vm_paying : idle;
+                                         mode = maintenance : idle;
+                                             mode != paying : idle;
     ds.selected = kiwicola   & dd.pro_kiwicola.amount   = 0 : cancelled;
     ds.selected = boltenergy & dd.pro_boltenergy.amount = 0 : cancelled;
     ds.selected = clearwater & dd.pro_clearwater.amount = 0 : cancelled;
-                      payment_status = idle & mode = vm_paying : verifying;
+                      payment_status = idle & mode = paying : verifying;
                payment_status = verifying & pin = correct   : successful;
                payment_status = verifying & pin = incorrect : cancelled;
                                 payment_status = successful : idle;  -- return to idle state from either successful or failed PIN verification
@@ -95,13 +98,16 @@ ASSIGN
                                                        TRUE : payment_status;
     esac;
     ---------------------------
-    init(pin) := pin_idle;
+    init(pin) := idle;
     next(pin) :=
     case
-        pin = pin_idle & payment_status = verifying : {correct, incorrect};
-                                           TRUE : pin_idle;
+        pin = idle & payment_status = verifying : {correct, incorrect};
+                                           TRUE : idle;
     esac;
 
+LTLSPEC G (mode = maintenance -> X (G payment_status = idle))
+LTLSPEC G (mode != paying -> X (payment_status = idle))
+LTLSPEC G (payment_status = successful | payment_status = cancelled -> O payment_status = verifying)
 
 --------------------------------------------------------------------------------
 -- Drink Dispenser
@@ -119,20 +125,26 @@ ASSIGN
     init(dispensed) := FALSE;
     next(dispensed) := 
     case 
-                          mode = vm_maintenance : FALSE;
-                          mode != vm_dispensing : dispensed;  -- only active in "dispensing" mode
-        selected != none & mode = vm_dispensing : TRUE;
+                          mode = maintenance : FALSE;
+                                   dispensed : FALSE;  -- once triggered, go back to false in the next step
+                          mode != dispensing : dispensed;  -- only active in "dispensing" mode
+        selected != none & mode = dispensing : TRUE;
                                         TRUE : FALSE;
     esac;
+
+LTLSPEC G (dispensed -> X !dispensed)         -- `dispensed` never be active for more than one consecutive steps
+LTLSPEC G (mode = maintenance -> X !dispensed)
+LTLSPEC G (mode != dispensing & mode != maintenance -> !dispensed)  -- `dispensed` will only be active in dispensing mode
+LTLSPEC G (selected = none -> !dispensed)  -- never dispense when nothing is selected
 
 --------------------------------------------------------------------------------
 -- Vending Machine
 --
---    /--------------------------------------------------------------------------\
+--    /------------------------------(dispensed)---------------------------------\
 --    V                                                                          |
 --  IDLE --(selected)--> SELECTING --(confirmed)--> PAYING --(successful)--> DISPENSING
 --    ^                      |                         |
---    |                (cancelled)            (cancelled/failed)
+--    |                 (cancelled)            (cancelled/failed)
 --    |                      |                         |
 --    |                      V                         |
 --    \-----------------CANCELLED <--------------------/                       
@@ -149,7 +161,7 @@ ASSIGN
 MODULE vending_machine
 
 VAR
-    mode: {vm_idle, vm_selecting, vm_paying, vm_dispensing, vm_done, vm_cancelled, vm_maintenance};
+    mode: {idle, selecting, paying, dispensing, done, cancelled, maintenance};
     ds: drink_selector(mode);
     ep: efpos_payment(mode, ds, dd);
     dd: drink_dispenser(mode, ds.selected);
@@ -159,39 +171,37 @@ IVAR
 
 ASSIGN
     ---------------------------
-    init(mode) := vm_idle;
+    init(mode) := idle;
     next(mode) :=
     case
-                                                error : vm_maintenance;
+                                                error  : maintenance;
                         (dd.pro_kiwicola.amount   = 0 
                        & dd.pro_boltenergy.amount = 0 
-                       & dd.pro_clearwater.amount = 0) : vm_maintenance;
-                     mode = vm_idle & ds.selected != none : vm_selecting;
-                                      mode = vm_selecting : {vm_cancelled, vm_paying};  -- user either cancels selection or go to payment.
-        mode = vm_paying & ep.payment_status = successful : vm_dispensing;
-        mode = vm_paying & ep.payment_status = cancelled  : vm_cancelled;
-                      mode = vm_dispensing & dd.dispensed : vm_done;
-                                           mode = vm_done : vm_idle;
-                                      mode = vm_cancelled : vm_idle;
+                       & dd.pro_clearwater.amount = 0) : maintenance;
+                     mode = idle & ds.selected != none : selecting;
+                                      mode = selecting : {cancelled, paying};  -- user either cancels selection or go to payment.
+        mode = paying & ep.payment_status = successful : dispensing;
+        mode = paying & ep.payment_status = cancelled  : cancelled;
+                      mode = dispensing & dd.dispensed : done;
+                                           mode = done : idle;
+                                      mode = cancelled : idle;
                                                   TRUE : mode;
     esac;
 
 -- extra specs in addition to the required ones
-LTLSPEC G (mode != vm_idle -> F (mode = vm_idle | mode = vm_maintenance))      -- the mode will finally return back to idle or maintenance
-LTLSPEC G (mode = vm_selecting -> X (mode = vm_cancelled | mode = vm_paying | mode = vm_maintenance))  -- once selected, either cancel it or confirm for payment
--- once selection confirmed, the drink won't be dispensed before payment is successful
-LTLSPEC G (mode = vm_paying -> (!dd.dispensed U ep.payment_status = successful)
-                          | (F (ep.payment_status = cancelled | mode = vm_maintenance)))
-
+LTLSPEC G (mode != idle -> F (mode = idle | mode = maintenance))      -- the mode will finally return back to idle or maintenance
+LTLSPEC G (mode = selecting -> X (mode = cancelled | mode = paying | mode = maintenance))  -- once selected, either cancel it or confirm for payment
+-- the drink won't be dispensed before payment is successful
+LTLSPEC G (dd.dispensed -> O ep.payment_status = successful)
 
 --------------------------------------------------------------------------------
 ----------------- Temporal Logic Formula Verification --------------------------
 --------------------------------------------------------------------------------
 
 -- 1. Once in, the vending machine never leaves maintenance mode
-LTLSPEC G (mode = vm_maintenance -> G mode = vm_maintenance)
+LTLSPEC G (mode = maintenance -> G mode = maintenance)
 -- 2. If an error occurs then maintenance mode occurs in the next state
-LTLSPEC G (error -> X mode = vm_maintenance)
+LTLSPEC G (error -> X mode = maintenance)
 -- 3. A customer cannot not pay for an unavailable drink
 LTLSPEC G (dd.pro_kiwicola.amount = 0   -> G !(ep.payment_status = successful & ds.selected = kiwicola))
 LTLSPEC G (dd.pro_boltenergy.amount = 0 -> G !(ep.payment_status = successful & ds.selected = boltenergy))
@@ -199,11 +209,11 @@ LTLSPEC G (dd.pro_clearwater.amount = 0 -> G !(ep.payment_status = successful & 
 -- 4. When a customer pays for a drink it is dispensed.
 --    "dispensed" is defined as the amount is one less than that in previous step
 LTLSPEC G (ep.payment_status = successful & ds.selected = kiwicola & dd.pro_kiwicola.amount > 0
-           -> F (mode = vm_maintenance | dd.pro_kiwicola.amount = dd.pro_kiwicola.prev_amount - 1))
+           -> F (mode = maintenance | dd.pro_kiwicola.amount = dd.pro_kiwicola.prev_amount - 1))
 LTLSPEC G (ep.payment_status = successful & ds.selected = boltenergy & dd.pro_boltenergy.amount > 0
-           -> F (mode = vm_maintenance | dd.pro_boltenergy.amount = dd.pro_boltenergy.prev_amount - 1))
+           -> F (mode = maintenance | dd.pro_boltenergy.amount = dd.pro_boltenergy.prev_amount - 1))
 LTLSPEC G (ep.payment_status = successful & ds.selected = clearwater & dd.pro_clearwater.amount > 0
-           -> F (mode = vm_maintenance | dd.pro_clearwater.amount = dd.pro_clearwater.prev_amount - 1))
+           -> F (mode = maintenance | dd.pro_clearwater.amount = dd.pro_clearwater.prev_amount - 1))
 
 --------------------------------------------------------------------------------
 -- Main module, entrance of whole model
