@@ -27,12 +27,13 @@ from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 _DEBUG = True
-_DEBUG = False
+# _DEBUG = False
 
 STOPWORDS = set(stopwords.words("english"))
 ## Add more stopwords manually
-STOPWORDS.update(['i\'m', 'i´m', 'don´t', '\'m', 'haha', 'wow', 'hehe', 'heh',
-    'ah', 'ahh', 'hmm', 'urllink', 'ok', 'hey', 'yay'])
+STOPWORDS.update(['i\'m', 'i´m', 'don´t', '\'m', '\'s', '\'re', '\'ve',
+    'haha', 'hah', 'wow', 'hehe', 'heh',
+    'ah', 'ahh', 'hm', 'hmm', 'urllink', 'ok', 'hey', 'yay', 'yeah'])
 print('stop words:', STOPWORDS)
 
 ################################################################################
@@ -185,7 +186,8 @@ def read_blogs_xml(path):
     if _DEBUG:  # use small files for fast debugging
         files = [os.path.join(path, fname) for fname in ['3998465.male.17.indUnk.Gemini.xml',
             '3949642.male.25.indUnk.Leo.xml', '3924311.male.27.HumanResources.Gemini.xml']]
-        files = list(glob(os.path.join(path, '*')))[:3]
+        files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
+        # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
     else:
         files = glob(os.path.join(path, '*'))
@@ -228,8 +230,14 @@ def show_summary(dataset):
 ################################################################################
 
 punct_re = re.compile(r'([\.!?,:;])(?=[a-zA-Z])')  # add space between a punctuation and a word
+## replace two or more consecutive single quotes to a double quote
+##   e.g. '' -> "       ''' -> "
+quotes_re = re.compile(r'[\']{2,}')  
+# escape_re = re.compile(r'\\([\'\"\,\;\:]+)')
 def preprocess(text):
     out = punct_re.sub(r'\1 ', text)
+    out = quotes_re.sub(r'"', out)
+    # out = escape_re.sub(r'\1', out)
     out = remove_invalid(out)
     # if out != text: print('-->', text, '\n   ', out)
     return out
@@ -251,19 +259,21 @@ def tokenise(dataset):
         for rec in dataset:
             doc = []
             for post in rec.posts:
-                # print(post)
+                # print('-' * 20)
+                # if "deceptively" in post.text: print('post:  ', post.text)
                 for sent_str in nltk.sent_tokenize(post.text):
                     sent_str = preprocess(sent_str)
                     sent = [w for w in nltk.word_tokenize(sent_str)]
                     # sent = [w.lower() for w in nltk.word_tokenize(sent_str)]
                     doc.append(sent)
+                    # if any("deceptively" in w for w in sent): print('tokens:', sent)
                 pbar.update(1)
                 # print(doc)
             docs.append(doc)
             # print(doc)
             # return(docs)
     
-    # print('sorting vocabulary...')
+    # print(docs)
     return docs
 
 def calc_vocab(docs):
@@ -364,6 +374,8 @@ def get_things(docs, n=5):
     ne_all = calc_ne_all(docs)
     # print(ne_all)
     # things = filter(lambda wp: wp[1] == 'NN', flatten3d(docs))
+    tf = nltk.FreqDist(ne_all)
+    print(tf.most_common(50))
     things = [w for t, w in ne_all if w.lower() not in STOPWORDS]
     things = [stem_word(w) for w in things]
     tf = nltk.FreqDist(things)
