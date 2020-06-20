@@ -10,13 +10,17 @@ import pprint
 pp = pprint.PrettyPrinter(indent=2)
 
 # from multiprocessing import Pool
+import random
 import itertools
-from collections import namedtuple, Counter, OrderedDict
+from collections import namedtuple, Counter, OrderedDict, defaultdict
+import heapq
+from operator import itemgetter
 import re
 # from xml.etree import ElementTree
 # from xml.etree.ElementTree import ParseError
 from bs4 import BeautifulSoup
 # from datetime import datetime
+import numpy as np
 import pandas as pd
 
 from spellchecker import SpellChecker
@@ -24,14 +28,14 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer 
-from sklearn.feature_extraction.text import TfidfVectorizer
+# from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer, CountVectorizer
 
 _DEBUG = True
 # _DEBUG = False
 
 STOPWORDS = set(stopwords.words("english"))
 ## Add more stopwords manually
-STOPWORDS.update(['i\'m', 'i´m', 'don´t', '\'m', '\'s', '\'re', '\'ve',
+STOPWORDS.update(['i\'m', 'dont', '\'t', '\'m', '\'s', '\'re', '\'ve',
     'haha', 'hah', 'wow', 'hehe', 'heh',
     'ah', 'ahh', 'hm', 'hmm', 'urllink', 'ok', 'hey', 'yay', 'yeah'])
 print('stop words:', STOPWORDS)
@@ -99,8 +103,8 @@ def filter3d(f, docs):
             
         for doc in docs:
             out = list(_helper_doc(doc))
-            if len(out) > 0:
-                ret.append(out)
+            # if len(out) > 0:
+            ret.append(out)
     return ret
 
 ################################################################################
@@ -112,7 +116,7 @@ Post = namedtuple('Post', ['date', 'text'])
 MetaData = namedtuple('MetaData', ['id', 'gender', 'age', 'category', 'zodiac'])
 
 def parse_meta_data(meta_data_str):
-    arr = meta_data_str.strip().split('.')
+    arr = meta_data_str.lower().strip().split('.')
     return MetaData(arr[0], arr[1], int(arr[2]), arr[3], arr[4])
 
 # _parser = ElementTree.XMLParser(encoding="utf-8")
@@ -186,9 +190,10 @@ def read_blogs_xml(path):
     if _DEBUG:  # use small files for fast debugging
         files = [os.path.join(path, fname) for fname in ['3998465.male.17.indUnk.Gemini.xml',
             '3949642.male.25.indUnk.Leo.xml', '3924311.male.27.HumanResources.Gemini.xml']]
-        files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
+        # files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
         # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
+        # files = random.sample(list(glob(os.path.join(path, '*'))), 100)
     else:
         files = glob(os.path.join(path, '*'))
 
@@ -237,6 +242,7 @@ quotes_re = re.compile(r'[\']{2,}')
 def preprocess(text):
     out = punct_re.sub(r'\1 ', text)
     out = quotes_re.sub(r'"', out)
+    out = out.replace('´', '\'')
     # out = escape_re.sub(r'\1', out)
     out = remove_invalid(out)
     # if out != text: print('-->', text, '\n   ', out)
@@ -361,28 +367,77 @@ def do_stemming(docs):
 
 def calc_ne_all(docs):
     print('extracting named entities...')
-    ne = []
     def _calc_ne(sent):
+        ne = []
         for chunk in nltk.ne_chunk(sent):
             if hasattr(chunk, 'label'):
-                ne.append((chunk.label(), ' '.join(c[0] for c in chunk)))
+                ne.append((' '.join(c[0] for c in chunk), chunk.label()))
                 # print('NE found:', sent, ne[-1], chunk)
-    foreach2d(_calc_ne, docs)
-    return ne
+        return ne
+    return map2d(_calc_ne, docs)
 
-def get_things(docs, n=5):
-    ne_all = calc_ne_all(docs)
-    # print(ne_all)
-    # things = filter(lambda wp: wp[1] == 'NN', flatten3d(docs))
-    tf = nltk.FreqDist(ne_all)
-    print(tf.most_common(50))
-    things = [w for t, w in ne_all if w.lower() not in STOPWORDS]
-    things = [stem_word(w) for w in things]
-    tf = nltk.FreqDist(things)
-    print(tf.most_common(50))
-    return [w for (w, c) in tf.most_common(n)]
+# def get_things(ne_all):
+#     # print(ne_all)
+#     # things = filter(lambda wp: wp[1] == 'NN', flatten3d(docs))
+#     tf = nltk.FreqDist(flatten3d(ne_all))
+#     print(tf.most_common(50))
+#     things = [w for w, t in flatten3d(ne_all) if w.lower() not in STOPWORDS]
+#     # things = [stem_word(w) for w in things]
+#     things = set(things)
+#     return things
+#     # tf = nltk.FreqDist(things)
+#     # print(tf.most_common(50))
+#     # return [w for (w, c) in tf.most_common(n)]
 
-# def calc_tfidf(docs):
+def calc_df(docs):
+    df = defaultdict(lambda: 0)
+    # print(docs)
+    for doc in docs:
+        for w in set(doc):
+            df[w] += 1
+    # print('df', df)
+    return df
+
+def calc_tfidf(docs):
+    '''The original TF-IDF is a document-wise score. This function will
+    calculate the average TF-IDF on whole dataset as an overall scoring.
+    '''
+    tf_idf = defaultdict(lambda: 0)
+    df = calc_df(docs)
+    num_docs = len(docs)
+    # print('num docs', num_docs)
+    for doc in docs:
+        counter = Counter(doc)
+        num_words = len(doc)
+        # print('---------------------------')
+        # print(doc)
+        # print('num words', num_words)
+        for token in set(doc):
+            tf = counter[token] / num_words
+            df_i = df[token]
+            idf = np.log(num_docs / df_i)
+            tf_idf[token] += tf * idf
+            # print(token, tf, idf, tf * idf)
+    
+    for token in tf_idf:
+        tf_idf[token] /= num_docs
+
+    return tf_idf
+
+def get_top_topics(named_entities, n=5, method='tf'):
+    print('calculating most popular topics by ' + method + '...')
+    if method == 'tf':
+        ranks = nltk.FreqDist(w for w, t in flatten3d(named_entities))
+        print(ranks.most_common(50))
+        ranks = dict(ranks)
+    elif method == 'tfidf':
+        ranks = calc_tfidf([[w for w, t in flatten2d(doc)] for doc in named_entities])
+        # print(ranks)
+    ranks = [(k, v) for k, v in ranks.items()]
+    print('n largest:', heapq.nlargest(200, ranks, key=itemgetter(1)))
+    topics = heapq.nlargest(n, ranks, key=itemgetter(1))
+    print('topics: ', topics)
+    return [w for (w, c) in topics]
 
 #TODO: expand beyond sentence boundary?
 def get_surroundings(words, docs, n=4, window=2):
@@ -412,7 +467,8 @@ def get_surroundings(words, docs, n=4, window=2):
             after = 0
             for (wi, pi) in sent[(idx+1):]:
                 if pi in target_pos_tags:
-                    sur[w][(wi, pi)] += 1
+                    # sur[w][(wi, pi)] += 1
+                    sur[w][wi] += 1
                     after += 1
                     # print('add after: ' + str((wi, pi)))
                 if after == window:
@@ -421,7 +477,8 @@ def get_surroundings(words, docs, n=4, window=2):
             before = 0
             for (wi, pi) in reversed(sent[:idx]):
                 if pi in target_pos_tags:
-                    sur[w][(wi, pi)] += 1
+                    # sur[w][(wi, pi)] += 1
+                    sur[w][wi] += 1
                     before += 1
                     # print('add before: ' + str((wi, pi)))
                 if before == window:
@@ -433,8 +490,7 @@ def get_surroundings(words, docs, n=4, window=2):
         ret[k] = c.most_common(n)
     return ret
 
-#TODO: remove stop words.
-def mine_topic_by_freq(dataset):
+def calc_intermediate_data(dataset):
     # print(dataset)
     # 
     docs = tokenise(dataset)
@@ -459,20 +515,55 @@ def mine_topic_by_freq(dataset):
     # print(tagged_docs[0][1])
     # print(tagged_docs[0][2])
     # print(sorted(set(p for w, p in flatten3d(tagged_docs))))
+    docs = vocab = None
 
-    things = get_things(tagged_docs, n=50)
-    print('things: ', things)
+    named_entities = calc_ne_all(tagged_docs)
 
     ## Remove stopwords after POS tagging and NER finished
     tagged_docs = remove_stopwords(tagged_docs)
+    named_entities = remove_stopwords(named_entities)
     # print(list2d(tagged_docs)[0])
 
     tagged_docs = do_stemming(tagged_docs)
+    named_entities = do_stemming(named_entities)
     # print('counting word frequencies...')
     # tf = nltk.FreqDist(flatten3d(tagged_docs))
     # print(tf.most_common(50))
+    return tagged_docs, named_entities
 
-    keywords = get_surroundings(things, tagged_docs, n=20, window=2)
+def mine_topics(dataset, intermediate_data, group='all'):
+    print('-' * 80)
+    print('mining most popular topics for group ' + group)
+    print('-' * 80)
+    tagged_docs, named_entities = intermediate_data
+
+    if group != 'all':
+        if group == 'male' or group == 'female':
+            idx = [i for i, rec in enumerate(dataset) if rec.meta.gender == group]
+        elif group == '<=20':
+            idx = [i for i, rec in enumerate(dataset) if rec.meta.age <= 20]
+        elif group == '>20':
+            idx = [i for i, rec in enumerate(dataset) if rec.meta.age > 20]
+        else:
+            raise NotImplementedError()
+        tagged_docs = [tagged_docs[i] for i in idx]
+        named_entities = [named_entities[i] for i in idx]
+        
+    print('selected docs: {}, {}'.format(len(tagged_docs), len(named_entities)))
+    # things = get_things(named_entities)
+    # things = set(w for w, t in named_entities)
+    # print('things: ', random.sample(things, 200))
+
+    print('-------------- result from TFIDF ------------------')
+    topics = get_top_topics(named_entities, n=50, method='tfidf')
+    print('most popular topics by TFIDF: {}'.format(topics))
+    keywords = get_surroundings(topics, tagged_docs, n=20, window=2)
+    pp.pprint(keywords)
+
+    print('-------------- result from TF ------------------')
+    topics = get_top_topics(named_entities, n=50, method='tf')
+    print('most popular topics by TF: {}'.format(topics))
+    keywords = get_surroundings(topics, tagged_docs, n=20, window=2)
     pp.pprint(keywords)
 
 
@@ -484,7 +575,12 @@ def main():
     else:
         dataset = read_blogs('blogs')
 
-    mine_topic_by_freq(dataset)
+    intermediate_data = calc_intermediate_data(dataset)
+    mine_topics(dataset, intermediate_data, group='male')
+    mine_topics(dataset, intermediate_data, group='female')
+    mine_topics(dataset, intermediate_data, group='<=20')
+    mine_topics(dataset, intermediate_data, group='>20')
+    mine_topics(dataset, intermediate_data, group='all')
     return
 
 if __name__ == '__main__':
