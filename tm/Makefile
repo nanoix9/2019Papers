@@ -11,6 +11,7 @@ STYLE=$(STYLE_DIR)/ieee.csl
 # DOC_STYLE=$(STYLE_DIR)/sdm.docx
 # TEX_TMPL=$(STYLE_DIR)/raw-body.tex
 TEX_TMPL=ass1-tmpl.tex
+# TEX_TMPL=$(STYLE_DIR)/tex2.tex
 # CSS_FILE=$(STYLE_DIR)/pubcss-ieee.css
 
 # NAME=will-ai-destroy-humankind
@@ -18,7 +19,9 @@ NAME=ass1
 NAME2=as2
 BIB_FILE=ass1.bib
 # BIB_FILE=../ai/ai.bib
+FIG_FILES=as2-algo
 
+DRAW=/Applications/draw.io.app/Contents/MacOS/draw.io
 TEX=pdflatex
 TEX=pdflatex -shell-escape
 
@@ -71,7 +74,7 @@ tex-2: as2-py
 		--template=$(TEX_TMPL) \
 		--metadata=link-citations \
 		--metadata=reference-section-title:Reference \
-	 	-f markdown+raw_attribute \
+	 	-f markdown \
 		-t latex \
 		-o $(NAME2).tex $(NAME2).md
 
@@ -144,7 +147,14 @@ docx:
 
 as2-py:
 	head -n 2 as2.py > as2.py.tmp
-	grep -v -E '^\s*#[^#]' as2.py | sed -e 's/\(\s*\)##/\1#/' >> as2.py.tmp
+	grep -v -E '^\s*#[^#]' as2.py | grep -v '´' | sed -e 's/\(\s*\)##/\1#/' >> as2.py.tmp
 
 as2-run: as2-py
 	python as2.py.tmp
+
+svg:
+	for f in $(FIG_FILES); do \
+		$(DRAW) -x -f svg -o $${f}.svg $${f}.drawio; \
+		inkscape --export-filename=$${f}.pdf --export-latex $${f}.svg; \
+		sed -i -e 's/_/\\_/g' $${f}.pdf_tex; \
+	done

@@ -237,7 +237,7 @@ def show_summary(dataset):
 punct_re = re.compile(r'([\.!?,:;])(?=[a-zA-Z])')  # add space between a punctuation and a word
 ## replace two or more consecutive single quotes to a double quote
 ##   e.g. '' -> "       ''' -> "
-quotes_re = re.compile(r'[\']{2,}')  
+quotes_re = re.compile(r"[\']{2,}")  
 # escape_re = re.compile(r'\\([\'\"\,\;\:]+)')
 def preprocess(text):
     out = punct_re.sub(r'\1 ', text)
