@@ -89,8 +89,8 @@ tex2pdf-2:
 	# bibtool --  'rename.field{title=title2}' $(BIB_FILE) \
 		| 
 	# bibtool --  'add.field{note="\href{%s(url)}{this is a note}"}' $(BIB_FILE) -o ass1-tmp.bib
-	# $(TEX) $(NAME2)
-	# bibtex $(NAME2)
+	$(TEX) $(NAME2)
+	bibtex $(NAME2)
 	$(TEX) $(NAME2)
 	$(TEX) $(NAME2)
 	# dvipdfm $(NAME).dvi
@@ -151,6 +151,16 @@ as2-py:
 
 as2-run: as2-py
 	python as2.py.tmp
+
+as2-eval-py:
+	head -n 2 as2-eval.py > as2-eval.py.tmp
+	grep -v -E '^\s*#[^#]' as2-eval.py | grep -v '´' | sed -e 's/\(\s*\)##/\1#/' >> as2-eval.py.tmp
+
+as2-show: as2-eval-py
+	python as2-eval.py.tmp show
+
+as2-eval: as2-eval-py
+	python as2-eval.py.tmp eval $(TOPICS)
 
 svg:
 	for f in $(FIG_FILES); do \

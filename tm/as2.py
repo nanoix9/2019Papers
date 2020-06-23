@@ -6,6 +6,8 @@ import os.path
 from glob import glob
 from tqdm import tqdm
 import pickle
+import json
+from datetime import date
 import pprint
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -21,7 +23,6 @@ import re
 from bs4 import BeautifulSoup
 # from datetime import datetime
 import numpy as np
-import pandas as pd
 
 from spellchecker import SpellChecker
 import nltk
@@ -30,15 +31,20 @@ from nltk.corpus import wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer 
 # from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer, CountVectorizer
 
+NUM_SAMPLES = None
+_DEBUG = False
+# NUM_SAMPLES = 5000
+# NUM_SAMPLES = 5
+
 _DEBUG = True
-# _DEBUG = False
 
 STOPWORDS = set(stopwords.words("english"))
 ## Add more stopwords manually
+with open('stopwords1.txt') as f:
+    STOPWORDS.update(w.strip().lower() for w in f)
 STOPWORDS.update(['i\'m', 'dont', '\'t', '\'m', '\'s', '\'re', '\'ve',
     'haha', 'hah', 'wow', 'hehe', 'heh',
     'ah', 'ahh', 'hm', 'hmm', 'urllink', 'ok', 'hey', 'yay', 'yeah'])
-print('stop words:', STOPWORDS)
 
 ################################################################################
 ##                        Utility functions                                    #
@@ -107,6 +113,22 @@ def filter3d(f, docs):
             ret.append(out)
     return ret
 
+def load_pkl(fpath):
+    print('load dataset from cached pickle file ' + fpath)
+    with open(fpath, 'rb') as f:
+        dataset = pickle.load(f)
+    return dataset
+   
+def save_pkl(obj, fpath):
+    with open(fpath, 'wb') as f:
+        print('save dataset to pickle file ' + fpath)
+        pickle.dump(obj, f)
+
+def save_json(obj, fpath, indent=2):
+    with open(fpath, 'w', encoding="utf8") as f:
+        print('save dataset to json file ' + fpath)
+        json.dump(obj, f, indent=indent)
+
 ################################################################################
 ##              Codes for data reading & transformation                        #
 ################################################################################
@@ -168,18 +190,13 @@ def read_blog_file(fpath):
     
 def read_blogs(path, force=False, cache_file='blogs.pkl'):
     if not force and cache_file is not None and os.path.exists(cache_file):
-        print('load dataset from cached pickle file ' + cache_file)
-        with open(cache_file, 'rb') as f:
-            dataset = pickle.load(f)
-        return dataset
-    
+        return load_pkl(cache_file)
+ 
     dataset = read_blogs_xml(path)
 
     ## save to pickle file for fast loading next time
     if cache_file is not None:
-        with open(cache_file, 'wb') as f:
-            print('save dataset to pickle file ' + cache_file)
-            pickle.dump(dataset, f)
+        save_pkl(dataset, cache_file)
 
     return dataset
 
@@ -193,9 +210,12 @@ def read_blogs_xml(path):
         # files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
         # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
-        # files = random.sample(list(glob(os.path.join(path, '*'))), 100)
-    else:
+        files = random.sample(list(glob(os.path.join(path, '*'))), 100)
+        # files = random.sample(list(glob(os.path.join(path, '*'))), 5000)
+    elif NUM_SAMPLES is None:
         files = glob(os.path.join(path, '*'))
+    else:
+        files = random.sample(list(glob(os.path.join(path, '*'))), NUM_SAMPLES)
 
     for fpath in  tqdm(files):
         # print(fpath)
@@ -206,29 +226,6 @@ def read_blogs_xml(path):
         rec = Record(meta_data, posts)
         dataset.append(rec)
     return dataset
-
-def show_summary(dataset):
-    '''This function describes the summary of dataset or human inspection.
-    It's not necessary for the mining process.
-
-    Parameters
-    --------------
-    dataset : list of Record
-        The blog dataset 
-    '''
-
-    df = pd.DataFrame([d.meta for d in dataset])
-    df['blog_count'] = [len(d.posts) for d in dataset]
-    # print(df)
-    print(df.describe(include='all'))
-    print('{} possible values for "gender": {}'.format(
-            len(df.gender.unique()), ', '.join(sorted(df.gender.unique()))))
-    # print('{} possible values for "{}": {}'.format(
-    #         len(df.age.unique()), ', '.join(sorted(df.age.unique()))))
-    print('{} possible values for category: {}'.format(
-            len(df.category.unique()), ', '.join(sorted(df.category.unique()))))
-    print('{} possible values for zodiac: {}'.format(
-            len(df.zodiac.unique()), ', '.join(sorted(df.zodiac.unique()))))
 
 ################################################################################
 ##              Codes for topic mining                         #
@@ -247,6 +244,16 @@ def preprocess(text):
     out = remove_invalid(out)
     # if out != text: print('-->', text, '\n   ', out)
     return out
+
+leading_quote_re = re.compile(r'[\'\.~=*&^%#!|\-]+([a-zA-Z].*)')
+def clean_word(word):
+    if word in ("'ve", "'re", "'s", "'t", "'ll", "'m", "'d", "'", "''"):
+        return word
+    # if len(word) == 0 or not word.startswith("-"): return word
+    # print(word, len(word))
+    word = leading_quote_re.sub(r'\1', word)
+    # print(word)
+    return word.strip()
 
 def tokenise(dataset):
     '''
@@ -269,7 +276,9 @@ def tokenise(dataset):
                 # if "deceptively" in post.text: print('post:  ', post.text)
                 for sent_str in nltk.sent_tokenize(post.text):
                     sent_str = preprocess(sent_str)
-                    sent = [w for w in nltk.word_tokenize(sent_str)]
+                    # print(sent_str)
+                    sent = [clean_word(w) for w in nltk.word_tokenize(sent_str)]
+                    sent = [w for w in sent if w != '']
                     # sent = [w.lower() for w in nltk.word_tokenize(sent_str)]
                     doc.append(sent)
                     # if any("deceptively" in w for w in sent): print('tokens:', sent)
@@ -358,7 +367,8 @@ lemmatizer = WordNetLemmatizer()
 porter = PorterStemmer()
 lancaster = LancasterStemmer()
 def stem_word(word):
-    return porter.stem(word)
+    return porter.stem(lemmatizer.lemmatize(word))
+    # return porter.stem(word)
     # return lemmatizer.lemmatize(word)
 
 def do_stemming(docs):
@@ -437,27 +447,27 @@ def get_top_topics(named_entities, n=5, method='tf'):
     print('n largest:', heapq.nlargest(200, ranks, key=itemgetter(1)))
     topics = heapq.nlargest(n, ranks, key=itemgetter(1))
     print('topics: ', topics)
-    return [w for (w, c) in topics]
+    # return [w for (w, c) in topics]
+    return topics
 
-#TODO: expand beyond sentence boundary?
-def get_surroundings(words, docs, n=4, window=2):
+def get_surroundings(words, docs, n=4):
     '''expand the topic to be 2 verb/noun before and 2 verb/noun after the topic
     '''
 
-    print('get surrounding {} nouns/verbs for words {}'.format(window, words))
+    print('get surrounding 2 nouns/verbs for words {}'.format(words))
 
-    sur = OrderedDict()
-    for w in words:
+    sur = {}
+    for w, c in words:
         sur[w] = Counter() 
 
     ## POS tags list for searching verbs/nouns 
-    target_pos_tags = ('NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBP', 'VBD', 'VBN',
-            'VBG', 'VBZ')
+    # target_pos_tags = ('NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBP', 'VBD', 'VBN',
+            # 'VBG', 'VBZ')
 
     def _helper(sent):
         # print(sent)
         sent_w = [w for w, p in sent]
-        for w in words:
+        for w, c in words:
             try:
                 idx = sent_w.index(w)
             except ValueError:
@@ -465,29 +475,18 @@ def get_surroundings(words, docs, n=4, window=2):
 
             # print('found: {} at {} in {}'.format(w, idx, sent))
             after = 0
-            for (wi, pi) in sent[(idx+1):]:
-                if pi in target_pos_tags:
+            vicinity = [sent[i] for i in [idx-2, idx-1, idx+1, idx+2]
+                    if i >= 0 and i < len(sent)]
+            for (wi, pi) in vicinity:
+                if pi.startswith('N') or pi.startswith('V'):
                     # sur[w][(wi, pi)] += 1
                     sur[w][wi] += 1
-                    after += 1
-                    # print('add after: ' + str((wi, pi)))
-                if after == window:
-                    break
-
-            before = 0
-            for (wi, pi) in reversed(sent[:idx]):
-                if pi in target_pos_tags:
-                    # sur[w][(wi, pi)] += 1
-                    sur[w][wi] += 1
-                    before += 1
-                    # print('add before: ' + str((wi, pi)))
-                if before == window:
-                    break
+                    # print('add: ' + str((wi, pi)))
 
     foreach2d(_helper, docs)
-    ret = OrderedDict()
-    for k, c in sur.items():
-        ret[k] = c.most_common(n)
+    ret = []
+    for w, c in words:
+        ret.append({'topic': w, 'score': c, 'keywords': sur[w].most_common(n)})
     return ret
 
 def calc_intermediate_data(dataset):
@@ -496,7 +495,8 @@ def calc_intermediate_data(dataset):
     docs = tokenise(dataset)
     vocab = calc_vocab(docs)
     print('Size of vocabulary: {}'.format(len(vocab)))
-    print(vocab[:500])
+    print(vocab[1:2000:2])
+    print(vocab[1:100000:100])
 
     # docs = remove_invalid_all(docs)
     # vocab = calc_vocab(docs)
@@ -554,34 +554,68 @@ def mine_topics(dataset, intermediate_data, group='all'):
     # things = set(w for w, t in named_entities)
     # print('things: ', random.sample(things, 200))
 
+    ret = {}
     print('-------------- result from TFIDF ------------------')
     topics = get_top_topics(named_entities, n=50, method='tfidf')
-    print('most popular topics by TFIDF: {}'.format(topics))
-    keywords = get_surroundings(topics, tagged_docs, n=20, window=2)
-    pp.pprint(keywords)
+    # print('most popular topics by TFIDF: {}'.format(topics))
+    keywords = get_surroundings(topics, tagged_docs, n=200)
+    # pp.pprint(keywords)
+    ret['tfidf'] = keywords
 
     print('-------------- result from TF ------------------')
     topics = get_top_topics(named_entities, n=50, method='tf')
-    print('most popular topics by TF: {}'.format(topics))
-    keywords = get_surroundings(topics, tagged_docs, n=20, window=2)
-    pp.pprint(keywords)
+    # print('most popular topics by TF: {}'.format(topics))
+    keywords = get_surroundings(topics, tagged_docs, n=20)
+    # pp.pprint(keywords)
+    ret['tf'] = keywords
+    return ret
 
-
-def main():
-    if _DEBUG:
+def main_intermediate():
+    if not _DEBUG and NUM_SAMPLES is None:
+        dataset = read_blogs('blogs')
+    else:
         # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
         # dataset = read_blogs('.', cache_file='blogs-10.pkl')
         dataset = read_blogs('blogs', cache_file=None)
-    else:
-        dataset = read_blogs('blogs')
 
     intermediate_data = calc_intermediate_data(dataset)
-    mine_topics(dataset, intermediate_data, group='male')
-    mine_topics(dataset, intermediate_data, group='female')
-    mine_topics(dataset, intermediate_data, group='<=20')
-    mine_topics(dataset, intermediate_data, group='>20')
-    mine_topics(dataset, intermediate_data, group='all')
-    return
+    save_pkl(intermediate_data, 'intermediate_data.pkl')
+    return dataset, intermediate_data
+
+def main_mine_topics(dataset=None, intermediate_data=None):
+    if dataset is None:
+        dataset = load_pkl('blogs.pkl')
+    if intermediate_data is None:
+        intermediate_data = load_pkl('intermediate_data.pkl')
+
+    topics = {}
+    topics['male'] = mine_topics(dataset, intermediate_data, group='male')
+    topics['female'] = mine_topics(dataset, intermediate_data, group='female')
+    topics['no_more_than_20'] = mine_topics(dataset, intermediate_data, group='<=20')
+    topics['more_than_20'] = mine_topics(dataset, intermediate_data, group='>20')
+    topics['all'] = mine_topics(dataset, intermediate_data, group='all')
+    if _DEBUG:
+        suffix = 'debug'
+    else:
+        suffix = date.today().strftime('%Y%m%d')
+        if NUM_SAMPLES > 0:
+            suffix += '-' + str(NUM_SAMPLES)
+
+    save_json(topics, 'topics-{}.json'.format(suffix))
+
+def main():
+    # print('stop words:', sorted(STOPWORDS))
+    if len(sys.argv) <= 1:
+        phases = [1, 2]
+    else:
+        phases = [int(i) for i in sys.argv[1].split(',')]
+
+    dataset = intermediate_data = None
+    for ph in phases:
+        if ph == 1:
+            dataset, intermediate_data = main_intermediate()
+        elif ph == 2:
+            main_mine_topics(dataset, intermediate_data)
 
 if __name__ == '__main__':
     main()
