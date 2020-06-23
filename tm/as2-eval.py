@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from as2 import load_pkl, Record, MetaData, Post
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 
 def show_summary(dataset):
@@ -82,12 +83,37 @@ def show_summary(dataset):
     plt.gcf().tight_layout()
     plt.savefig('img/show-char-count.png')
 
-def eval_topics(fpath):
+def eval_topics(fpath, method='tf', top_k=2, num_words_in_topic=30):
     with open(fpath, encoding='utf8') as f:
         result = json.load(f)
 
-    for group, topics in result:
-        print(group)
+    for group, topics2 in result.items():
+        # print(group)
+        topics = topics2[method]
+        for i, topic in enumerate(topics[:top_k]):
+            topic_name = topic['topic']
+            words = {}
+            words.update(tuple(kw) for kw in topic['keywords'][:num_words_in_topic+1])
+            if method == 'tf':
+                words[topic_name] = topic['score']
+            else:
+                words[topic_name] = topic['keywords'][0][1] * 2  # fake frequency for display
+
+            print('topic: ', topic_name, 'number of keywords:', len(topic['keywords']))
+            wc = WordCloud(background_color="white", max_font_size=80, 
+                    max_words=num_words_in_topic+1)
+            wc.generate_from_frequencies(words)
+
+            # show
+            plt.clf()
+            plt.imshow(wc, interpolation="bilinear")
+            plt.axis("off")
+            # plt.show()
+            plt.title(topic_name, y=-0.25, fontsize=20)
+            plt.gcf().tight_layout()
+            fig_path = 'img/{}-{}-{}.png'.format(group, method, i+1, topic['topic'])
+            print('drawing ' + fig_path)
+            plt.savefig(fig_path)
 
 def main():
     cmd = sys.argv[1]
@@ -96,7 +122,8 @@ def main():
         # show_summary(load_pkl('blogs-10.pkl'))
     elif cmd == 'eval':
         fpath = sys.argv[2]
-        eval_topics(fpath)
+        eval_topics(fpath, top_k=2)
+        eval_topics(fpath, top_k=2, method='tfidf')
 
 if __name__ == '__main__':
     main()

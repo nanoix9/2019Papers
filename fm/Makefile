@@ -118,3 +118,13 @@ docx:
 	# \
 	 	--reference-doc=$(DOC_STYLE) \
 
+as2:
+	zip ENSE803_Assessment2_Team1.zip \
+		vending-machine.txt \
+		1-pay-clearwater-correct-output.txt \
+		2-pay-kiwicola-incorrect.txt \
+		3-selectdrink-error-output.txt \
+		4-no-more-clearwater.txt \
+		5-purchase-bolt-energy-and-clear-water.txt \
+		ltlspec-output.txt \
+		readme.txt

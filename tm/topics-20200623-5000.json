@@ -80113,7 +80113,7 @@
       }
     ]
   },
-  "no_more_than_20": {
+  "less_or_20": {
     "tfidf": [
       {
         "topic": "god",
@@ -123837,7 +123837,7 @@
       }
     ]
   },
-  "more_than_20": {
+  "over_20": {
     "tfidf": [
       {
         "topic": "god",

@@ -33,10 +33,11 @@ from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 
 NUM_SAMPLES = None
 _DEBUG = False
+NUM_SAMPLES = 10000
 # NUM_SAMPLES = 5000
 # NUM_SAMPLES = 5
 
-_DEBUG = True
+# _DEBUG = True
 
 STOPWORDS = set(stopwords.words("english"))
 ## Add more stopwords manually
@@ -210,7 +211,7 @@ def read_blogs_xml(path):
         # files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
         # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
-        files = random.sample(list(glob(os.path.join(path, '*'))), 100)
+        # files = random.sample(list(glob(os.path.join(path, '*'))), 100)
         # files = random.sample(list(glob(os.path.join(path, '*'))), 5000)
     elif NUM_SAMPLES is None:
         files = glob(os.path.join(path, '*'))
@@ -237,11 +238,16 @@ punct_re = re.compile(r'([\.!?,:;])(?=[a-zA-Z])')  # add space between a punctua
 quotes_re = re.compile(r"[\']{2,}")  
 # escape_re = re.compile(r'\\([\'\"\,\;\:]+)')
 def preprocess(text):
+    # print(text)
     out = punct_re.sub(r'\1 ', text)
+    # print(out)
     out = quotes_re.sub(r'"', out)
+    # print(out)
     out = out.replace('´', '\'')
+    # print(out)
     # out = escape_re.sub(r'\1', out)
     out = remove_invalid(out)
+    # print(out)
     # if out != text: print('-->', text, '\n   ', out)
     return out
 
@@ -327,9 +333,13 @@ def remove_invalid(text):
       2. remove characters which are not part of English words
     '''
 
+    # print(text)
     text = invalid_chars.sub(' ', text)
+    # print(text)
     text = pattern.sub(r'\1\1', text)
+    # print(text)
     text = pattern_ellipse.sub('...', text)
+    # print(text)
     return text.strip()
 
 def remove_invalid_all(docs):
@@ -367,9 +377,9 @@ lemmatizer = WordNetLemmatizer()
 porter = PorterStemmer()
 lancaster = LancasterStemmer()
 def stem_word(word):
-    return porter.stem(lemmatizer.lemmatize(word))
+    # return porter.stem(lemmatizer.lemmatize(word))
     # return porter.stem(word)
-    # return lemmatizer.lemmatize(word)
+    return lemmatizer.lemmatize(word)
 
 def do_stemming(docs):
     print('stemming or lemmatising words...')
@@ -555,17 +565,18 @@ def mine_topics(dataset, intermediate_data, group='all'):
     # print('things: ', random.sample(things, 200))
 
     ret = {}
+    num_keywords = 200
     print('-------------- result from TFIDF ------------------')
     topics = get_top_topics(named_entities, n=50, method='tfidf')
     # print('most popular topics by TFIDF: {}'.format(topics))
-    keywords = get_surroundings(topics, tagged_docs, n=200)
+    keywords = get_surroundings(topics, tagged_docs, n=num_keywords)
     # pp.pprint(keywords)
     ret['tfidf'] = keywords
 
     print('-------------- result from TF ------------------')
     topics = get_top_topics(named_entities, n=50, method='tf')
     # print('most popular topics by TF: {}'.format(topics))
-    keywords = get_surroundings(topics, tagged_docs, n=20)
+    keywords = get_surroundings(topics, tagged_docs, n=num_keywords)
     # pp.pprint(keywords)
     ret['tf'] = keywords
     return ret
@@ -591,8 +602,8 @@ def main_mine_topics(dataset=None, intermediate_data=None):
     topics = {}
     topics['male'] = mine_topics(dataset, intermediate_data, group='male')
     topics['female'] = mine_topics(dataset, intermediate_data, group='female')
-    topics['no_more_than_20'] = mine_topics(dataset, intermediate_data, group='<=20')
-    topics['more_than_20'] = mine_topics(dataset, intermediate_data, group='>20')
+    topics['less_or_20'] = mine_topics(dataset, intermediate_data, group='<=20')
+    topics['over_20'] = mine_topics(dataset, intermediate_data, group='>20')
     topics['all'] = mine_topics(dataset, intermediate_data, group='all')
     if _DEBUG:
         suffix = 'debug'

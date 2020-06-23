@@ -15,7 +15,7 @@
 \else
 \usepackage[caption=false, font=footnotesize]{subfig}
 \fi
-
+\usepackage{longtable,booktabs}
 \usepackage{textcomp}
 % \usepackage[mathletters]{ucs}
 \usepackage[utf8]{inputenc}
@@ -138,6 +138,13 @@ $if(appendix)$
 
 \input{$appendix$}
 
+$else$
+$if(appendices)$
+\appendices $if(appendix-title)$[$appendix-title$]$endif$
+
+\input{$appendices$}
+
+$endif$
 $endif$
 
 % \lipsum[1-50]

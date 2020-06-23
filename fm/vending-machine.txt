@@ -1,0 +1,222 @@
+-- vending-machine.txt
+
+--------------------------------------------------------------------------------
+-- button module for drink selection
+--------------------------------------------------------------------------------
+MODULE button(mode, selected)
+VAR
+    pushed : boolean;
+
+ASSIGN
+    init(pushed) := FALSE;
+    next(pushed) :=
+    case
+           mode = maintenance : FALSE;    -- never let button be pushed in maintenance mode
+             selected != none : FALSE;    -- let button not pushed if something has already been selected
+        mode = idle & !pushed : {TRUE, FALSE};
+                       pushed : FALSE;
+                         TRUE : pushed;
+    esac;
+
+-- LTLSPEC G (pushed -> X !pushed)
+-- LTLSPEC G (mode != idle & mode != selecting -> X !pushed)  -- don't allow pushing if not in idle or selecting mode
+-- LTLSPEC G (mode = maintenance -> X !pushed)              -- once entered maintenance mode,
+-- LTLSPEC G (mode = maintenance & !pushed -> G !pushed)    --   button will never be pushed
+
+
+--------------------------------------------------------------------------------
+-- product module for availabe amount management
+--------------------------------------------------------------------------------
+MODULE product(selected, dispensed, pro_type, n)
+VAR
+    amount : 0..n;
+    prev_amount: 0..n;
+
+ASSIGN
+    init(amount) := n;
+    next(amount) := 
+    case
+                         amount = 0 : 0;
+    selected = pro_type & dispensed : amount - 1;
+                               TRUE : amount;
+    esac;
+    ---------------------------
+    init(prev_amount) := n;
+    next(prev_amount) := amount;
+
+-- extra specs, commented out before submitting as they're not required by the assignment
+-- LTLSPEC G (amount = prev_amount | amount = prev_amount - 1)  -- the amount is either equal to the value in previous step, or one less than it
+-- LTLSPEC G (dispensed & selected = pro_type -> X amount = prev_amount - 1)   -- onec dispense has been triggered, decrease the amount
+-- LTLSPEC G (dispensed & selected != pro_type -> X amount = prev_amount)   -- if other products selected, don't decrease the amount
+
+--------------------------------------------------------------------------------
+-- Drink Selection Interface Component
+--------------------------------------------------------------------------------
+MODULE drink_selector(mode)
+
+VAR
+    kiwicolabutton : button(mode, selected);
+    boltenergybutton : button(mode, selected);
+    clearwaterbutton : button(mode, selected);
+    selected: {none, kiwicola, boltenergy, clearwater};
+
+ASSIGN
+    init(selected) := none;
+    next(selected) := 
+    case
+                                                       mode = maintenance : none;
+                                           mode = cancelled | mode = done : none;        -- retain selection until cancelled or dispensed.
+                                                         selected != none : selected;    -- holds selection if already selected
+        -- only allow changing selection in idle mode
+        -- make selection if and only if one button is pushed
+        mode = idle &  kiwicolabutton.pushed & !boltenergybutton.pushed & !clearwaterbutton.pushed : kiwicola;
+        mode = idle & !kiwicolabutton.pushed &  boltenergybutton.pushed & !clearwaterbutton.pushed : boltenergy;
+        mode = idle & !kiwicolabutton.pushed & !boltenergybutton.pushed &  clearwaterbutton.pushed : clearwater; 
+                                                                     TRUE : none;
+    esac;
+
+--------------------------------------------------------------------------------
+-- EFPOS Payment Component
+--------------------------------------------------------------------------------
+MODULE efpos_payment(mode, ds, dd)
+VAR
+    payment_status : {idle, verifying, successful, cancelled};
+    pin: {idle, correct, incorrect};
+
+ASSIGN
+    ---------------------------
+    init(payment_status) := idle;
+    next(payment_status) :=
+    case
+                                         mode = maintenance : idle;
+                                             mode != paying : idle;
+    ds.selected = kiwicola   & dd.pro_kiwicola.amount   = 0 : cancelled;
+    ds.selected = boltenergy & dd.pro_boltenergy.amount = 0 : cancelled;
+    ds.selected = clearwater & dd.pro_clearwater.amount = 0 : cancelled;
+                      payment_status = idle & mode = paying : verifying;
+               payment_status = verifying & pin = correct   : successful;
+               payment_status = verifying & pin = incorrect : cancelled;
+                                payment_status = successful : idle;  -- return to idle state from either successful or failed PIN verification
+                                 payment_status = cancelled : idle;
+                                                       TRUE : payment_status;
+    esac;
+    ---------------------------
+    init(pin) := idle;
+    next(pin) :=
+    case
+        pin = idle & payment_status = verifying : {correct, incorrect};
+                                           TRUE : idle;
+    esac;
+
+
+--------------------------------------------------------------------------------
+-- Drink Dispenser
+--------------------------------------------------------------------------------
+MODULE drink_dispenser(mode, selected)
+VAR
+    pro_kiwicola   : product(selected, dispensed, kiwicola,   1);
+    pro_boltenergy : product(selected, dispensed, boltenergy, 1);
+    pro_clearwater : product(selected, dispensed, clearwater, 1);
+    dispensed: boolean;
+
+ASSIGN
+    ---------------------------
+    -- `dispensed` is used for triggering the decrease-by-one in product. It returns to FALSE after one step.
+    init(dispensed) := FALSE;
+    next(dispensed) := 
+    case 
+                          mode = maintenance : FALSE;
+                                   dispensed : FALSE;  -- once triggered, go back to false in the next step
+                          mode != dispensing : dispensed;  -- only active in "dispensing" mode
+        selected != none & mode = dispensing : TRUE;
+                                        TRUE : FALSE;
+    esac;
+
+--------------------------------------------------------------------------------
+-- Vending Machine
+--
+--    /--------------------------------------------------------------------------\
+--    V                                                                          |
+--  IDLE --(selected)--> SELECTING --(confirmed)--> PAYING --(successful)--> DISPENSING
+--    ^                      |                         |
+--    |                (cancelled)            (cancelled/failed)
+--    |                      |                         |
+--    |                      V                         |
+--    \-----------------CANCELLED <--------------------/                       
+--
+--   [ANY MODE] --(error)--> MAINTENANCE
+--                                                
+-- Note: 
+--   1. Only allow making selection in IDLE mode. If the user want to change the 
+--      selection, he/she needs to go back to IDLE mode by cancelling it first.
+--   2. Drink Selector is only active in IDLE mode.
+--      EFPOS Payment is nonly active in PAYING mode.
+--      Drink Dispenser is only active in DISPENSING mode.
+--------------------------------------------------------------------------------
+MODULE vending_machine
+
+VAR
+    mode: {idle, selecting, paying, dispensing, done, cancelled, maintenance};
+    ds: drink_selector(mode);
+    ep: efpos_payment(mode, ds, dd);
+    dd: drink_dispenser(mode, ds.selected);
+
+IVAR
+    error : boolean;
+
+ASSIGN
+    ---------------------------
+    init(mode) := idle;
+    next(mode) :=
+    case
+                                                error  : maintenance;
+                        (dd.pro_kiwicola.amount   = 0 
+                       & dd.pro_boltenergy.amount = 0 
+                       & dd.pro_clearwater.amount = 0) : maintenance;
+                     mode = idle & ds.selected != none : selecting;
+                                      mode = selecting : {cancelled, paying};  -- user either cancels selection or go to payment.
+        mode = paying & ep.payment_status = successful : dispensing;
+        mode = paying & ep.payment_status = cancelled  : cancelled;
+                      mode = dispensing & dd.dispensed : done;
+                                           mode = done : idle;
+                                      mode = cancelled : idle;
+                                                  TRUE : mode;
+    esac;
+
+-- extra specs in addition to the required ones
+-- LTLSPEC G (mode != idle -> F (mode = idle | mode = maintenance))      -- the mode will finally return back to idle or maintenance
+-- LTLSPEC G (mode = selecting -> X (mode = cancelled | mode = paying | mode = maintenance))  -- once selected, either cancel it or confirm for payment
+-- once selection confirmed, the drink won't be dispensed before payment is successful
+-- LTLSPEC G (mode = paying -> (!dd.dispensed U ep.payment_status = successful)
+--                          | (F (ep.payment_status = cancelled | mode = maintenance)))
+-- LTLSPEC G (ep.payment_status = successful & dd.pro_kiwicola.amount = 3 
+        -- -> F (ep.payment_status = idle -> dd.pro_kiwicola.amount = 2 U ep.payment_status = successful))
+
+--------------------------------------------------------------------------------
+--                Temporal Logic Formula Verification                         --
+--------------------------------------------------------------------------------
+
+-- 1. Once in, the vending machine never leaves maintenance mode
+LTLSPEC G (mode = maintenance -> G mode = maintenance)
+-- 2. If an error occurs then maintenance mode occurs in the next state
+LTLSPEC G (error -> X mode = maintenance)
+-- 3. A customer cannot not pay for an unavailable drink
+LTLSPEC G (dd.pro_kiwicola.amount = 0   -> G !(ep.payment_status = successful & ds.selected = kiwicola))
+LTLSPEC G (dd.pro_boltenergy.amount = 0 -> G !(ep.payment_status = successful & ds.selected = boltenergy))
+LTLSPEC G (dd.pro_clearwater.amount = 0 -> G !(ep.payment_status = successful & ds.selected = clearwater))
+-- 4. When a customer pays for a drink it is dispensed.
+--    "dispensed" is defined as the amount is one less than that in previous step
+LTLSPEC G (ep.payment_status = successful & ds.selected = kiwicola
+           -> F (mode = maintenance | dd.pro_kiwicola.amount = dd.pro_kiwicola.prev_amount - 1))
+LTLSPEC G (ep.payment_status = successful & ds.selected = boltenergy
+           -> F (mode = maintenance | dd.pro_boltenergy.amount = dd.pro_boltenergy.prev_amount - 1))
+LTLSPEC G (ep.payment_status = successful & ds.selected = clearwater
+           -> F (mode = maintenance | dd.pro_clearwater.amount = dd.pro_clearwater.prev_amount - 1))
+
+--------------------------------------------------------------------------------
+-- Main module, entrance of whole model
+--------------------------------------------------------------------------------
+MODULE main
+VAR
+    vm: vending_machine;
+    
