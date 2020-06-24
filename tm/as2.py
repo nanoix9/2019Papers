@@ -34,7 +34,7 @@ from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 NUM_SAMPLES = None
 _DEBUG = False
 NUM_SAMPLES = 10000
-# NUM_SAMPLES = 5000
+NUM_SAMPLES = 5000
 # NUM_SAMPLES = 5
 
 # _DEBUG = True
@@ -211,7 +211,7 @@ def read_blogs_xml(path):
         # files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
         # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
-        # files = random.sample(list(glob(os.path.join(path, '*'))), 100)
+        files = random.sample(list(glob(os.path.join(path, '*'))), 100)
         # files = random.sample(list(glob(os.path.join(path, '*'))), 5000)
     elif NUM_SAMPLES is None:
         files = glob(os.path.join(path, '*'))
@@ -377,9 +377,9 @@ lemmatizer = WordNetLemmatizer()
 porter = PorterStemmer()
 lancaster = LancasterStemmer()
 def stem_word(word):
-    # return porter.stem(lemmatizer.lemmatize(word))
+    return porter.stem(lemmatizer.lemmatize(word))
     # return porter.stem(word)
-    return lemmatizer.lemmatize(word)
+    # return lemmatizer.lemmatize(word)
 
 def do_stemming(docs):
     print('stemming or lemmatising words...')
@@ -440,7 +440,8 @@ def calc_tfidf(docs):
             # print(token, tf, idf, tf * idf)
     
     for token in tf_idf:
-        tf_idf[token] /= num_docs
+        # tf_idf[token] /= num_docs
+        tf_idf[token] /= df[token]
 
     return tf_idf
 

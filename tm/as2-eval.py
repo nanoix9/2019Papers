@@ -9,6 +9,7 @@ from as2 import load_pkl, Record, MetaData, Post
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+MAX_FONT_SIZE = 80
 
 def show_summary(dataset):
     '''This function describes the summary of dataset or human inspection.
@@ -83,7 +84,25 @@ def show_summary(dataset):
     plt.gcf().tight_layout()
     plt.savefig('img/show-char-count.png')
 
-def eval_topics(fpath, method='tf', top_k=2, num_words_in_topic=30):
+    plt.clf()
+    df['gender_age'] = [g + '\n' + ('<=20' if a <= 20 else '>20') \
+            for (g, a) in zip(df['gender'], df['age'])]
+    # bins = np.linspace(age.min(), age.max(), 20)
+    df['gender_age'].value_counts()[[2, 3, 1, 0]].plot(kind='bar')
+    # plt.xticks(bins)
+    plt.xticks(rotation=0)
+    plt.gcf().tight_layout()
+    plt.savefig('img/show-gender-age.png')
+
+
+def color_black(word, *args, **kwargs):
+    return '#000000'
+
+def grey_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+    # return 'hsl(0, 0%, {:d}%)'.format(np.random.randint(10, 60))
+    return 'hsl(0, 0%, {:d}%)'.format((MAX_FONT_SIZE - font_size) // (MAX_FONT_SIZE * 1))
+
+def eval_topics(fpath, method='tf', top_k=2, num_words_in_topic=20):
     with open(fpath, encoding='utf8') as f:
         result = json.load(f)
 
@@ -100,8 +119,10 @@ def eval_topics(fpath, method='tf', top_k=2, num_words_in_topic=30):
                 words[topic_name] = topic['keywords'][0][1] * 2  # fake frequency for display
 
             print('topic: ', topic_name, 'number of keywords:', len(topic['keywords']))
-            wc = WordCloud(background_color="white", max_font_size=80, 
-                    max_words=num_words_in_topic+1)
+            wc = WordCloud(background_color="white", 
+                    max_font_size=80, 
+                    max_words=num_words_in_topic+1,
+                    color_func=grey_color_func)
             wc.generate_from_frequencies(words)
 
             # show
