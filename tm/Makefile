@@ -66,7 +66,7 @@ tex2pdf:
 tp: tex tex2pdf
 
 
-tex-2: as2-py
+tex-2: as2-py as2-eval-py
 	pandoc -s \
 		--number-section \
 		--biblatex \
@@ -96,6 +96,7 @@ tex2pdf-2:
 	# dvipdfm $(NAME).dvi
 	
 as2: tex-2 tex2pdf-2
+	mv as2.pdf COMP814_Fang_19049045.pdf
 
 clean:
 	rm *.aux *.dvi *.fdb_latexmk *.fls *.log *.synctex.gz *.bbl *.blg
@@ -149,18 +150,18 @@ as2-py:
 	head -n 2 as2.py > as2.py.tmp
 	grep -v -E '^\s*#[^#]' as2.py | grep -v '´' | sed -e 's/\(\s*\)##/\1#/' >> as2.py.tmp
 
-as2-run: as2-py
-	python as2.py.tmp
+as2-run: 
+	python as2.py
 
 as2-eval-py:
 	head -n 2 as2-eval.py > as2-eval.py.tmp
 	grep -v -E '^\s*#[^#]' as2-eval.py | grep -v '´' | sed -e 's/\(\s*\)##/\1#/' >> as2-eval.py.tmp
 
-as2-show: as2-eval-py
-	python as2-eval.py.tmp show
+as2-show: 
+	python as2-eval.py show
 
-as2-eval: as2-eval-py
-	python as2-eval.py.tmp eval $(TOPICS)
+as2-eval: 
+	python as2-eval.py eval $(TOPICS)
 
 svg:
 	for f in $(FIG_FILES); do \

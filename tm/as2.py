@@ -24,17 +24,19 @@ from bs4 import BeautifulSoup
 # from datetime import datetime
 import numpy as np
 
-from spellchecker import SpellChecker
+# from spellchecker import SpellChecker
 import nltk
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer 
 # from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer, CountVectorizer
 
-NUM_SAMPLES = None
+## 10000 documents are sampled from the whole dataset due to limited computing capacity.
+# NUM_SAMPLES = None
 _DEBUG = False
 NUM_SAMPLES = 10000
-NUM_SAMPLES = 5000
+# NUM_SAMPLES = 5000
+# NUM_SAMPLES = 500
 # NUM_SAMPLES = 5
 
 # _DEBUG = True
@@ -68,6 +70,10 @@ def mapbar(f, seq, desc):
         yield f(e)
 
 def map2d(f, docs):
+    '''Map a list of lists to a new list of lists by applying f to the elements
+    of the inner lists. Usually works on the sentence-level
+    '''
+
     with tqdm(total=len2d(docs)) as pbar:
         def _helper(sent):
             pbar.update(1)
@@ -76,6 +82,11 @@ def map2d(f, docs):
         return [list(map(_helper, doc)) for doc in docs]
 
 def map3d(f, docs):
+    '''Map a list of lists of lists to a new list of lists of lists 
+    by applying f to the elements of the inner lists. 
+    Usually works on the token-level.
+    '''
+
     with tqdm(total=len2d(docs)) as pbar:
         def _helper(sent):
             pbar.update(1)
@@ -121,6 +132,8 @@ def load_pkl(fpath):
     return dataset
    
 def save_pkl(obj, fpath):
+    if _DEBUG:
+        fpath = fpath.replace('.pkl', '-debug.pkl')
     with open(fpath, 'wb') as f:
         print('save dataset to pickle file ' + fpath)
         pickle.dump(obj, f)
@@ -144,14 +157,16 @@ def parse_meta_data(meta_data_str):
 
 # _parser = ElementTree.XMLParser(encoding="utf-8")
 def read_blog_file(fpath):
+    '''Read one XML file and extract texts
+    '''
+
     try:
         # tree = ElementTree.parse(fpath, parser=_parser)
         with open(fpath, encoding='utf-8', errors='ignore') as f:
             soup = BeautifulSoup(f.read(), "xml")
         blog = soup.Blog
-    except ParseError:
+    except:
         print('Error: invalid xml file {}'.format(fpath))
-        raise
         return []
 
     posts = []
@@ -161,6 +176,7 @@ def read_blog_file(fpath):
         # print(c.text)
         # check the <date> and <post> tags appear alternately
         if c.name != state:
+            ## The <date> and <text> tags should appear alternatively
             print('Warning: inconsistent format in file {}'.format(fpath))
         if state == 'date':
             try:
@@ -190,8 +206,8 @@ def read_blog_file(fpath):
     return posts
     
 def read_blogs(path, force=False, cache_file='blogs.pkl'):
-    if not force and cache_file is not None and os.path.exists(cache_file):
-        return load_pkl(cache_file)
+    # if not force and cache_file is not None and os.path.exists(cache_file):
+        # return load_pkl(cache_file)
  
     dataset = read_blogs_xml(path)
 
@@ -202,6 +218,9 @@ def read_blogs(path, force=False, cache_file='blogs.pkl'):
     return dataset
 
 def read_blogs_xml(path):
+    '''Read all blog files from the data directory
+    '''
+
     print('reading all data files from directory {} ...'.format(path))
     dataset = []
 
@@ -211,7 +230,7 @@ def read_blogs_xml(path):
         # files = [os.path.join(path, fname) for fname in ['554681.female.45.indUnk.Sagittarius.xml']]
         # files = list(glob(os.path.join(path, '*')))[:3]
         # files = list(glob(os.path.join(path, '*')))[:10]
-        files = random.sample(list(glob(os.path.join(path, '*'))), 100)
+        # files = random.sample(list(glob(os.path.join(path, '*'))), 100)
         # files = random.sample(list(glob(os.path.join(path, '*'))), 5000)
     elif NUM_SAMPLES is None:
         files = glob(os.path.join(path, '*'))
@@ -238,6 +257,9 @@ punct_re = re.compile(r'([\.!?,:;])(?=[a-zA-Z])')  # add space between a punctua
 quotes_re = re.compile(r"[\']{2,}")  
 # escape_re = re.compile(r'\\([\'\"\,\;\:]+)')
 def preprocess(text):
+    '''Text pre-processing, removing invalid characters by regex substitution
+    '''
+
     # print(text)
     out = punct_re.sub(r'\1 ', text)
     # print(out)
@@ -346,7 +368,6 @@ def remove_invalid_all(docs):
     print('reduce lengthily repreated characters...')
     return filter3d(lambda w: len(w) > 0, map3d(remove_invalid, docs))
 
-spell = SpellChecker()
 # def correct_spelling(sent):
     # misspelled = spell.unknown(sent)
     # print(misspelled)
@@ -360,6 +381,7 @@ spell = SpellChecker()
     # sys.exit()
 def correct_spelling(word):
     # return word
+    spell = SpellChecker()
     if not wordnet.synsets(word) and not word in STOPWORDS:   
         return spell.correction(word)
     else:
@@ -377,6 +399,9 @@ lemmatizer = WordNetLemmatizer()
 porter = PorterStemmer()
 lancaster = LancasterStemmer()
 def stem_word(word):
+    '''Do stemming followed by lemmatisation for maximum normalisation
+    '''
+
     return porter.stem(lemmatizer.lemmatize(word))
     # return porter.stem(word)
     # return lemmatizer.lemmatize(word)
@@ -410,6 +435,9 @@ def calc_ne_all(docs):
 #     # return [w for (w, c) in tf.most_common(n)]
 
 def calc_df(docs):
+    '''Calculate the Document Frequency (DF) for each token
+    '''
+
     df = defaultdict(lambda: 0)
     # print(docs)
     for doc in docs:
@@ -422,10 +450,21 @@ def calc_tfidf(docs):
     '''The original TF-IDF is a document-wise score. This function will
     calculate the average TF-IDF on whole dataset as an overall scoring.
     '''
+
     tf_idf = defaultdict(lambda: 0)
     df = calc_df(docs)
     num_docs = len(docs)
-    # print('num docs', num_docs)
+    total_doc_len = sum(len(doc) for doc in docs)
+    total_df = sum(i for t, i in df.items())
+    num_words = len(set(flatten2d(docs)))
+    avg_doc_len = total_doc_len / num_docs
+    avg_count = total_doc_len / num_words 
+    avg_df = total_df / num_words
+    print('num docs', num_docs, 'num words', num_words, len(df), 'avg_len', avg_doc_len, \
+            'avg word count:', avg_count, 'avg DF', avg_df)
+    # min_df = num_docs // 10
+    min_df = 100
+    print('give penalty for DF less than the minimum of', min_df)
     for doc in docs:
         counter = Counter(doc)
         num_words = len(doc)
@@ -433,19 +472,31 @@ def calc_tfidf(docs):
         # print(doc)
         # print('num words', num_words)
         for token in set(doc):
-            tf = counter[token] / num_words
+            tf = (counter[token] + avg_count) / (num_words + avg_doc_len)
             df_i = df[token]
-            idf = np.log(num_docs / df_i)
+            # idf = np.log(num_docs / max(df_i, 100))
+            idf = np.log(num_docs / (df_i + 100))
             tf_idf[token] += tf * idf
             # print(token, tf, idf, tf * idf)
     
+    # avg = sum(v for t, v in tf_idf.items()) / sum(v for t, v in df.items())
+    # print('avg tf-idf: ', avg)
     for token in tf_idf:
         # tf_idf[token] /= num_docs
-        tf_idf[token] /= df[token]
+        ## Smooth the average to avoid tokens with large TF-IDF value but
+        ##   only appeared in a few documents
+        # tf_idf[token] /= max(df[token], min_df)
+        tf_idf[token] /= (df[token] + min_df)
+        # tf_idf[token] /= (df[token] + num_docs // 15)
+        # tf_idf[token] = (tf_idf[token] + (num_docs - df[token]) * avg) / num_docs
+        # tf_idf[token] /= max(df[token], 1000)
 
     return tf_idf
 
 def get_top_topics(named_entities, n=5, method='tf'):
+    '''Get most dominant objects as popular topics by either word count or TF-IDF
+    '''
+
     print('calculating most popular topics by ' + method + '...')
     if method == 'tf':
         ranks = nltk.FreqDist(w for w, t in flatten3d(named_entities))
@@ -455,9 +506,9 @@ def get_top_topics(named_entities, n=5, method='tf'):
         ranks = calc_tfidf([[w for w, t in flatten2d(doc)] for doc in named_entities])
         # print(ranks)
     ranks = [(k, v) for k, v in ranks.items()]
-    print('n largest:', heapq.nlargest(200, ranks, key=itemgetter(1)))
+    # print('n largest:', heapq.nlargest(200, ranks, key=itemgetter(1)))
     topics = heapq.nlargest(n, ranks, key=itemgetter(1))
-    print('topics: ', topics)
+    # print('topics: ', topics)
     # return [w for (w, c) in topics]
     return topics
 
@@ -489,7 +540,7 @@ def get_surroundings(words, docs, n=4):
             vicinity = [sent[i] for i in [idx-2, idx-1, idx+1, idx+2]
                     if i >= 0 and i < len(sent)]
             for (wi, pi) in vicinity:
-                if pi.startswith('N') or pi.startswith('V'):
+                if wi != w and (pi.startswith('N') or pi.startswith('V')):
                     # sur[w][(wi, pi)] += 1
                     sur[w][wi] += 1
                     # print('add: ' + str((wi, pi)))
@@ -504,10 +555,11 @@ def calc_intermediate_data(dataset):
     # print(dataset)
     # 
     docs = tokenise(dataset)
+    save_pkl(docs, 'tokenised_docs.pkl')
     vocab = calc_vocab(docs)
     print('Size of vocabulary: {}'.format(len(vocab)))
-    print(vocab[1:2000:2])
-    print(vocab[1:100000:100])
+    # print(vocab[1:2000:2])
+    # print(vocab[1:100000:100])
 
     # docs = remove_invalid_all(docs)
     # vocab = calc_vocab(docs)
@@ -560,22 +612,28 @@ def mine_topics(dataset, intermediate_data, group='all'):
         tagged_docs = [tagged_docs[i] for i in idx]
         named_entities = [named_entities[i] for i in idx]
         
+    entity_set = set(w for w, t in flatten3d(named_entities))
     print('selected docs: {}, {}'.format(len(tagged_docs), len(named_entities)))
     # things = get_things(named_entities)
     # things = set(w for w, t in named_entities)
     # print('things: ', random.sample(things, 200))
 
+    # entity_words = filter3d(lambda wt: wt[0] in entity_set, tagged_docs)
+    entity_words = named_entities
+
     ret = {}
     num_keywords = 200
     print('-------------- result from TFIDF ------------------')
-    topics = get_top_topics(named_entities, n=50, method='tfidf')
+    topics = get_top_topics(entity_words, n=50, method='tfidf')
     # print('most popular topics by TFIDF: {}'.format(topics))
     keywords = get_surroundings(topics, tagged_docs, n=num_keywords)
+    # keywords = topics
     # pp.pprint(keywords)
     ret['tfidf'] = keywords
+    # return ret  #FIXME skip tf for now
 
     print('-------------- result from TF ------------------')
-    topics = get_top_topics(named_entities, n=50, method='tf')
+    topics = get_top_topics(entity_words, n=50, method='tf')
     # print('most popular topics by TF: {}'.format(topics))
     keywords = get_surroundings(topics, tagged_docs, n=num_keywords)
     # pp.pprint(keywords)
@@ -583,7 +641,7 @@ def mine_topics(dataset, intermediate_data, group='all'):
     return ret
 
 def main_intermediate():
-    if not _DEBUG and NUM_SAMPLES is None:
+    if not _DEBUG:
         dataset = read_blogs('blogs')
     else:
         # read_blogs('blogs', force=True, cache_file='blogs-10.pkl')
@@ -599,6 +657,20 @@ def main_mine_topics(dataset=None, intermediate_data=None):
         dataset = load_pkl('blogs.pkl')
     if intermediate_data is None:
         intermediate_data = load_pkl('intermediate_data.pkl')
+    
+    def _post_filter(word):
+        return len(word[0]) > 0 and word[0] not in ('lol', 'fuck', 'Im', 
+            'urllink quizilla', 'urllink hello', 'haiz',
+            ',', '`', '\'', '@', ';', '.', '\\', '/', '!', '?')
+    # def _post_proc(word):
+        # return word[0].replace('urllink', '').strip(), word[1]
+
+    docs, entities = intermediate_data
+    # docs = map3d(_post_proc, docs)
+    docs = filter3d(_post_filter, docs)
+    # entities = map3d(_post_proc, entities)
+    entities = filter3d(_post_filter, entities)
+    intermediate_data = docs, entities
 
     topics = {}
     topics['male'] = mine_topics(dataset, intermediate_data, group='male')

@@ -16,6 +16,7 @@
 \usepackage[caption=false, font=footnotesize]{subfig}
 \fi
 \usepackage{longtable,booktabs}
+\usepackage{makecell, multirow}
 \usepackage{textcomp}
 % \usepackage[mathletters]{ucs}
 \usepackage[utf8]{inputenc}
@@ -41,7 +42,7 @@
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     % stringstyle=\color{Peach},
-    basicstyle=\ttfamily\small,
+    basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -135,6 +136,7 @@ $body$
 
 $if(appendix)$
 \appendix $if(appendix-title)$[$appendix-title$]$endif$
+\label{appendix}
 
 \input{$appendix$}
 
